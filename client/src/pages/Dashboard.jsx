@@ -1,122 +1,125 @@
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { TrendingUp, DollarSign, Users, Activity } from 'lucide-react';
+import DashboardLayout from '../components/DashboardLayout';
+import StatsCard from '../components/StatsCard';
+import OverviewChart from '../components/OverviewChart';
+import RecentUpdates from '../components/RecentUpdates';
+import { TrendingUp, DollarSign, Activity, PieChart } from 'lucide-react';
+import { 
+  currentStats, 
+  gdpData, 
+  inflationData, 
+  fiscalDeficitData, 
+  recentUpdates 
+} from '../data/dashboardData';
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
 
-  const stats = [
-    {
-      title: 'GDP Growth',
-      value: '+5.2%',
-      change: '+0.5%',
-      icon: <TrendingUp className="h-8 w-8 text-green-600" />,
-      color: 'bg-green-100'
-    },
-    {
-      title: 'Inflation Rate',
-      value: '3.1%',
-      change: '-0.2%',
-      icon: <DollarSign className="h-8 w-8 text-blue-600" />,
-      color: 'bg-blue-100'
-    },
-    {
-      title: 'Employment',
-      value: '96.5%',
-      change: '+0.3%',
-      icon: <Users className="h-8 w-8 text-purple-600" />,
-      color: 'bg-purple-100'
-    },
-    {
-      title: 'Trade Balance',
-      value: '$2.4B',
-      change: '+$0.1B',
-      icon: <Activity className="h-8 w-8 text-orange-600" />,
-      color: 'bg-orange-100'
-    }
-  ];
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Welcome back, {user?.name}!
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Here's an overview of national economic indicators
-          </p>
-        </div>
-
-        {/* Stats Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <div className={`${stat.color} p-3 rounded-lg`}>
-                  {stat.icon}
-                </div>
-                <span className="text-sm font-semibold text-green-600">
-                  {stat.change}
-                </span>
-              </div>
-              <h3 className="text-gray-600 text-sm font-medium mb-1">
-                {stat.title}
-              </h3>
-              <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Charts Section */}
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              GDP Trend
-            </h3>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
-              <p className="text-gray-500">Chart visualization placeholder</p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              Economic Indicators
-            </h3>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
-              <p className="text-gray-500">Chart visualization placeholder</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Activity */}
-        <div className="mt-6 bg-white rounded-xl shadow-md p-6">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">
-            Recent Updates
-          </h3>
-          <div className="space-y-3">
-            {[
-              'GDP data updated for Q4 2024',
-              'New employment statistics released',
-              'Trade balance report published',
-              'Inflation figures revised'
-            ].map((activity, index) => (
-              <div
-                key={index}
-                className="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg transition"
-              >
-                <div className="h-2 w-2 bg-blue-600 rounded-full"></div>
-                <span className="text-gray-700">{activity}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+    <DashboardLayout>
+      {/* Welcome Section */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">
+          Welcome back, {user?.name}!
+        </h1>
+        <p className="text-gray-600 mt-2">
+          Here's an overview of India's national economic indicators for 2024
+        </p>
       </div>
-    </div>
+
+      {/* Stats Grid */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <StatsCard
+          title="Current GDP"
+          value={currentStats.gdp.value}
+          suffix={currentStats.gdp.suffix}
+          change={currentStats.gdp.change}
+          changeType={currentStats.gdp.changeType}
+          icon={<DollarSign className="h-8 w-8" />}
+          iconBgColor="bg-blue-100"
+          iconColor="text-blue-600"
+          description={currentStats.gdp.description}
+        />
+
+        <StatsCard
+          title="GDP Growth Rate"
+          value={currentStats.gdpGrowth.value}
+          suffix={currentStats.gdpGrowth.suffix}
+          change={currentStats.gdpGrowth.change}
+          changeType={currentStats.gdpGrowth.changeType}
+          icon={<TrendingUp className="h-8 w-8" />}
+          iconBgColor="bg-green-100"
+          iconColor="text-green-600"
+          description={currentStats.gdpGrowth.description}
+        />
+
+        <StatsCard
+          title="Inflation Rate"
+          value={currentStats.inflation.value}
+          suffix={currentStats.inflation.suffix}
+          change={currentStats.inflation.change}
+          changeType={currentStats.inflation.changeType}
+          icon={<Activity className="h-8 w-8" />}
+          iconBgColor="bg-purple-100"
+          iconColor="text-purple-600"
+          description={currentStats.inflation.description}
+        />
+
+        <StatsCard
+          title="Fiscal Deficit"
+          value={currentStats.fiscalDeficit.value}
+          suffix={currentStats.fiscalDeficit.suffix}
+          change={currentStats.fiscalDeficit.change}
+          changeType={currentStats.fiscalDeficit.changeType}
+          icon={<PieChart className="h-8 w-8" />}
+          iconBgColor="bg-orange-100"
+          iconColor="text-orange-600"
+          description={currentStats.fiscalDeficit.description}
+        />
+      </div>
+
+      {/* Charts Section */}
+      <div className="grid lg:grid-cols-2 gap-6 mb-8">
+        <OverviewChart
+          data={gdpData}
+          title="GDP Trend (Billion USD)"
+          dataKey="value"
+          color="#3b82f6"
+          type="area"
+        />
+
+        <OverviewChart
+          data={gdpData}
+          title="GDP Growth Rate (%)"
+          dataKey="growth"
+          color="#10b981"
+          type="line"
+        />
+      </div>
+
+      {/* Inflation and Fiscal Deficit Charts */}
+      <div className="grid lg:grid-cols-2 gap-6 mb-8">
+        <OverviewChart
+          data={inflationData}
+          title="Inflation Rate (%)"
+          dataKey="rate"
+          color="#8b5cf6"
+          type="line"
+        />
+
+        <OverviewChart
+          data={fiscalDeficitData}
+          title="Fiscal Deficit (% of GDP)"
+          dataKey="deficit"
+          color="#f59e0b"
+          type="area"
+        />
+      </div>
+
+      {/* Recent Updates */}
+      <RecentUpdates updates={recentUpdates} />
+    </DashboardLayout>
   );
 };
 
