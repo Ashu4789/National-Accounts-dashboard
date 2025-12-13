@@ -7,7 +7,8 @@ import {
   FileText, 
   Settings,
   Menu,
-  X
+  X,
+  TrendingDown
 } from 'lucide-react';
 
 const DashboardLayout = ({ children }) => {
@@ -17,9 +18,11 @@ const DashboardLayout = ({ children }) => {
   const menuItems = [
     { name: 'Overview', icon: <LayoutDashboard className="h-5 w-5" />, path: '/dashboard' },
     { name: 'GDP Analysis', icon: <TrendingUp className="h-5 w-5" />, path: '/dashboard/gdp' },
+     { name: 'Inflation', icon: <TrendingDown className="h-5 w-5" />, path: '/dashboard/inflation' },
     { name: 'Fiscal Data', icon: <DollarSign className="h-5 w-5" />, path: '/dashboard/fiscal' },
     { name: 'Reports', icon: <FileText className="h-5 w-5" />, path: '/dashboard/reports' },
     { name: 'Settings', icon: <Settings className="h-5 w-5" />, path: '/dashboard/settings' }
+    
   ];
 
   return (

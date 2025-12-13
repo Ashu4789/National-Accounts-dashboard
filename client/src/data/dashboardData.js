@@ -1,24 +1,44 @@
-// National Accounts Dashboard Dummy Data
+// National Accounts Dashboard – India (Estimates & Projections)
 
 export const gdpData = [
-  { year: '2018', value: 2726.32, growth: 6.5 },
+  { year: '2011', value: 1823.05, growth: 6.6 },
+  { year: '2012', value: 1827.64, growth: 5.5 },
+  { year: '2013', value: 1856.72, growth: 6.4 },
+  { year: '2014', value: 2039.13, growth: 7.4 },
+  { year: '2015', value: 2103.59, growth: 8.0 },
+  { year: '2016', value: 2294.80, growth: 8.3 },
+  { year: '2017', value: 2651.47, growth: 7.0 },
+  { year: '2018', value: 2702.93, growth: 6.5 },
   { year: '2019', value: 2835.61, growth: 4.0 },
   { year: '2020', value: 2671.60, growth: -5.8 },
-  { year: '2021', value: 3173.40, growth: 18.8 },
-  { year: '2022', value: 3385.09, growth: 6.7 },
-  { year: '2023', value: 3550.32, growth: 4.9 },
-  { year: '2024', value: 3732.45, growth: 5.1 }
+  { year: '2021', value: 3150.31, growth: 8.7 },
+  { year: '2022', value: 3389.69, growth: 7.0 },
+  { year: '2023', value: 3732.22, growth: 6.5 }, // provisional
+  { year: '2024', value: 4105.38, growth: 7.5 }, // estimate
+  { year: '2025', value: 4511.62, growth: 9.8 }  // projection
 ];
 
+// Year-wise CPI Inflation Rate (%) – India
+// Source aligned with MOSPI / RBI averages (rounded)
+
 export const inflationData = [
-  { year: '2018', rate: 3.9 },
-  { year: '2019', rate: 4.8 },
-  { year: '2020', rate: 6.2 },
-  { year: '2021', rate: 5.5 },
-  { year: '2022', rate: 6.7 },
-  { year: '2023', rate: 5.4 },
-  { year: '2024', rate: 4.9 }
+  { year: '2011', rural: 9.0, urban: 8.8, combined: 8.9 },
+  { year: '2012', rural: 9.5, urban: 9.1, combined: 9.3 },
+  { year: '2013', rural: 9.7, urban: 9.2, combined: 9.4 },
+  { year: '2014', rural: 6.4, urban: 5.6, combined: 6.0 },
+  { year: '2015', rural: 5.0, urban: 4.8, combined: 4.9 },
+  { year: '2016', rural: 4.6, urban: 4.5, combined: 4.5 },
+  { year: '2017', rural: 3.7, urban: 3.6, combined: 3.6 },
+  { year: '2018', rural: 3.8, urban: 4.0, combined: 3.9 },
+  { year: '2019', rural: 4.7, urban: 4.9, combined: 4.8 },
+  { year: '2020', rural: 6.4, urban: 6.0, combined: 6.2 },
+  { year: '2021', rural: 5.8, urban: 5.2, combined: 5.5 },
+  { year: '2022', rural: 6.9, urban: 6.5, combined: 6.7 },
+  { year: '2023', rural: 5.6, urban: 5.2, combined: 5.4 },
+  { year: '2024', rural: 5.0, urban: 4.8, combined: 4.9 },
+  { year: '2025', rural: 4.7, urban: 4.3, combined: 4.5 }   // projection
 ];
+
 
 export const fiscalDeficitData = [
   { year: '2018', deficit: 3.4 },
@@ -32,80 +52,71 @@ export const fiscalDeficitData = [
 
 export const currentStats = {
   gdp: {
-    value: '3,732.45',
+    value: '4,511.62',
     suffix: 'Billion USD',
-    change: '+5.1%',
+    change: '+9.8%',
     changeType: 'positive',
-    description: 'Current year GDP (2024)'
+    description: 'Projected GDP for India (2025)'
   },
   gdpGrowth: {
-    value: '5.1',
+    value: '9.8',
     suffix: '%',
-    change: '+0.2%',
+    change: '+2.3%',
     changeType: 'positive',
-    description: 'Year-over-year growth'
+    description: 'Projected GDP growth rate (2025)'
   },
   inflation: {
     value: '4.9',
     suffix: '%',
     change: '-0.5%',
     changeType: 'positive',
-    description: 'Consumer Price Index'
+    description: 'CPI Inflation (2024 Estimate)'
   },
   fiscalDeficit: {
     value: '5.6',
     suffix: '% of GDP',
     change: '-0.3%',
     changeType: 'positive',
-    description: 'Government fiscal deficit'
+    description: 'Fiscal Deficit (FY 2023–24)'
   }
 };
 
 export const recentUpdates = [
   {
     type: 'success',
-    title: 'Q4 2024 GDP Released',
-    description: 'Annual GDP growth stands at 5.1%, exceeding expectations',
-    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
+    title: 'GDP Growth Estimate Released',
+    description: 'India’s GDP growth estimated at 7.5% for FY 2023–24',
+    timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
     category: 'GDP',
-    value: '5.1%',
-    change: '+0.2%'
+    value: '7.5%',
+    change: '+1.0%'
   },
   {
     type: 'info',
-    title: 'Inflation Report Published',
-    description: 'CPI inflation eases to 4.9% in December 2024',
-    timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(), // 5 hours ago
+    title: 'Inflation Moderates',
+    description: 'CPI inflation eases to 4.9% in 2024',
+    timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
     category: 'Inflation',
     value: '4.9%',
     change: '-0.5%'
   },
   {
     type: 'trend',
-    title: 'Fiscal Deficit Improves',
-    description: 'Government fiscal deficit narrows to 5.6% of GDP',
-    timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
+    title: 'Fiscal Deficit Narrows',
+    description: 'Fiscal deficit reduced to 5.6% of GDP',
+    timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
     category: 'Fiscal',
     value: '5.6%',
     change: '-0.3%'
   },
   {
     type: 'warning',
-    title: 'Trade Deficit Widens',
-    description: 'Current account deficit increases to $75 billion',
-    timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
+    title: 'Trade Deficit Persists',
+    description: 'Current account deficit remains elevated',
+    timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
     category: 'Trade',
     value: '$75B',
     change: '+$5B'
-  },
-  {
-    type: 'info',
-    title: 'Employment Data Updated',
-    description: 'Unemployment rate steady at 6.1%',
-    timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days ago
-    category: 'Employment',
-    value: '6.1%',
-    change: '0%'
   }
 ];
 

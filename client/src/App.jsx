@@ -8,6 +8,8 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/dashboard';
 import GDPAnalysis from './pages/GDPAnalysis';
 import FiscalData from './pages/FiscalData';
+// import InflationDashboard from './pages/Inflation';
+import Inflation from './pages/Inflation';
 
 function App() {
   return (
@@ -34,6 +36,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <GDPAnalysis />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/inflation"
+              element={
+                <ProtectedRoute>
+                  <Inflation />
                 </ProtectedRoute>
               }
             />
