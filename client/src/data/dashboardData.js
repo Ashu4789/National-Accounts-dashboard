@@ -1,6 +1,6 @@
 // National Accounts Dashboard – India (Estimates & Projections)
 
-export const gdpData = [
+export const GDPData = [
   { year: '2011', value: 1823.05, growth: 6.6 },
   { year: '2012', value: 1827.64, growth: 5.5 },
   { year: '2013', value: 1856.72, growth: 6.4 },
@@ -51,14 +51,14 @@ export const fiscalDeficitData = [
 ];
 
 export const currentStats = {
-  gdp: {
+  GDP: {
     value: '4,511.62',
     suffix: 'Billion USD',
     change: '+9.8%',
     changeType: 'positive',
     description: 'Projected GDP for India (2025)'
   },
-  gdpGrowth: {
+  GDPGrowth: {
     value: '9.8',
     suffix: '%',
     change: '+2.3%',
@@ -127,10 +127,10 @@ export const sectorWiseGDP = [
 ];
 
 export const monthlyIndicators = [
-  { month: 'Jan', gdp: 310.5, inflation: 5.2, exports: 42.3 },
-  { month: 'Feb', gdp: 312.8, inflation: 5.1, exports: 43.1 },
-  { month: 'Mar', gdp: 315.2, inflation: 4.9, exports: 44.5 },
-  { month: 'Apr', gdp: 318.6, inflation: 4.8, exports: 45.2 },
-  { month: 'May', gdp: 321.4, inflation: 4.9, exports: 43.8 },
-  { month: 'Jun', gdp: 324.1, inflation: 5.0, exports: 44.9 }
+  { month: 'Jan', GDP: 310.5, inflation: 5.2, exports: 42.3 },
+  { month: 'Feb', GDP: 312.8, inflation: 5.1, exports: 43.1 },
+  { month: 'Mar', GDP: 315.2, inflation: 4.9, exports: 44.5 },
+  { month: 'Apr', GDP: 318.6, inflation: 4.8, exports: 45.2 },
+  { month: 'May', GDP: 321.4, inflation: 4.9, exports: 43.8 },
+  { month: 'Jun', GDP: 324.1, inflation: 5.0, exports: 44.9 }
 ];

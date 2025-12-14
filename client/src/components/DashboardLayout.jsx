@@ -17,11 +17,13 @@ const DashboardLayout = ({ children }) => {
 
   const menuItems = [
     { name: 'Overview', icon: <LayoutDashboard className="h-5 w-5" />, path: '/dashboard' },
-    { name: 'GDP Analysis', icon: <TrendingUp className="h-5 w-5" />, path: '/dashboard/gdp' },
+    { name: 'GDP Analysis', icon: <TrendingUp className="h-5 w-5" />, path: '/dashboard/GDP' },
+    { name: 'State GDP', icon: <TrendingUp className="h-5 w-5" />, path: '/dashboard/state-GDP' },
      { name: 'Inflation', icon: <TrendingDown className="h-5 w-5" />, path: '/dashboard/inflation' },
     { name: 'Fiscal Data', icon: <DollarSign className="h-5 w-5" />, path: '/dashboard/fiscal' },
     { name: 'Reports', icon: <FileText className="h-5 w-5" />, path: '/dashboard/reports' },
-    { name: 'Settings', icon: <Settings className="h-5 w-5" />, path: '/dashboard/settings' }
+    { name: 'Settings', icon: <Settings className="h-5 w-5" />, path: '/dashboard/settings' },
+    
     
   ];
 

@@ -2,7 +2,7 @@ import DashboardLayout from '../components/DashboardLayout';
 import OverviewChart from '../components/OverviewChart';
 import StatsCard from '../components/StatsCard';
 import { TrendingUp, BarChart3, Activity } from 'lucide-react';
-import { gdpData, sectorWiseGDP } from '../data/dashboardData';
+import { GDPData, sectorWiseGDP } from '../data/dashboardData';
 
 const GDPAnalysis = () => {
   return (
@@ -35,7 +35,7 @@ const GDPAnalysis = () => {
       {/* GDP Charts */}
       <div className="grid lg:grid-cols-2 gap-6">
         <OverviewChart
-          data={gdpData}
+          data={GDPData}
           title="GDP Value Over Time"
           dataKey="value"
           color="#6366f1"
@@ -43,7 +43,7 @@ const GDPAnalysis = () => {
         />
 
         <OverviewChart
-          data={gdpData}
+          data={GDPData}
           title="Year-on-Year Growth Rate"
           dataKey="growth"
           color="#10b981"

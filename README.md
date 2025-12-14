@@ -155,7 +155,7 @@ Visit: `http://localhost:3000`
   - Fiscal Deficit (Area Chart)
 - **Recent Updates Feed**
 
-### GDP Analysis (`/dashboard/gdp`)
+### GDP Analysis (`/dashboard/GDP`)
 - Sector-wise GDP contribution
 - GDP value trends
 - Growth rate analysis

@@ -7,7 +7,7 @@ import RecentUpdates from '../components/RecentUpdates';
 import { TrendingUp, DollarSign, Activity, PieChart } from 'lucide-react';
 import { 
   currentStats, 
-  gdpData, 
+  GDPData, 
   inflationData, 
   fiscalDeficitData, 
   recentUpdates 
@@ -32,26 +32,26 @@ const Dashboard = () => {
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatsCard
           title="Current GDP"
-          value={currentStats.gdp.value}
-          suffix={currentStats.gdp.suffix}
-          change={currentStats.gdp.change}
-          changeType={currentStats.gdp.changeType}
+          value={currentStats.GDP.value}
+          suffix={currentStats.GDP.suffix}
+          change={currentStats.GDP.change}
+          changeType={currentStats.GDP.changeType}
           icon={<DollarSign className="h-8 w-8" />}
           iconBgColor="bg-blue-100"
           iconColor="text-blue-600"
-          description={currentStats.gdp.description}
+          description={currentStats.GDP.description}
         />
 
         <StatsCard
           title="GDP Growth Rate"
-          value={currentStats.gdpGrowth.value}
-          suffix={currentStats.gdpGrowth.suffix}
-          change={currentStats.gdpGrowth.change}
-          changeType={currentStats.gdpGrowth.changeType}
+          value={currentStats.GDPGrowth.value}
+          suffix={currentStats.GDPGrowth.suffix}
+          change={currentStats.GDPGrowth.change}
+          changeType={currentStats.GDPGrowth.changeType}
           icon={<TrendingUp className="h-8 w-8" />}
           iconBgColor="bg-green-100"
           iconColor="text-green-600"
-          description={currentStats.gdpGrowth.description}
+          description={currentStats.GDPGrowth.description}
         />
 
         <StatsCard
@@ -82,7 +82,7 @@ const Dashboard = () => {
       {/* Charts Section */}
       <div className="grid lg:grid-cols-2 gap-6 mb-8">
         <OverviewChart
-          data={gdpData}
+          data={GDPData}
           title="GDP Trend (Billion USD)"
           dataKey="value"
           color="#3b82f6"
@@ -90,7 +90,7 @@ const Dashboard = () => {
         />
 
         <OverviewChart
-          data={gdpData}
+          data={GDPData}
           title="GDP Growth Rate (%)"
           dataKey="growth"
           color="#10b981"

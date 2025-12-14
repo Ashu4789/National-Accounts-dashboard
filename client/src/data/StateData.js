@@ -1,0 +1,42 @@
+// State-wise GDP of India (USD Billion) – Approximate 2023–24
+
+export const stateGDPData = [
+  { state: 'Maharashtra', GDP: 480, growth: 7.2 },
+  { state: 'Tamil Nadu', GDP: 330, growth: 8.1 },
+  { state: 'Uttar Pradesh', GDP: 310, growth: 6.8 },
+  { state: 'Gujarat', GDP: 300, growth: 7.5 },
+  { state: 'Karnataka', GDP: 290, growth: 8.0 },
+  { state: 'West Bengal', GDP: 210, growth: 6.5 },
+  { state: 'Rajasthan', GDP: 190, growth: 7.0 },
+  { state: 'Telangana', GDP: 185, growth: 8.4 },
+  { state: 'Andhra Pradesh', GDP: 175, growth: 7.1 },
+  { state: 'Kerala', GDP: 150, growth: 6.3 },
+  { state: 'Madhya Pradesh', GDP: 145, growth: 7.6 },
+  { state: 'Haryana', GDP: 140, growth: 7.9 },
+  { state: 'Punjab', GDP: 120, growth: 6.2 },
+  { state: 'Bihar', GDP: 110, growth: 6.9 },
+  { state: 'Odisha', GDP: 105, growth: 7.8 },
+  { state: 'Assam', GDP: 75, growth: 6.4 },
+  { state: 'Chhattisgarh', GDP: 70, growth: 7.3 },
+  { state: 'Jharkhand', GDP: 68, growth: 6.8 },
+  { state: 'Uttarakhand', GDP: 55, growth: 7.1 },
+  { state: 'Himachal Pradesh', GDP: 52, growth: 6.6 },
+  { state: 'Goa', GDP: 50, growth: 9.1 },
+  { state: 'Tripura', GDP: 25, growth: 6.0 },
+  { state: 'Manipur', GDP: 22, growth: 5.8 },
+  { state: 'Meghalaya', GDP: 21, growth: 6.2 },
+  { state: 'Nagaland', GDP: 20, growth: 5.9 },
+  { state: 'Arunachal Pradesh', GDP: 19, growth: 6.4 },
+  { state: 'Mizoram', GDP: 18, growth: 6.0 },
+  { state: 'Sikkim', GDP: 17, growth: 7.4 },
+
+  // Union Territories
+  { state: 'Delhi (NCT)', GDP: 160, growth: 7.8 },
+  { state: 'Jammu & Kashmir', GDP: 45, growth: 6.1 },
+  { state: 'Ladakh', GDP: 12, growth: 5.6 },
+  { state: 'Chandigarh', GDP: 15, growth: 6.9 },
+  { state: 'Puducherry', GDP: 14, growth: 6.5 },
+  { state: 'Andaman & Nicobar Islands', GDP: 6, growth: 5.4 },
+  { state: 'Dadra & Nagar Haveli and Daman & Diu', GDP: 9, growth: 7.2 },
+  { state: 'Lakshadweep', GDP: 2, growth: 5.1 }
+];

@@ -17,19 +17,21 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-end gap-4">
+
             {user ? (
               <>
                 <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
                   Dashboard
                 </Link>
-                <div className="flex items-center space-x-2 text-gray-700">
+                <div className="flex items-center gap-2 text-gray-700">
                   <User className="h-5 w-5" />
                   <span className="text-sm font-medium">{user.name}</span>
                 </div>
                 <button
                   onClick={logout}
-                  className="flex items-center space-x-1 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
+                  className="flex items-center gap-2 h-9 bg-red-600 text-white px-4 rounded-md hover:bg-red-700 transition"
+
                 >
                   <LogOut className="h-4 w-4" />
                   <span>Logout</span>

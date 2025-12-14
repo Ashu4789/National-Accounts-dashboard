@@ -8,7 +8,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/dashboard';
 import GDPAnalysis from './pages/GDPAnalysis';
 import FiscalData from './pages/FiscalData';
-// import InflationDashboard from './pages/Inflation';
+import StateGDP from './pages/StateGDP';
 import Inflation from './pages/Inflation';
 
 function App() {
@@ -32,13 +32,21 @@ function App() {
               }
             />
             <Route
-              path="/dashboard/gdp"
+              path="/dashboard/GDP"
               element={
                 <ProtectedRoute>
                   <GDPAnalysis />
                 </ProtectedRoute>
               }
             />
+            <Route
+             path="/dashboard/state-GDP" 
+             element={
+              <ProtectedRoute>
+                <StateGDP />
+              </ProtectedRoute>
+             } />
+
             <Route
               path="/dashboard/inflation"
               element={
