@@ -10,7 +10,7 @@ import GDPAnalysis from './pages/GDPAnalysis';
 import FiscalData from './pages/FiscalData';
 import StateGDP from './pages/StateGDP';
 import Inflation from './pages/Inflation';
-
+import Reports from './pages/Reports';
 function App() {
   return (
     <Router>
@@ -69,7 +69,7 @@ function App() {
               path="/dashboard/reports"
               element={
                 <ProtectedRoute>
-                  <Navigate to="/dashboard" replace />
+                  <Reports/>
                 </ProtectedRoute>
               }
             />

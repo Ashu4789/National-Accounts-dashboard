@@ -1,0 +1,3 @@
+com\dashboard\reports\service\ReportGenerator.class
+com\dashboard\reports\ReportsApplication.class
+com\dashboard\reports\controller\ReportController.class
