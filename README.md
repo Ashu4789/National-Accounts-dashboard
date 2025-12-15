@@ -137,6 +137,14 @@ npm run dev
 cd client
 npm run dev
 ```
+## How to Run Reports Service
+
+### Requirements
+- Java 17+
+
+### Steps
+```bash
+java -jar reports-0.0.1-SNAPSHOT.jar
 
 Visit: `http://localhost:3000`
 
