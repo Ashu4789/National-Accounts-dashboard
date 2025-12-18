@@ -23,7 +23,7 @@ const DashboardLayout = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
@@ -34,17 +34,17 @@ const DashboardLayout = ({ children }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
           <div className="flex items-center justify-between p-6 border-b">
-            <h2 className="text-xl font-bold text-gray-800">Dashboard</h2>
+            <h2 className="text-xl font-bold text-gray-800 dark:text-white">Dashboard</h2>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="lg:hidden text-gray-500 hover:text-gray-700"
+              className="lg:hidden text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white"
             >
               <X className="h-6 w-6" />
             </button>
@@ -60,8 +60,8 @@ const DashboardLayout = ({ children }) => {
                   to={item.path}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-blue-50 text-blue-600 font-semibold'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                   onClick={() => setSidebarOpen(false)}
                 >
@@ -74,11 +74,11 @@ const DashboardLayout = ({ children }) => {
 
           {/* Sidebar Footer */}
           <div className="p-4 border-t">
-            <div className="bg-blue-50 rounded-lg p-4">
-              <p className="text-sm font-semibold text-blue-900 mb-1">
+            <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4">
+              <p className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-1">
                 Need Help?
               </p>
-              <p className="text-xs text-blue-700">
+              <p className="text-xs text-blue-700 dark:text-blue-100">
                 Check our documentation for guides and tutorials
               </p>
             </div>
@@ -89,14 +89,14 @@ const DashboardLayout = ({ children }) => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Mobile Header */}
-        <header className="lg:hidden bg-white shadow-sm px-4 py-3 flex items-center">
+        <header className="lg:hidden bg-white dark:bg-gray-800 shadow-sm px-4 py-3 flex items-center">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white"
           >
             <Menu className="h-6 w-6" />
           </button>
-          <h1 className="ml-4 text-lg font-semibold text-gray-800">Dashboard</h1>
+          <h1 className="ml-4 text-lg font-semibold text-gray-800 dark:text-white">Dashboard</h1>
         </header>
 
         {/* Main Content */}

@@ -65,7 +65,7 @@ const FiscalData = () => {
       </div>
 
       {/* Additional Info Card */}
-      <div className="bg-white rounded-xl shadow-md p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
         <h3 className="text-lg font-bold text-gray-900 mb-4">Key Highlights</h3>
         <ul className="space-y-3">
           <li className="flex items-start space-x-3">

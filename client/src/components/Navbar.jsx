@@ -7,17 +7,24 @@ const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
 
   return (
-    <nav className="bg-white shadow-lg">
+    <nav className="bg-white dark:bg-gray-800 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <BarChart3 className="h-8 w-8 text-blue-600" />
-              <span className="font-bold text-xl text-gray-800">National Accounts</span>
+              <span className="font-bold text-xl text-gray-800 dark:text-white">National Accounts</span>
             </Link>
           </div>
 
           <div className="flex items-center space-x-4">
+            <Link
+              to="/contact"
+              className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Contact
+            </Link>
+            
             {user ? (
               <>
                 <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">

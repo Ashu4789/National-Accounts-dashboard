@@ -42,7 +42,7 @@ const Home = () => {
             </Link>
             <Link
               to="/login"
-              className="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-50 transition border-2 border-blue-600 text-lg font-semibold"
+              className="bg-white dark:bg-gray-700 dark:text-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition border-2 border-blue-600 text-lg font-semibold"
             >
               Sign In
             </Link>
@@ -54,7 +54,7 @@ const Home = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition"
+              className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-xl transition"
             >
               <div className="mb-4">{feature.icon}</div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
@@ -64,7 +64,7 @@ const Home = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="mt-20 bg-white rounded-xl shadow-lg p-8">
+        <div className="mt-20 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold text-blue-600 mb-2">100+</div>

@@ -5,7 +5,7 @@ const OverviewChart = ({ data, title, dataKey, color = '#3b82f6', type = 'line' 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
           <p className="font-semibold text-gray-800 mb-2">{label}</p>
           {payload.map((entry, index) => (
             <p key={index} className="text-sm" style={{ color: entry.color }}>
@@ -19,7 +19,7 @@ const OverviewChart = ({ data, title, dataKey, color = '#3b82f6', type = 'line' 
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
       <h3 className="text-lg font-bold text-gray-900 mb-6">{title}</h3>
       
       <ResponsiveContainer width="100%" height={300}>

@@ -43,7 +43,7 @@ const RecentUpdates = ({ updates }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-gray-900">Recent Updates</h3>
         <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
@@ -75,7 +75,7 @@ const RecentUpdates = ({ updates }) => {
                     {formatTime(update.timestamp)}
                   </span>
                   {update.category && (
-                    <span className="text-xs bg-white px-2 py-1 rounded-full text-gray-600">
+                    <span className="text-xs bg-white dark:bg-gray-700 px-2 py-1 rounded-full text-gray-600 dark:text-gray-200">
                       {update.category}
                     </span>
                   )}

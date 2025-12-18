@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
         setUser(response.data);
       } catch (error) {
         localStorage.removeItem('token');
+        setUser(null);
       }
     }
     setLoading(false);
@@ -30,7 +31,15 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await loginAPI(credentials);
       localStorage.setItem('token', response.data.token);
-      setUser(response.data);
+      setUser({
+        _id: response.data._id,
+        name: response.data.name,
+        email: response.data.email,
+        phone: response.data.phone,
+        organization: response.data.organization,
+        role: response.data.role,
+        preferences: response.data.preferences
+      });
       navigate('/dashboard');
       return { success: true };
     } catch (error) {
@@ -45,7 +54,15 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await signupAPI(userData);
       localStorage.setItem('token', response.data.token);
-      setUser(response.data);
+      setUser({
+        _id: response.data._id,
+        name: response.data.name,
+        email: response.data.email,
+        phone: response.data.phone,
+        organization: response.data.organization,
+        role: response.data.role,
+        preferences: response.data.preferences
+      });
       navigate('/dashboard');
       return { success: true };
     } catch (error) {
@@ -62,8 +79,15 @@ export const AuthProvider = ({ children }) => {
     navigate('/login');
   };
 
+  const updateUser = (updatedData) => {
+    setUser(prev => ({
+      ...prev,
+      ...updatedData
+    }));
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, updateUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

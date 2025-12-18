@@ -28,4 +28,19 @@ export const signup = (userData) => api.post('/auth/signup', userData);
 export const login = (credentials) => api.post('/auth/login', credentials);
 export const getProfile = () => api.get('/auth/me');
 
+// User APIs
+export const updateProfile = (data) => api.put('/user/profile', data);
+export const changePassword = (data) => api.put('/user/password', data);
+export const updatePreferences = (data) => api.put('/user/preferences', data);
+
+// Contact API
+export const sendContactMessage = (data) => api.post('/contact', data);
+
+// Reports API
+export const downloadReport = (reportId) => {
+  return api.get(`/reports/download/${reportId}`, {
+    responseType: 'blob'
+  });
+};
+
 export default api;

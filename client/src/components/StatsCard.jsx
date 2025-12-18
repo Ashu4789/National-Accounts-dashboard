@@ -17,7 +17,7 @@ const StatsCard = ({
   const TrendIcon = isPositive ? TrendingUp : TrendingDown;
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
       {/* Header with Icon */}
       <div className="flex items-start justify-between mb-4">
         <div className={`${iconBgColor} p-3 rounded-lg`}>
