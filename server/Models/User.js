@@ -21,10 +21,33 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     select: false
   },
+  phone: {
+    type: String,
+    required: [true, 'Please add a phone number'],
+    trim: true
+  },
+  organization: {
+    type: String,
+    required: [true, 'Please add an organization'],
+    trim: true
+  },
   role: {
     type: String,
     enum: ['user', 'admin'],
     default: 'user'
+  },
+  preferences: {
+    notifications: {
+      emailNotifications: { type: Boolean, default: true },
+      pushNotifications: { type: Boolean, default: false },
+      weeklyReport: { type: Boolean, default: true },
+      dataUpdates: { type: Boolean, default: true }
+    },
+    appearance: {
+      darkMode: { type: Boolean, default: false },
+      language: { type: String, default: 'en' },
+      timezone: { type: String, default: 'Asia/Kolkata' }
+    }
   },
   createdAt: {
     type: Date,
@@ -33,10 +56,12 @@ const userSchema = new mongoose.Schema({
 });
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function() {
+  // If password isn't modified, skip hashing and return early.
   if (!this.isModified('password')) {
-    next();
+    return;
   }
+
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });

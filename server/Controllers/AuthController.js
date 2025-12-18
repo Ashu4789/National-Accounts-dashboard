@@ -13,11 +13,11 @@ const generateToken = (id) => {
 // @access  Public
 const signup = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone, organization } = req.body;
 
     // Validation
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: 'Please provide all fields' });
+    if (!name || !email || !password || !phone || !organization) {
+      return res.status(400).json({ message: 'Please provide all required fields' });
     }
 
     if (password.length < 6) {
@@ -34,7 +34,9 @@ const signup = async (req, res) => {
     const user = await User.create({
       name,
       email,
-      password
+      password,
+      phone,
+      organization
     });
 
     if (user) {
@@ -42,6 +44,8 @@ const signup = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
+        organization: user.organization,
         role: user.role,
         token: generateToken(user._id)
       });
@@ -73,6 +77,8 @@ const login = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
+        organization: user.organization,
         role: user.role,
         token: generateToken(user._id)
       });
@@ -94,7 +100,10 @@ const getMe = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      role: user.role
+      phone: user.phone,
+      organization: user.organization,
+      role: user.role,
+      preferences: user.preferences
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
