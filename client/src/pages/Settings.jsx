@@ -3,7 +3,7 @@ import DashboardLayout from '../components/DashboardLayout';
 import { AuthContext } from '../context/AuthContext';
 import { ThemeContext } from '../context/ThemeContext';
 import { updateProfile, changePassword, updatePreferences } from '../services/api';
-import { User, Lock, Bell, Globe, Moon, Shield, AlertCircle, CheckCircle } from 'lucide-react';
+import { User, Lock, Bell, Moon, Shield, AlertCircle, CheckCircle } from 'lucide-react';
 
 const Settings = () => {
   const { user, updateUser } = useContext(AuthContext);
@@ -33,6 +33,7 @@ const Settings = () => {
     language: 'en',
     timezone: 'Asia/Kolkata'
   });
+  const [appearanceTab, setAppearanceTab] = useState('theme');
 
   // Password Change
   const [passwordData, setPasswordData] = useState({
@@ -351,59 +352,38 @@ const Settings = () => {
             {activeTab === 'appearance' && (
               <div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Appearance Settings</h2>
+
+                {/* Sub-tabs */}
+                <div className="mb-4 flex space-x-2">
+                  <button
+                    onClick={() => setAppearanceTab('theme')}
+                    className={`px-3 py-1 rounded-md ${appearanceTab === 'theme' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                  >
+                    Theme
+                  </button>
+                </div>
+
                 <div className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      <Globe className="h-4 w-4 inline mr-2" />
-                      Language
-                    </label>
-                    <select
-                      value={appearance.language}
-                      onChange={(e) => handleAppearanceUpdate('language', e.target.value)}
-                      className="w-full max-w-xs px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    >
-                      <option value="en">English</option>
-                      <option value="hi">हिन्दी (Hindi)</option>
-                      <option value="bn">বাংলা (Bengali)</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Timezone
-                    </label>
-                    <select
-                      value={appearance.timezone}
-                      onChange={(e) => handleAppearanceUpdate('timezone', e.target.value)}
-                      className="w-full max-w-xs px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    >
-                      <option value="Asia/Kolkata">India (IST)</option>
-                      <option value="America/New_York">New York (EST)</option>
-                      <option value="Europe/London">London (GMT)</option>
-                    </select>
-                  </div>
-
-                  <div className="flex items-center justify-between py-4 border-t dark:border-gray-700">
-                    <div>
-                      <p className="font-semibold text-gray-900 dark:text-white flex items-center">
-                        <Moon className="h-4 w-4 mr-2" />
-                        Dark Mode
-                      </p>
-                      <p className="text-sm text-gray-700 dark:text-gray-400">Switch between light and dark theme</p>
+                  {appearanceTab === 'theme' && (
+                    <div className="flex items-center justify-between py-4 border-t dark:border-gray-700">
+                      <div>
+                        <p className="font-semibold text-gray-900 dark:text-white flex items-center">
+                          <Moon className="h-4 w-4 mr-2" />
+                          Theme
+                        </p>
+                        <p className="text-sm text-gray-700 dark:text-gray-400">Toggle between Light and Dark mode (affects background and text color globally)</p>
+                      </div>
+                      <button
+                        onClick={handleDarkModeToggle}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${darkMode ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'}`}
+                        aria-label="Toggle theme"
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${darkMode ? 'translate-x-6' : 'translate-x-1'}`}
+                        />
+                      </button>
                     </div>
-                    <button
-                      onClick={handleDarkModeToggle}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        darkMode ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                          darkMode ? 'translate-x-6' : 'translate-x-1'
-                        }`}
-                      />
-                    </button>
-                  </div>
+                  )}
                 </div>
               </div>
             )}

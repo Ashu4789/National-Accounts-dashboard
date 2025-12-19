@@ -71,7 +71,7 @@ const Employment = () => {
           data={employmentData}
           title="Unemployment Rate Trend (%)"
           dataKey="rate"
-          color="var(--orange)"
+          color="#f59e0b"
           type="line"
         />
 
@@ -79,7 +79,7 @@ const Employment = () => {
           data={employmentData}
           title="Labor Force (Crore)"
           dataKey="laborForce"
-          color="var(--accent)"
+          color="#3b82f6"
           type="area"
         />
       </div>
