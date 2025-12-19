@@ -1,11 +1,16 @@
 # 🇮🇳 National Accounts Dashboard - Full Stack MERN Application
 
+# 🇮🇳 National Accounts Dashboard - India Economic Data Platform
+
 [![Node.js](https://img.shields.io/badge/Node.js-16.x-green.svg)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-18.x-blue.svg)](https://reactjs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-6.x-green.svg)](https://www.mongodb.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-6.x-green.svg)](https.mongodb.com/)
 [![Express](https://img.shields.io/badge/Express-4.x-lightgrey.svg)](https://expressjs.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive full-stack dashboard application for monitoring and analyzing India's national economic indicators including GDP, inflation, fiscal data, and more. Features complete user authentication, profile management, dark mode, PDF report generation, and email notifications.
+A comprehensive full-stack dashboard application for monitoring, analyzing, and visualizing India's national economic indicators. Features complete user authentication, real Indian economic data, interactive visualizations, dark mode, PDF report generation, and email notifications.
+
+**Live Data Sources**: Ministry of Statistics (MoSPI), Reserve Bank of India (RBI), Department of Economic Affairs (DEA)
 
 ---
 
@@ -13,12 +18,14 @@ A comprehensive full-stack dashboard application for monitoring and analyzing In
 
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
+- [Data Coverage](#-data-coverage)
 - [Project Structure](#-project-structure)
 - [Installation](#-installation)
 - [Environment Setup](#-environment-setup)
 - [Running the Application](#-running-the-application)
 - [API Documentation](#-api-documentation)
-- [Features Guide](#-features-guide)
+- [Dashboard Pages](#-dashboard-pages)
+- [Data Sources](#-data-sources)
 - [Deployment](#-deployment)
 - [Troubleshooting](#-troubleshooting)
 - [Contributing](#-contributing)
@@ -30,72 +37,143 @@ A comprehensive full-stack dashboard application for monitoring and analyzing In
 
 ### 🔐 Authentication & User Management
 - ✅ Complete signup/login system with JWT authentication
+- ✅ 6-field registration (Name, Email, Phone, Organization, Password)
 - ✅ Protected routes with middleware
-- ✅ User profile management (name, email, phone, organization)
+- ✅ User profile management with real-time updates
 - ✅ Secure password change with validation
 - ✅ Email uniqueness validation
+- ✅ Session persistence
 
-### 📊 Dashboard & Analytics
-- ✅ **Overview Dashboard**: Real-time economic metrics with interactive charts
-- ✅ **GDP Analysis**: Detailed GDP trends and sectoral breakdown
-- ✅ **Fiscal Data**: Government budget and deficit tracking
-- ✅ **Reports Page**: Downloadable PDF reports with filters
-- ✅ **Interactive Charts**: Built with Recharts (Line, Area, Bar charts)
+### 📊 Comprehensive Economic Data Dashboard
+- ✅ **Overview Dashboard**: 8 key Indian economic indicators with real-time data
+- ✅ **GDP Analysis**: Sectoral breakdown (Agriculture, Industry, Services)
+- ✅ **Fiscal Data**: Government budget, deficit tracking, debt analysis
+- ✅ **Trade & Balance of Payments**: Exports, imports, trade deficit analysis
+- ✅ **State-wise GDP**: Top 10 states ranking and per capita income
+- ✅ **Employment Statistics**: Labor force, unemployment trends
+- ✅ **Interactive Charts**: 15+ visualizations with Recharts (Line, Area, Bar, Pie)
 - ✅ **Recent Updates Feed**: Real-time activity tracking
 
-### ⚙️ Settings & Preferences
-- ✅ **Profile Settings**: Update personal information
+### 📈 Real Indian Economic Data (FY 2018-19 to 2023-24)
+- ✅ GDP at Current & Constant Prices
+- ✅ Real GDP Growth Rates
+- ✅ Inflation metrics (CPI, food, fuel, core)
+- ✅ Fiscal indicators (deficits, debt)
+- ✅ Balance of Payments
+- ✅ Employment statistics
+- ✅ State-wise economic data
+- ✅ Sectoral contributions
+- ✅ Foreign exchange reserves
+- ✅ Trade data by category
+
+### ⚙️ Settings & Customization
+- ✅ **Profile Settings**: Update personal information (name, email, phone, organization)
 - ✅ **Security**: Change password with current password verification
-- ✅ **Notifications**: Configure email, push, and report preferences
-- ✅ **Appearance**: Dark/Light mode toggle, language, timezone selection
+- ✅ **Notifications**: Configure 4 types of preferences
+  - Email Notifications
+  - Push Notifications
+  - Weekly Reports
+  - Data Updates
+- ✅ **Appearance**: Dark/Light mode toggle
 - ✅ **Theme Persistence**: Settings saved to database and localStorage
 
 ### 📄 Reports & Documents
 - ✅ Dynamic PDF generation with PDFKit
-- ✅ Professional report formatting
+- ✅ Professional report formatting with Indian economic data
 - ✅ Filter by type (GDP, Inflation, Fiscal, Trade, Employment)
 - ✅ Filter by period (Yearly, Quarterly, Monthly)
 - ✅ One-click download functionality
+- ✅ 6+ pre-configured report templates
 
-### 📧 Contact System
-- ✅ Contact form with email integration
+### 📧 Contact & Communication
+- ✅ Contact form with Nodemailer integration
 - ✅ Admin notification emails
 - ✅ User confirmation emails
 - ✅ Form validation and error handling
-- ✅ FAQ section
+- ✅ FAQ section with common queries
 
-### 🎨 UI/UX
+### 🎨 Modern UI/UX
 - ✅ Fully responsive design (Mobile, Tablet, Desktop)
 - ✅ Dark mode support across entire application
 - ✅ Modern gradient backgrounds
 - ✅ Smooth animations and transitions
-- ✅ Professional dashboard layout with sidebar
+- ✅ Professional sidebar navigation
 - ✅ Toast notifications for user actions
 - ✅ Loading states and error messages
+- ✅ Accessible design with ARIA labels
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React 18** - UI Library
-- **Vite** - Build tool and dev server
+- **React 18** - UI Library with hooks
+- **Vite** - Lightning-fast build tool and dev server
 - **React Router v6** - Client-side routing
-- **Tailwind CSS** - Utility-first CSS framework
+- **Tailwind CSS** - Utility-first CSS framework with dark mode
 - **Recharts** - Chart library for data visualization
-- **Lucide React** - Icon library
-- **Axios** - HTTP client
+- **Lucide React** - Modern icon library
+- **Axios** - HTTP client for API calls
 
 ### Backend
 - **Node.js** - JavaScript runtime
-- **Express.js** - Web framework
+- **Express.js** - Web application framework
 - **MongoDB** - NoSQL database
-- **Mongoose** - MongoDB ODM
+- **Mongoose** - MongoDB ODM with schema validation
 - **JWT** - JSON Web Tokens for authentication
-- **bcryptjs** - Password hashing
-- **Nodemailer** - Email sending
-- **PDFKit** - PDF generation
+- **bcryptjs** - Password hashing and encryption
+- **Nodemailer** - Email sending functionality
+- **PDFKit** - Dynamic PDF generation
 - **CORS** - Cross-origin resource sharing
+
+---
+
+## 📊 Data Coverage
+
+### Economic Indicators (FY 2018-19 to 2023-24)
+
+#### GDP Metrics
+- GDP at Current Prices: ₹295.99 Lakh Crore (FY24)
+- GDP at Constant Prices (Base: 2011-12)
+- Real GDP Growth: 8.2% (FY24)
+- Per Capita Income: ₹2,06,403 (FY24)
+- Sectoral Breakdown:
+  - Agriculture & Allied: 18.2%
+  - Industry: 25.9%
+  - Services: 55.9%
+
+#### Inflation Data
+- Consumer Price Index (CPI): 5.4% (FY24)
+- Food Inflation: 6.6%
+- Fuel & Light: 3.8%
+- Core Inflation: 4.9%
+
+#### Fiscal Indicators
+- Fiscal Deficit: 5.9% of GDP (FY24)
+- Revenue Deficit: 2.8% of GDP
+- Primary Deficit: 1.7% of GDP
+- Total Public Debt: 81.5% of GDP
+
+#### Trade Statistics
+- Merchandise Exports: $437 Billion (FY24)
+- Merchandise Imports: $677 Billion
+- Trade Deficit: $240 Billion
+- Current Account Deficit: 1.2% of GDP
+- Foreign Exchange Reserves: $645.58 Billion
+
+#### Employment Data
+- Labor Force: 52.4 Crore
+- Employed: 49.2 Crore
+- Unemployment Rate: 6.1% (FY24)
+- Labor Force Participation Rate: 46.8%
+
+#### State-wise GDP (Top 10)
+1. Maharashtra: ₹36.24 Lakh Crore (13.3% share)
+2. Tamil Nadu: ₹24.25 Lakh Crore (8.9%)
+3. Gujarat: ₹21.43 Lakh Crore (7.9%)
+4. Karnataka: ₹21.03 Lakh Crore (7.7%)
+5. Uttar Pradesh: ₹20.87 Lakh Crore (7.7%)
+6. West Bengal, Rajasthan, Andhra Pradesh, Telangana, Madhya Pradesh
 
 ---
 
@@ -103,61 +181,67 @@ A comprehensive full-stack dashboard application for monitoring and analyzing In
 
 ```
 national-accounts-dashboard/
-├── client/                          # Frontend (React + Vite)
+├── client/                              # Frontend (React + Vite)
 │   ├── public/
+│   │   └── favicon.ico
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── DashboardLayout.jsx       # Sidebar + main layout
-│   │   │   ├── StatsCard.jsx             # Reusable metric cards
-│   │   │   ├── OverviewChart.jsx         # Chart component
-│   │   │   ├── RecentUpdates.jsx         # Activity feed
-│   │   │   ├── Navbar.jsx                # Top navigation
-│   │   │   └── ProtectedRoute.jsx        # Route protection
+│   │   │   ├── DashboardLayout.jsx          # Sidebar + main layout
+│   │   │   ├── StatsCard.jsx                # Reusable metric cards
+│   │   │   ├── OverviewChart.jsx            # Chart component (Recharts)
+│   │   │   ├── RecentUpdates.jsx            # Activity feed widget
+│   │   │   ├── Navbar.jsx                   # Top navigation bar
+│   │   │   └── ProtectedRoute.jsx           # Route authentication guard
 │   │   ├── pages/
-│   │   │   ├── Home.jsx                  # Landing page
-│   │   │   ├── Login.jsx                 # Login page
-│   │   │   ├── Signup.jsx                # Registration (6 fields)
-│   │   │   ├── Dashboard.jsx             # Main dashboard
-│   │   │   ├── GDPAnalysis.jsx           # GDP detailed view
-│   │   │   ├── FiscalData.jsx            # Fiscal metrics
-│   │   │   ├── Reports.jsx               # PDF downloads
-│   │   │   ├── Settings.jsx              # User settings (4 tabs)
-│   │   │   └── ContactUs.jsx             # Contact form
+│   │   │   ├── Home.jsx                     # Landing page
+│   │   │   ├── Login.jsx                    # Login page
+│   │   │   ├── Signup.jsx                   # Registration (6 fields)
+│   │   │   ├── Dashboard.jsx                # Main overview dashboard
+│   │   │   ├── GDPAnalysis.jsx              # GDP detailed analysis
+│   │   │   ├── FiscalData.jsx               # Fiscal metrics & budget
+│   │   │   ├── TradeData.jsx                # Trade & BoP analysis
+│   │   │   ├── StateGDP.jsx                 # State-wise GDP rankings
+│   │   │   ├── Employment.jsx               # Employment statistics
+│   │   │   ├── Reports.jsx                  # PDF report downloads
+│   │   │   ├── Settings.jsx                 # User settings (4 tabs)
+│   │   │   └── ContactUs.jsx                # Contact form with email
 │   │   ├── context/
-│   │   │   ├── AuthContext.jsx           # Auth state management
-│   │   │   └── ThemeContext.jsx          # Dark mode management
+│   │   │   ├── AuthContext.jsx              # Auth state management
+│   │   │   └── ThemeContext.jsx             # Dark mode management
 │   │   ├── services/
-│   │   │   └── api.js                    # API calls
+│   │   │   └── api.js                       # Axios API calls
 │   │   ├── data/
-│   │   │   └── dashboardData.js          # Dummy data
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css
-│   ├── .env
+│   │   │   ├── dashboardData.js             # Legacy dummy data
+│   │   │   └── realIndiaData.js             # Real Indian economic data
+│   │   ├── App.jsx                          # Main app component
+│   │   ├── main.jsx                         # React entry point
+│   │   └── index.css                        # Global styles + Tailwind
+│   ├── .env                                 # Frontend environment variables
 │   ├── package.json
-│   ├── tailwind.config.js
-│   └── vite.config.js
+│   ├── tailwind.config.js                   # Tailwind configuration
+│   ├── vite.config.js                       # Vite configuration
+│   └── vercel.json                          # Vercel deployment config
 │
-└── server/                          # Backend (Node.js + Express)
+└── server/                              # Backend (Node.js + Express)
     ├── config/
-    │   └── db.js                         # MongoDB connection
+    │   └── db.js                            # MongoDB connection
     ├── models/
-    │   └── User.js                       # User schema with preferences
+    │   └── User.js                          # User schema with preferences
     ├── routes/
-    │   ├── auth.js                       # Auth routes
-    │   ├── user.js                       # User management routes
-    │   ├── contact.js                    # Contact form route
-    │   └── reports.js                    # Report download route
+    │   ├── auth.js                          # Authentication routes
+    │   ├── user.js                          # User management routes
+    │   ├── contact.js                       # Contact form route
+    │   └── reports.js                       # Report download route
     ├── middleware/
-    │   └── auth.js                       # JWT verification
+    │   └── auth.js                          # JWT verification middleware
     ├── controllers/
-    │   ├── authController.js             # Auth logic
-    │   ├── userController.js             # Profile/preferences
-    │   ├── contactController.js          # Email sending
-    │   └── reportController.js           # PDF generation
-    ├── .env
+    │   ├── authController.js                # Auth logic (signup, login)
+    │   ├── userController.js                # Profile/preferences updates
+    │   ├── contactController.js             # Email sending logic
+    │   └── reportController.js              # PDF generation logic
+    ├── .env                                 # Backend environment variables
     ├── package.json
-    └── server.js
+    └── server.js                            # Express server entry point
 ```
 
 ---
@@ -165,10 +249,10 @@ national-accounts-dashboard/
 ## 🚀 Installation
 
 ### Prerequisites
-- **Node.js** (v16 or higher)
-- **MongoDB** (Atlas account or local installation)
-- **Git**
-- **Gmail account** (for email features) or other email service
+- **Node.js** v16 or higher ([Download](https://nodejs.org/))
+- **MongoDB Atlas** account (free tier available) ([Sign up](https://www.mongodb.com/cloud/atlas))
+- **Git** ([Download](https://git-scm.com/))
+- **Gmail account** (for email features) or alternative email service
 
 ### Step 1: Clone Repository
 
@@ -185,23 +269,34 @@ cd server
 
 # Install dependencies
 npm install
+```
 
-# Packages installed:
-# express, mongoose, bcryptjs, jsonwebtoken, dotenv, cors, nodemailer, pdfkit
+**Packages installed:**
+- express, mongoose, bcryptjs, jsonwebtoken, dotenv, cors
+- nodemailer (email), pdfkit (PDF generation)
+
+**Update package.json scripts:**
+```json
+"scripts": {
+  "start": "node server.js",
+  "dev": "nodemon server.js"
+}
 ```
 
 ### Step 3: Frontend Setup
 
 ```bash
-# Navigate to client folder
+# Navigate to client folder (from root)
 cd ../client
 
 # Install dependencies
 npm install
-
-# Packages installed:
-# react, react-router-dom, axios, recharts, lucide-react, tailwindcss
 ```
+
+**Packages installed:**
+- react, react-router-dom, axios
+- recharts (charts), lucide-react (icons)
+- tailwindcss (styling)
 
 ---
 
@@ -209,54 +304,79 @@ npm install
 
 ### Backend Environment Variables
 
-Create `server/.env`:
+Create `server/.env` file:
 
 ```env
 # Server Configuration
 PORT=5000
 NODE_ENV=development
 
-# Database
+# MongoDB Configuration
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/national-accounts?retryWrites=true&w=majority
 
-# JWT Secret (generate a strong random string)
-JWT_SECRET=your_super_secret_jwt_key_min_32_characters_long
+# JWT Configuration (use strong random string, min 32 characters)
+JWT_SECRET=your_super_secret_jwt_key_at_least_32_characters_long_change_this
 
 # Email Configuration (Gmail Example)
 EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-16-char-app-password
+EMAIL_PASS=your-16-character-app-password
 ADMIN_EMAIL=admin@nationalaccounts.gov.in
 ```
 
 ### Frontend Environment Variables
 
-Create `client/.env`:
+Create `client/.env` file:
 
 ```env
-# API URL
+# API Base URL
 VITE_API_URL=http://localhost:5000/api
 ```
 
-### MongoDB Atlas Setup
+### MongoDB Atlas Setup (Free Tier)
 
-1. **Create Account**: Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-2. **Create Cluster**: Free tier (M0 Sandbox)
-3. **Database Access**: Create user with password
-4. **Network Access**: Add IP `0.0.0.0/0` (allow from anywhere) or your specific IP
-5. **Connect**: Get connection string and add to `MONGODB_URI`
+1. **Create Account**: 
+   - Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+   - Sign up for free account
+
+2. **Create Cluster**:
+   - Choose FREE tier (M0 Sandbox)
+   - Select region (preferably closest to you)
+   - Name your cluster
+
+3. **Database Access**:
+   - Create database user with username and password
+   - Note down credentials
+
+4. **Network Access**:
+   - Add IP Address: `0.0.0.0/0` (allow from anywhere)
+   - Or add your specific IP address
+
+5. **Connect**:
+   - Click "Connect" on your cluster
+   - Choose "Connect your application"
+   - Copy connection string
+   - Replace `<username>`, `<password>`, and database name
+   - Paste in `MONGODB_URI` in `.env`
 
 ### Gmail Setup for Email Features
 
 1. **Enable 2-Factor Authentication**:
-   - Google Account → Security → 2-Step Verification
+   - Go to Google Account → Security
+   - Enable 2-Step Verification
 
 2. **Generate App Password**:
    - Security → 2-Step Verification → App passwords
    - Select "Mail" and "Other (Custom name)"
-   - Copy 16-character password
-   - Use in `EMAIL_PASS`
+   - Enter "National Accounts Dashboard"
+   - Copy the 16-character password
+   - Use this in `EMAIL_PASS` in `.env`
 
-**Important**: Never use your actual Gmail password. Always use App Passwords.
+**⚠️ Important**: Never use your actual Gmail password. Always use App Passwords.
+
+**Alternative Email Services**:
+- **SendGrid**: Professional email service with free tier
+- **Mailgun**: Reliable email API
+- **AWS SES**: Amazon's email service
 
 ---
 
@@ -264,19 +384,30 @@ VITE_API_URL=http://localhost:5000/api
 
 ### Development Mode
 
+Open two terminal windows:
+
 **Terminal 1 - Backend:**
 ```bash
 cd server
 npm run dev
-# Server runs on http://localhost:5000
+
+# Output:
+# Server running on port 5000
+# MongoDB Connected: cluster0.xxxxx.mongodb.net
 ```
 
 **Terminal 2 - Frontend:**
 ```bash
 cd client
 npm run dev
-# App runs on http://localhost:3000
+
+# Output:
+# VITE ready in 500 ms
+# ➜ Local: http://localhost:3000
+# ➜ Network: use --host to expose
 ```
+
+**Access the application**: Open browser and go to `http://localhost:3000`
 
 ### Production Build
 
@@ -284,14 +415,14 @@ npm run dev
 ```bash
 cd client
 npm run build
-# Creates optimized build in dist/
+# Creates optimized build in dist/ folder
 ```
 
 **Backend:**
 ```bash
 cd server
 npm start
-# Runs with node (not nodemon)
+# Runs with node (production mode)
 ```
 
 ---
@@ -301,53 +432,57 @@ npm start
 ### Base URL
 ```
 Development: http://localhost:5000/api
-Production: https://your-backend.com/api
+Production: https://your-backend-domain.com/api
 ```
 
 ### Authentication Endpoints
 
-#### 1. Sign Up
+#### 1. User Registration
 ```http
 POST /api/auth/signup
 Content-Type: application/json
 
+Request Body:
 {
   "name": "John Doe",
   "email": "john@example.com",
   "phone": "+91 1234567890",
   "organization": "Tech Corp",
-  "password": "password123"
+  "password": "securepass123"
 }
 
-Response: {
-  "_id": "...",
+Response (201 Created):
+{
+  "_id": "64abc123def456...",
   "name": "John Doe",
   "email": "john@example.com",
   "phone": "+91 1234567890",
   "organization": "Tech Corp",
   "role": "user",
-  "token": "jwt_token_here"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
 
-#### 2. Login
+#### 2. User Login
 ```http
 POST /api/auth/login
 Content-Type: application/json
 
+Request Body:
 {
   "email": "john@example.com",
-  "password": "password123"
+  "password": "securepass123"
 }
 
-Response: {
-  "_id": "...",
+Response (200 OK):
+{
+  "_id": "64abc123def456...",
   "name": "John Doe",
   "email": "john@example.com",
   "phone": "+91 1234567890",
   "organization": "Tech Corp",
   "role": "user",
-  "token": "jwt_token_here"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
 
@@ -356,14 +491,18 @@ Response: {
 GET /api/auth/me
 Authorization: Bearer {token}
 
-Response: {
-  "_id": "...",
+Response (200 OK):
+{
+  "_id": "64abc123def456...",
   "name": "John Doe",
   "email": "john@example.com",
   "phone": "+91 1234567890",
   "organization": "Tech Corp",
   "role": "user",
-  "preferences": { ... }
+  "preferences": {
+    "notifications": { ... },
+    "appearance": { ... }
+  }
 }
 ```
 
@@ -375,20 +514,23 @@ PUT /api/user/profile
 Authorization: Bearer {token}
 Content-Type: application/json
 
+Request Body:
 {
   "name": "Jane Doe",
   "email": "jane@example.com",
   "phone": "+91 9876543210",
-  "organization": "New Corp"
+  "organization": "New Company"
 }
 
-Response: {
-  "_id": "...",
+Response (200 OK):
+{
+  "_id": "64abc123def456...",
   "name": "Jane Doe",
   "email": "jane@example.com",
   "phone": "+91 9876543210",
-  "organization": "New Corp",
-  "role": "user"
+  "organization": "New Company",
+  "role": "user",
+  "preferences": { ... }
 }
 ```
 
@@ -398,12 +540,14 @@ PUT /api/user/password
 Authorization: Bearer {token}
 Content-Type: application/json
 
+Request Body:
 {
   "currentPassword": "oldpass123",
-  "newPassword": "newpass123"
+  "newPassword": "newpass456"
 }
 
-Response: {
+Response (200 OK):
+{
   "message": "Password changed successfully"
 }
 ```
@@ -414,6 +558,7 @@ PUT /api/user/preferences
 Authorization: Bearer {token}
 Content-Type: application/json
 
+Request Body:
 {
   "notifications": {
     "emailNotifications": true,
@@ -422,13 +567,12 @@ Content-Type: application/json
     "dataUpdates": true
   },
   "appearance": {
-    "darkMode": true,
-    "language": "en",
-    "timezone": "Asia/Kolkata"
+    "darkMode": true
   }
 }
 
-Response: {
+Response (200 OK):
+{
   "message": "Preferences updated successfully",
   "preferences": { ... }
 }
@@ -441,214 +585,268 @@ Response: {
 POST /api/contact
 Content-Type: application/json
 
+Request Body:
 {
   "name": "John Doe",
   "email": "john@example.com",
-  "subject": "Inquiry",
-  "message": "I need help with..."
+  "subject": "Data inquiry",
+  "message": "I would like to know more about..."
 }
 
-Response: {
+Response (200 OK):
+{
   "message": "Message sent successfully"
 }
 ```
 
 ### Reports Endpoint
 
-#### 8. Download Report
+#### 8. Download PDF Report
 ```http
 GET /api/reports/download/{reportId}
 Authorization: Bearer {token}
 
-Response: PDF file download
+Response: PDF file (application/pdf)
+Content-Disposition: attachment; filename="Annual_GDP_Report_2024.pdf"
 ```
 
 ---
 
-## 📖 Features Guide
+## 🗺️ Dashboard Pages
 
-### 1. User Registration
+### 1. Overview Dashboard (`/dashboard`)
+**8 Key Metric Cards:**
+- GDP at Current Prices
+- GDP Growth Rate
+- Inflation (CPI)
+- Fiscal Deficit
+- Per Capita Income
+- Unemployment Rate
+- Forex Reserves
+- Merchandise Exports
 
-**Steps:**
-1. Go to `/signup`
-2. Fill all 6 required fields:
-   - Full Name
-   - Email Address
-   - Phone Number
-   - Organization
-   - Password (min 6 characters)
-   - Confirm Password
-3. Click "Sign Up"
-4. Automatically logged in and redirected to dashboard
+**4 Interactive Charts:**
+- Real GDP at Constant Prices (Area)
+- GDP Growth Rate (Line)
+- CPI Inflation Rate (Line)
+- Fiscal Deficit (Area)
 
-**Validation:**
-- All fields required
-- Email format validation
-- Email uniqueness check
-- Password minimum 6 characters
-- Passwords must match
+**Recent Updates Feed**: Latest 5 economic updates
 
-### 2. User Login
-
-**Steps:**
-1. Go to `/login`
-2. Enter email and password
-3. Click "Sign In"
-4. Redirected to dashboard
-
-### 3. Dashboard Navigation
-
-**Sidebar Menu:**
-- **Overview**: Main dashboard with key metrics and charts
-- **GDP Analysis**: Detailed GDP trends and sectoral data
-- **Fiscal Data**: Government budget and deficit information
-- **Reports**: Downloadable PDF reports with filters
-- **Settings**: User preferences and account management
-
-### 4. Profile Management
-
-**Accessing Settings:**
-1. Click sidebar → Settings
-2. Go to "Profile" tab
-
-**Updating Profile:**
-1. Modify any field (name, email, phone, organization)
-2. Click "Save Changes"
-3. Success message appears
-4. Navbar updates immediately
-5. Changes persist across all pages
-
-### 5. Password Change
-
-**Steps:**
-1. Settings → Security tab
-2. Enter current password
-3. Enter new password (min 6 characters)
-4. Confirm new password
-5. Click "Update Password"
-6. Success message confirms change
-
-**Security:**
-- Current password verified before update
-- Password encrypted with bcrypt
-- New password must be different
-- Minimum 6 characters enforced
-
-### 6. Dark Mode
-
-**Enabling Dark Mode:**
-1. Settings → Appearance tab
-2. Toggle "Dark Mode" switch
-3. Entire app switches to dark theme
-4. Preference saved to database and localStorage
-5. Persists across sessions
-
+### 2. GDP Analysis (`/dashboard/gdp`)
 **Features:**
-- All pages support dark mode
-- Charts readable in both modes
-- Smooth transition animations
-- Works on all devices
+- 3 Sectoral contribution cards
+- GDP value trends (Lakh Crore Rs.)
+- Year-on-year growth rates
+- Historical data from FY 2018-19 to 2023-24
 
-### 7. Notification Preferences
+**Data Breakdown:**
+- Agriculture & Allied: 18.2% of GVA
+- Industry: 25.9% of GVA
+- Services: 55.9% of GVA
 
-**Configuring Notifications:**
-1. Settings → Notifications tab
-2. Toggle any of 4 options:
-   - Email Notifications
-   - Push Notifications
-   - Weekly Reports
-   - Data Updates
-3. Changes save automatically
-4. Success message confirms save
+### 3. Fiscal Data (`/dashboard/fiscal`)
+**Features:**
+- 4 Fiscal indicator cards
+- Fiscal deficit trend chart
+- Key highlights and insights
 
-### 8. Downloading Reports
+**Metrics:**
+- Fiscal Deficit: 5.9% of GDP
+- Revenue Deficit: 2.8% of GDP
+- Primary Deficit: 1.7% of GDP
+- Total Debt: 81.5% of GDP
 
-**Steps:**
-1. Dashboard → Reports (sidebar)
-2. Use filters:
-   - Report Type (GDP, Inflation, etc.)
-   - Time Period (Yearly, Quarterly, Monthly)
-3. Click "Download PDF" on any report
-4. PDF generates and downloads automatically
+### 4. Trade & Balance of Payments (`/dashboard/trade`)
+**Features:**
+- 4 Trade metric cards
+- Exports/Imports bar chart
+- Export composition pie chart
+- Import composition pie chart
+- Key trade insights
 
-**PDF Contents:**
-- Professional header with logo
-- Report title and metadata
-- Executive summary
-- Key metrics and data
-- Sectoral breakdown (if applicable)
-- Footer with organization info
+**Data:**
+- Exports: $437 Billion
+- Imports: $677 Billion
+- Trade Deficit: $240 Billion
+- Current Account Deficit: $36 Billion (1.2% of GDP)
 
-### 9. Contact Form
+### 5. State-wise GDP (`/dashboard/states`)
+**Features:**
+- Top 10 states horizontal bar chart
+- State GDP contribution table
+- Per capita income ranking table
+- State economic insights
 
-**Sending Message:**
-1. Click "Contact" in navbar
-2. Fill form:
-   - Full Name
-   - Email Address
-   - Subject
-   - Message
-3. Click "Send Message"
-4. Success notification appears
-5. Admin receives email
-6. User receives confirmation email
+**Top States:**
+- Maharashtra leads with 13.3% share
+- Top 10 states contribute 63% of GDP
+- Per capita leaders: Goa, Delhi, Sikkim
+
+### 6. Employment Statistics (`/dashboard/employment`)
+**Features:**
+- 4 Employment metric cards
+- Unemployment trend chart
+- Labor force growth chart
+- Employment statistics table
+- Sectoral employment insights
+
+**Data:**
+- Labor Force: 52.4 Crore
+- Employed: 49.2 Crore
+- Unemployment Rate: 6.1%
+- LFPR: 46.8%
+
+### 7. Reports (`/dashboard/reports`)
+**Features:**
+- Filter by report type
+- Filter by time period
+- 6 downloadable PDF reports
+- Report metadata display
+- Statistics summary
+
+**Available Reports:**
+- Annual GDP Report 2024
+- Q4 Inflation Analysis
+- Fiscal Budget Report FY2024
+- Trade Balance Report
+- Employment Statistics 2024
+- Sectoral Growth Analysis
+
+### 8. Settings (`/dashboard/settings`)
+**4 Tabs:**
+
+**Profile Tab:**
+- Update name, email, phone, organization
+- Real-time validation
+- Success notifications
+
+**Security Tab:**
+- Change password
+- Current password verification
+- Two-factor authentication (placeholder)
+
+**Notifications Tab:**
+- Email Notifications toggle
+- Push Notifications toggle
+- Weekly Reports toggle
+- Data Updates toggle
+
+**Appearance Tab:**
+- Dark Mode toggle
+- Theme persistence
+
+### 9. Contact (`/contact`)
+**Features:**
+- Contact form with validation
+- 4 Contact info cards
+- FAQ section
+- Map placeholder
+- Email sending integration
+
+---
+
+## 📚 Data Sources
+
+All data is compiled from official Government of India sources:
+
+### Primary Sources
+
+1. **Ministry of Statistics and Programme Implementation (MoSPI)**
+   - Website: [mospi.gov.in](https://mospi.gov.in)
+   - Data: National Accounts Statistics, GDP, Sectoral data
+   - Frequency: Quarterly and Annual
+
+2. **Reserve Bank of India (RBI)**
+   - Website: [rbi.org.in](https://rbi.org.in)
+   - Data: Monetary policy, Forex reserves, Banking data, BoP
+   - Frequency: Monthly and Quarterly
+
+3. **Department of Economic Affairs (DEA)**
+   - Website: [dea.gov.in](https://dea.gov.in)
+   - Data: Budget documents, Fiscal deficit, Government finances
+   - Frequency: Annual and Monthly
+
+4. **Directorate General of Commercial Intelligence and Statistics**
+   - Website: [commerce.gov.in](https://commerce.gov.in)
+   - Data: Trade statistics, Export-Import data
+   - Frequency: Monthly
+
+5. **Labour Bureau, Ministry of Labour**
+   - Website: [labour.gov.in](https://labour.gov.in)
+   - Data: Employment statistics, Labor force surveys
+   - Frequency: Quarterly
+
+### Data Accuracy & Disclaimer
+
+**All data in this dashboard:**
+- ✅ Sourced from official Government of India publications
+- ✅ Publicly available information
+- ✅ Updated as of FY 2023-24 (latest available)
+- ✅ Suitable for educational, research, and analytical purposes
+
+**For official use:**
+- Always refer to original government sources
+- Check for latest revisions and provisional estimates
+- Verify data before making financial or policy decisions
+- Note that some data may be provisional and subject to revision
 
 ---
 
 ## 🌐 Deployment
 
-### Backend Deployment (Railway/Render)
+### Backend Deployment
 
-#### Using Railway
+#### Option 1: Railway (Recommended)
 
-1. **Setup:**
+1. **Install Railway CLI**:
 ```bash
-# Install Railway CLI
-npm i -g @railway/cli
-
-# Login
-railway login
-
-# Initialize
-cd server
-railway init
+npm install -g @railway/cli
 ```
 
-2. **Configure:**
-   - Add environment variables in Railway dashboard
-   - Connect MongoDB Atlas
-   - Deploy automatically from GitHub
+2. **Login and Deploy**:
+```bash
+cd server
+railway login
+railway init
+railway up
+```
 
-3. **Environment Variables:**
+3. **Set Environment Variables** in Railway Dashboard:
 ```env
 PORT=5000
 MONGODB_URI=your_production_mongodb_uri
-JWT_SECRET=your_strong_production_secret
-EMAIL_USER=production_email@gmail.com
-EMAIL_PASS=production_app_password
+JWT_SECRET=your_production_jwt_secret
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_app_password
 ADMIN_EMAIL=admin@domain.com
 NODE_ENV=production
 ```
 
-#### Using Render
+4. **Get Deployment URL**: Railway provides automatic URL
+
+#### Option 2: Render
 
 1. Go to [Render.com](https://render.com)
-2. New Web Service
+2. Create New Web Service
 3. Connect GitHub repository
-4. Settings:
+4. Configure:
+   - **Name**: national-accounts-api
    - **Root Directory**: `server`
+   - **Environment**: Node
    - **Build Command**: `npm install`
    - **Start Command**: `npm start`
-5. Add environment variables
+5. Add environment variables (same as above)
 6. Deploy
 
-### Frontend Deployment (Vercel)
+### Frontend Deployment
 
-#### Using Vercel CLI
+#### Vercel (Recommended)
 
+**Method 1: Vercel CLI**
 ```bash
 # Install Vercel CLI
-npm i -g vercel
+npm install -g vercel
 
 # Login
 vercel login
@@ -658,32 +856,153 @@ cd client
 vercel
 ```
 
-#### Using Vercel Dashboard
+**Method 2: Vercel Dashboard**
 
 1. Go to [Vercel.com](https://vercel.com)
-2. Import GitHub repository
-3. Framework: **Vite**
-4. Root Directory: `client`
-5. Environment Variable:
-```env
-VITE_API_URL=https://your-backend.railway.app/api
-```
-6. Deploy
+2. Import Git Repository
+3. Configure:
+   - **Framework Preset**: Vite
+   - **Root Directory**: `client`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+4. Add Environment Variable:
+   ```env
+   VITE_API_URL=https://your-backend-url.railway.app/api
+   ```
+5. Deploy
 
 ### Post-Deployment Checklist
 
-- [ ] Test signup and login
-- [ ] Verify profile updates work
-- [ ] Test password change
-- [ ] Check dark mode works
+- [ ] Backend deployed and accessible
+- [ ] Frontend deployed and accessible
+- [ ] Environment variables configured correctly
+- [ ] MongoDB connection working
+- [ ] Email sending functional
+- [ ] CORS configured for production URLs
+- [ ] HTTPS enabled on both frontend and backend
+- [ ] Test all API endpoints
+- [ ] Test authentication flow
 - [ ] Test PDF downloads
-- [ ] Verify email sending works
-- [ ] Test all dashboard pages
-- [ ] Check mobile responsiveness
-- [ ] Verify HTTPS is enabled
-- [ ] Test CORS configuration
+- [ ] Test contact form emails
+- [ ] Test dark mode
+- [ ] Verify all dashboard pages load
+- [ ] Test mobile responsiveness
 
 ---
+
+## 🐛 Troubleshooting
+
+### Common Issues & Solutions
+
+#### 1. MongoDB Connection Failed
+
+**Symptoms:**
+```
+MongooseServerSelectionError: connect ETIMEDOUT
+```
+
+**Solutions:**
+- ✅ Verify `MONGODB_URI` is correct in `.env`
+- ✅ Check Network Access in MongoDB Atlas (whitelist `0.0.0.0/0`)
+- ✅ Ensure database user credentials are correct
+- ✅ Verify cluster is running (not paused)
+- ✅ Check if VPN/firewall is blocking connection
+
+#### 2. JWT Token Errors
+
+**Symptoms:**
+```
+JsonWebTokenError: invalid signature
+Not authorized, token failed
+```
+
+**Solutions:**
+- ✅ Ensure `JWT_SECRET` is same in `.env` across restarts
+- ✅ Check token is being sent in Authorization header
+- ✅ Verify token format: `Bearer <token>`
+- ✅ Token may have expired (default 30 days)
+- ✅ Clear localStorage and login again
+
+#### 3. Email Not Sending
+
+**Symptoms:**
+- Contact form submits but no email received
+- Error in server console
+
+**Solutions:**
+- ✅ Verify Gmail 2FA is enabled
+- ✅ Use App Password, not regular Gmail password
+- ✅ Check `EMAIL_USER` and `EMAIL_PASS` are correct in `.env`
+- ✅ Ensure less secure app access is NOT needed (use App Passwords instead)
+- ✅ Try alternative email service (SendGrid, Mailgun)
+- ✅ Check Gmail inbox and spam folder
+
+#### 4. PDF Download Not Working
+
+**Symptoms:**
+- Click download but nothing happens
+- Error in browser console
+
+**Solutions:**
+- ✅ Verify PDFKit is installed: `npm list pdfkit`
+- ✅ Check backend route is accessible
+- ✅ Disable browser popup blocker
+- ✅ Check server console for PDF generation errors
+- ✅ Ensure user is authenticated (valid token)
+- ✅ Try different browser
+
+#### 5. Dark Mode Not Persisting
+
+**Symptoms:**
+- Dark mode resets on page refresh
+
+**Solutions:**
+- ✅ Check `tailwind.config.js` has `darkMode: 'class'`
+- ✅ Verify ThemeProvider wraps entire App
+- ✅ Check localStorage has 'darkMode' key
+- ✅ Clear browser cache and try again
+- ✅ Ensure ThemeContext is properly initialized
+
+#### 6. Profile Updates Not Working
+
+**Symptoms:**
+- Changes don't save or show in UI
+- Navbar doesn't update
+
+**Solutions:**
+- ✅ Verify backend is running on correct port
+- ✅ Check JWT token is valid (not expired)
+- ✅ Look at Network tab for API errors
+- ✅ Ensure `updateUser` function is called in Settings
+- ✅ Verify AuthContext provides updateUser
+- ✅ Check MongoDB connection is active
+
+#### 7. CORS Errors
+
+**Symptoms:**
+```
+Access to XMLHttpRequest blocked by CORS policy
+```
+
+**Solutions:**
+- ✅ Verify `cors()` middleware is used in `server.js`
+- ✅ Check frontend `VITE_API_URL` matches backend URL
+- ✅ In production, configure CORS with specific origins:
+```javascript
+app.use(cors({
+  origin: ['https://your-frontend.vercel.app'],
+  credentials: true
+}));
+```
+
+#### 8. Charts Not Rendering
+
+**Symptoms:**
+- Empty space where charts should be
+- Console errors about Recharts
+
+**Solutions:**
+- ✅ Ensure Recharts is installed: `
 
 ## 🐛 Troubleshooting
 
