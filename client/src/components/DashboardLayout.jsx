@@ -32,16 +32,19 @@ const DashboardLayout = ({ children }) => {
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar (collapsed icons by default, expands on hover) */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out ${
+        className={`group fixed lg:static inset-y-0 left-0 z-50 w-20 lg:w-20 ${sidebarOpen ? 'w-64' : ''} lg:hover:w-64 bg-white/6 dark:bg-gray-900/30 backdrop-blur-md border-r border-gray-200/10 dark:border-gray-700/20 shadow-lg transform transition-all duration-300 ease-in-out overflow-hidden ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
           <div className="flex items-center justify-between p-6 border-b">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-white">Dashboard</h2>
+            <h2 className="flex items-center space-x-3">
+              <LayoutDashboard className="h-6 w-6 text-blue-600 flex-shrink-0" />
+              <span className="hidden lg:inline-block lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-200 text-xl font-bold text-gray-800 dark:text-white whitespace-nowrap overflow-hidden">Dashboard</span>
+            </h2>
             <button
               onClick={() => setSidebarOpen(false)}
               className="lg:hidden text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white"
@@ -58,23 +61,23 @@ const DashboardLayout = ({ children }) => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                  className={`group flex items-center lg:space-x-3 px-4 py-3 rounded-lg transition-colors justify-center lg:justify-start ${
                     isActive
-                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold pl-3 border-l-4 border-blue-600 lg:pl-4'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  {item.icon}
-                  <span>{item.name}</span>
+                  <div className="flex-shrink-0">{item.icon}</div>
+                  <span className="hidden lg:inline-block lg:opacity-0 lg:group-hover:opacity-100 transform lg:translate-x-0 transition-all duration-200 whitespace-nowrap overflow-hidden">{item.name}</span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* Sidebar Footer */}
-          <div className="p-4 border-t">
-            <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4">
+          {/* Sidebar Footer (hidden when collapsed, reveals on hover) */}
+          <div className="p-4 border-t lg:opacity-0 lg:group-hover:opacity-100 lg:max-h-0 lg:group-hover:max-h-40 overflow-hidden transition-all duration-300 pointer-events-none lg:group-hover:pointer-events-auto">
+            <div className="bg-blue-50 dark:bg-blue-900/10 rounded-lg p-4 border border-blue-200/10">
               <p className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-1">
                 Need Help?
               </p>
@@ -87,9 +90,9 @@ const DashboardLayout = ({ children }) => {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden pt-20 lg:pt-8">
         {/* Mobile Header */}
-        <header className="lg:hidden bg-white dark:bg-gray-800 shadow-sm px-4 py-3 flex items-center">
+        <header className="lg:hidden bg-white/6 dark:bg-gray-900/30 backdrop-blur-sm border-b border-gray-200/8 dark:border-gray-700/16 shadow-sm px-4 py-3 flex items-center">
           <button
             onClick={() => setSidebarOpen(true)}
             className="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white"

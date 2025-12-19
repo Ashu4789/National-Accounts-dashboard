@@ -152,7 +152,7 @@ const Settings = () => {
     <DashboardLayout>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Settings</h1>
-        <p className="text-gray-600 dark:text-gray-400 mt-2">
+        <p className="text-gray-700 dark:text-gray-400 mt-2">
           Manage your account settings and preferences
         </p>
       </div>
@@ -172,7 +172,7 @@ const Settings = () => {
       <div className="grid lg:grid-cols-4 gap-6">
         {/* Sidebar Tabs */}
         <div className="lg:col-span-1">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 space-y-2">
+          <div className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-md p-4 space-y-2">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -192,7 +192,7 @@ const Settings = () => {
 
         {/* Content Area */}
         <div className="lg:col-span-3">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+          <div className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-md p-6">
             {/* Profile Tab */}
             {activeTab === 'profile' && (
               <div>
@@ -327,7 +327,7 @@ const Settings = () => {
                     <div key={item.key} className="flex items-center justify-between py-4 border-b dark:border-gray-700">
                       <div>
                         <p className="font-semibold text-gray-900 dark:text-white">{item.label}</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{item.desc}</p>
+                        <p className="text-sm text-gray-700 dark:text-gray-400">{item.desc}</p>
                       </div>
                       <button
                         onClick={() => handleNotificationToggle(item.key)}
@@ -389,7 +389,7 @@ const Settings = () => {
                         <Moon className="h-4 w-4 mr-2" />
                         Dark Mode
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Switch between light and dark theme</p>
+                      <p className="text-sm text-gray-700 dark:text-gray-400">Switch between light and dark theme</p>
                     </div>
                     <button
                       onClick={handleDarkModeToggle}

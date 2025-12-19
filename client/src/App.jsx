@@ -6,7 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/dashboard';
 import GDPAnalysis from './pages/GDPAnalysis';
 import FiscalData from './pages/FiscalData';
 import Reports from './pages/Reports';

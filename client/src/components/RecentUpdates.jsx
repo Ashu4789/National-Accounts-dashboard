@@ -66,7 +66,7 @@ const RecentUpdates = ({ updates }) => {
                 <p className="text-sm font-semibold text-gray-900 mb-1">
                   {update.title}
                 </p>
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
                   {update.description}
                 </p>
                 <div className="flex items-center space-x-4">
@@ -75,7 +75,7 @@ const RecentUpdates = ({ updates }) => {
                     {formatTime(update.timestamp)}
                   </span>
                   {update.category && (
-                    <span className="text-xs bg-white dark:bg-gray-700 px-2 py-1 rounded-full text-gray-600 dark:text-gray-200">
+                    <span className="text-xs bg-white/70 dark:bg-gray-800/60 px-2 py-1 rounded-full text-gray-700 dark:text-gray-100">
                       {update.category}
                     </span>
                   )}

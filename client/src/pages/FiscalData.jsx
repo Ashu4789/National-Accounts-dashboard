@@ -9,7 +9,7 @@ const FiscalData = () => {
     <DashboardLayout>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Fiscal Data</h1>
-        <p className="text-gray-600 mt-2">
+        <p className="text-gray-700 mt-2">
           Government fiscal metrics and budget analysis
         </p>
       </div>
@@ -65,7 +65,7 @@ const FiscalData = () => {
       </div>
 
       {/* Additional Info Card */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+      <div className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-md p-6">
         <h3 className="text-lg font-bold text-gray-900 mb-4">Key Highlights</h3>
         <ul className="space-y-3">
           <li className="flex items-start space-x-3">

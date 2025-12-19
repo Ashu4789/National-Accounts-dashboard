@@ -97,13 +97,13 @@ const Reports = () => {
     <DashboardLayout>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Reports</h1>
-        <p className="text-gray-600 mt-2">
+        <p className="text-gray-700 mt-2">
           Download and view detailed economic reports and analysis
         </p>
       </div>
 
       {/* Filters */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-6">
+      <div className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-md p-6 mb-6">
         <div className="grid md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -113,7 +113,7 @@ const Reports = () => {
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400/70 focus:border-transparent bg-white/5 dark:bg-gray-800/40"
             >
               <option value="all">All Reports</option>
               <option value="GDP">GDP</option>
@@ -132,7 +132,7 @@ const Reports = () => {
             <select
               value={selectedPeriod}
               onChange={(e) => setSelectedPeriod(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400/70 focus:border-transparent bg-white/5 dark:bg-gray-800/40"
             >
               <option value="yearly">Yearly</option>
               <option value="quarterly">Quarterly</option>
@@ -141,7 +141,7 @@ const Reports = () => {
           </div>
 
           <div className="flex items-end">
-            <button className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-semibold">
+            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition-shadow shadow-md font-semibold">
               Apply Filters
             </button>
           </div>
@@ -153,13 +153,13 @@ const Reports = () => {
         {filteredReports.map((report) => (
           <div
             key={report.id}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
+            className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
           >
             <div className="flex items-start justify-between mb-4">
               <div className={`${report.color} p-3 rounded-lg`}>
                 {report.icon}
               </div>
-              <span className="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-600">
+              <span className="text-xs bg-white/70 dark:bg-gray-800/60 px-2 py-1 rounded-full text-gray-700 dark:text-gray-100">
                 {report.type}
               </span>
             </div>
@@ -167,7 +167,7 @@ const Reports = () => {
             <h3 className="text-lg font-bold text-gray-900 mb-2">
               {report.title}
             </h3>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-700 mb-4">
               {report.description}
             </p>
 
@@ -181,7 +181,7 @@ const Reports = () => {
 
             <button
               onClick={() => handleDownload(report)}
-              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center space-x-2"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full transition-shadow flex items-center justify-center space-x-2 shadow-sm"
             >
               <Download className="h-4 w-4" />
               <span>Download PDF</span>
@@ -191,24 +191,24 @@ const Reports = () => {
       </div>
 
       {/* Stats Summary */}
-      <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+      <div className="mt-8 bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-md p-6">
         <h3 className="text-lg font-bold text-gray-900 mb-4">Report Statistics</h3>
         <div className="grid md:grid-cols-4 gap-6">
           <div className="text-center">
             <p className="text-3xl font-bold text-blue-600">{reports.length}</p>
-            <p className="text-sm text-gray-600 mt-1">Total Reports</p>
+            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">Total Reports</p>
           </div>
           <div className="text-center">
             <p className="text-3xl font-bold text-green-600">24</p>
-            <p className="text-sm text-gray-600 mt-1">This Year</p>
+            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">This Year</p>
           </div>
           <div className="text-center">
             <p className="text-3xl font-bold text-purple-600">6</p>
-            <p className="text-sm text-gray-600 mt-1">This Quarter</p>
+            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">This Quarter</p>
           </div>
           <div className="text-center">
             <p className="text-3xl font-bold text-orange-600">15.2 MB</p>
-            <p className="text-sm text-gray-600 mt-1">Total Size</p>
+            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">Total Size</p>
           </div>
         </div>
       </div>
