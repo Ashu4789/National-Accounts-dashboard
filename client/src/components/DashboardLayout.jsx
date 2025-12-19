@@ -7,7 +7,10 @@ import {
   FileText, 
   Settings,
   Menu,
-  X
+  X,
+  Package,
+  MapPin,
+  Users
 } from 'lucide-react';
 
 const DashboardLayout = ({ children }) => {
@@ -18,6 +21,9 @@ const DashboardLayout = ({ children }) => {
     { name: 'Overview', icon: <LayoutDashboard className="h-5 w-5" />, path: '/dashboard' },
     { name: 'GDP Analysis', icon: <TrendingUp className="h-5 w-5" />, path: '/dashboard/gdp' },
     { name: 'Fiscal Data', icon: <DollarSign className="h-5 w-5" />, path: '/dashboard/fiscal' },
+    { name: 'Trade & BoP', icon: <Package className="h-5 w-5" />, path: '/dashboard/trade' },
+    { name: 'State GDP', icon: <MapPin className="h-5 w-5" />, path: '/dashboard/states' },
+    { name: 'Employment', icon: <Users className="h-5 w-5" />, path: '/dashboard/employment' },
     { name: 'Reports', icon: <FileText className="h-5 w-5" />, path: '/dashboard/reports' },
     { name: 'Settings', icon: <Settings className="h-5 w-5" />, path: '/dashboard/settings' }
   ];

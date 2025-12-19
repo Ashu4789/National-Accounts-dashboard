@@ -9,10 +9,12 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/dashboard';
 import GDPAnalysis from './pages/GDPAnalysis';
 import FiscalData from './pages/FiscalData';
+import TradeData from './pages/TradeData';
+import StateGDP from './pages/StateGDP';
+import Employment from './pages/Employment';
 import Reports from './pages/Reports';
 import Settings from './pages/Settings';
 import ContactUs from './pages/ContactUs';
-
 function App() {
   return (
     <Router>
@@ -49,6 +51,30 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <FiscalData />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/dashboard/trade"
+                element={
+                  <ProtectedRoute>
+                    <TradeData />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/dashboard/states"
+                element={
+                  <ProtectedRoute>
+                    <StateGDP />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/dashboard/employment"
+                element={
+                  <ProtectedRoute>
+                    <Employment />
                   </ProtectedRoute>
                 }
               />

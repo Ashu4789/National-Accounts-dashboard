@@ -3,8 +3,10 @@ import OverviewChart from '../components/OverviewChart';
 import StatsCard from '../components/StatsCard';
 import { TrendingUp, BarChart3, Activity } from 'lucide-react';
 import { gdpData, sectorWiseGDP } from '../data/dashboardData';
+import { realGDPData, detailedSectors } from '../data/realIndiaData';
 
 const GDPAnalysis = () => {
+  
   return (
     <DashboardLayout>
       <div className="mb-8">
