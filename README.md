@@ -1171,6 +1171,609 @@ git push origin feature/amazing-feature
 ```
 5. **Open Pull Request**
 
+# 🔐 Google OAuth & Email OTP Setup Guide
+
+## ✅ What's Been Added
+
+### 🎯 **New Features**
+
+1. **Google Sign-In Integration**
+   - One-click signup/login with Google
+   - Automatic profile creation from Google account
+   - Profile picture integration
+   - Email pre-verified for Google users
+
+2. **Email OTP Verification**
+   - 6-digit OTP sent to email
+   - OTP expires in 10 minutes
+   - Resend OTP functionality (60-second cooldown)
+   - Prevents dummy/fake email signups
+   - Beautiful HTML email templates
+
+3. **3-Step Signup Process**
+   - **Step 1**: Enter email → Send OTP
+   - **Step 2**: Verify OTP code
+   - **Step 3**: Complete profile (name, phone, org, password)
+
+4. **Profile Completion for Google Users**
+   - Google users need to add phone & organization
+   - Seamless profile completion flow
+   - Skip password (Google-authenticated)
+
+---
+
+## 📦 Installation
+
+### Backend Packages
+
+```bash
+cd server
+npm install passport passport-google-oauth20 express-session crypto
+```
+
+### Frontend Packages
+
+```bash
+cd client
+npm install @react-oauth/google jwt-decode
+```
+
+---
+
+## 🔧 Backend Setup
+
+### 1. Create New Files
+
+Create these files in your `server` folder:
+
+#### server/models/OTP.js
+```javascript
+// Copy from artifact: otp_model
+```
+
+#### server/controllers/otpController.js
+```javascript
+// Copy from artifact: otp_controller
+```
+
+#### server/controllers/googleAuthController.js
+```javascript
+// Copy from artifact: google_auth_controller
+```
+
+### 2. Update Existing Files
+
+#### server/models/User.js
+Add these fields to the user schema:
+```javascript
+googleId: {
+  type: String,
+  sparse: true,
+  unique: true
+},
+profilePicture: {
+  type: String
+},
+emailVerified: {
+  type: Boolean,
+  default: false
+}
+```
+
+Update password field:
+```javascript
+password: {
+  type: String,
+  required: function() {
+    return !this.googleId; // Password not required for Google users
+  },
+  minlength: 6,
+  select: false
+}
+```
+
+#### server/controllers/authController.js
+Update the signup function to check for verified OTP (see artifact)
+
+#### server/routes/auth.js
+Add new routes (see updated artifact)
+
+### 3. Update Environment Variables
+
+Add to `server/.env`:
+```env
+# Existing variables
+PORT=5000
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+NODE_ENV=development
+
+# Email Configuration (already exists)
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-16-char-app-password
+ADMIN_EMAIL=admin@domain.com
+
+# Google OAuth Configuration (NEW)
+GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+```
+
+---
+
+## 🌐 Google OAuth Setup (Get Client ID & Secret)
+
+### Step 1: Go to Google Cloud Console
+
+1. Visit [Google Cloud Console](https://console.cloud.google.com/)
+2. Sign in with your Google account
+
+### Step 2: Create New Project
+
+1. Click on project dropdown (top left)
+2. Click "New Project"
+3. Name: "National Accounts Dashboard"
+4. Click "Create"
+
+### Step 3: Enable Google+ API
+
+1. Go to "APIs & Services" → "Library"
+2. Search for "Google+ API"
+3. Click "Enable"
+
+### Step 4: Create OAuth Credentials
+
+1. Go to "APIs & Services" → "Credentials"
+2. Click "Create Credentials" → "OAuth client ID"
+3. If prompted, configure OAuth consent screen first:
+
+   **OAuth Consent Screen:**
+   - User Type: External
+   - App name: National Accounts Dashboard
+   - User support email: your-email@gmail.com
+   - Developer contact: your-email@gmail.com
+   - Scopes: Add email, profile, openid
+   - Test users: Add your email
+   - Save and continue
+
+4. **Create OAuth Client ID:**
+   - Application type: Web application
+   - Name: National Accounts Dashboard Web
+   - Authorized JavaScript origins:
+     ```
+     http://localhost:3000
+     https://your-domain.vercel.app (for production)
+     ```
+   - Authorized redirect URIs:
+     ```
+     http://localhost:3000
+     https://your-domain.vercel.app (for production)
+     ```
+   - Click "Create"
+
+5. **Copy Credentials:**
+   - Copy "Client ID"
+   - Copy "Client Secret"
+
+### Step 5: Add to Environment Variables
+
+**Backend** (`server/.env`):
+```env
+GOOGLE_CLIENT_ID=123456789-abcdefgh.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=GOCSPX-abc123def456
+```
+
+**Frontend** (`client/.env`):
+```env
+VITE_API_URL=http://localhost:5000/api
+VITE_GOOGLE_CLIENT_ID=123456789-abcdefgh.apps.googleusercontent.com
+```
+
+---
+
+## 📧 Gmail Setup (Already Done, But Here's Summary)
+
+### For OTP Email Sending:
+
+1. **Enable 2-Factor Authentication**
+   - Google Account → Security → 2-Step Verification
+
+2. **Generate App Password**
+   - Security → App passwords
+   - Select "Mail" and "Other"
+   - Copy 16-character password
+
+3. **Add to .env**
+   ```env
+   EMAIL_USER=your-email@gmail.com
+   EMAIL_PASS=abcd efgh ijkl mnop (16 chars)
+   ```
+
+---
+
+## 🗂️ File Structure (Updated)
+
+```
+server/
+├── models/
+│   ├── User.js (UPDATED - added googleId, profilePicture, emailVerified)
+│   └── OTP.js (NEW)
+├── controllers/
+│   ├── authController.js (UPDATED - signup now checks OTP)
+│   ├── otpController.js (NEW)
+│   └── googleAuthController.js (NEW)
+├── routes/
+│   └── auth.js (UPDATED - added OTP & Google routes)
+└── .env (UPDATED)
+
+client/
+├── src/
+│   ├── pages/
+│   │   ├── Signup.jsx (COMPLETELY REWRITTEN - 3-step process)
+│   │   ├── Login.jsx (UPDATED - added Google button)
+│   │   └── CompleteProfile.jsx (NEW)
+│   ├── services/
+│   │   └── api.js (UPDATED - added OTP & Google APIs)
+│   └── App.jsx (UPDATED - added /complete-profile route)
+└── .env (UPDATED)
+```
+
+---
+
+## 🧪 Testing the New Features
+
+### Test 1: Email OTP Signup
+
+1. **Start servers:**
+   ```bash
+   # Terminal 1
+   cd server && npm run dev
+   
+   # Terminal 2
+   cd client && npm run dev
+   ```
+
+2. **Go to signup page:** `http://localhost:3000/signup`
+
+3. **Step 1 - Enter Email:**
+   - Enter: test@example.com
+   - Click "Send OTP"
+   - ✅ Should see success message
+   - ✅ Check email for OTP
+
+4. **Step 2 - Verify OTP:**
+   - Enter 6-digit OTP from email
+   - Click "Verify OTP"
+   - ✅ Should proceed to step 3
+
+5. **Step 3 - Complete Profile:**
+   - Enter: Name, Phone, Organization, Password
+   - Click "Complete Registration"
+   - ✅ Should redirect to dashboard
+   - ✅ Should be logged in
+
+### Test 2: Google Sign-In (New User)
+
+1. **Go to signup page**
+
+2. **Click "Sign up with Google"**
+
+3. **Select Google account**
+   - ✅ Should redirect to complete-profile page
+
+4. **Complete profile:**
+   - Enter Phone & Organization
+   - Click "Complete Profile"
+   - ✅ Should redirect to dashboard
+   - ✅ Profile picture should show in navbar
+
+### Test 3: Google Sign-In (Existing User)
+
+1. **Logout**
+
+2. **Go to login page**
+
+3. **Click "Sign in with Google"**
+   - ✅ Should directly go to dashboard
+   - ✅ No profile completion needed
+
+### Test 4: OTP Features
+
+1. **Resend OTP:**
+   - Wait 60 seconds
+   - Click "Resend OTP"
+   - ✅ Should get new OTP in email
+   - ✅ Old OTP should be invalid
+
+2. **Expired OTP:**
+   - Wait 10+ minutes
+   - Try to verify old OTP
+   - ✅ Should show "OTP expired" error
+
+3. **Invalid OTP:**
+   - Enter wrong 6-digit code
+   - ✅ Should show "Invalid OTP" error
+
+---
+
+## 📱 User Flows
+
+### Flow 1: Regular Signup (Email + Password)
+
+```
+1. Enter email → Send OTP
+2. Check email → Copy OTP
+3. Enter OTP → Verify
+4. Enter name, phone, org, password
+5. Complete registration
+6. Redirect to dashboard
+```
+
+### Flow 2: Google Sign-In (New User)
+
+```
+1. Click "Sign in with Google"
+2. Select Google account
+3. Redirect to complete-profile
+4. Enter phone & organization
+5. Complete profile
+6. Redirect to dashboard
+```
+
+### Flow 3: Google Sign-In (Returning User)
+
+```
+1. Click "Sign in with Google"
+2. Select Google account
+3. Directly redirect to dashboard
+```
+
+---
+
+## 🔐 Security Features
+
+### 1. **OTP Security**
+- ✅ 6-digit random code
+- ✅ Expires in 10 minutes
+- ✅ One-time use only
+- ✅ Rate limited (1 per minute for resend)
+- ✅ Stored hashed in database
+- ✅ Auto-deleted after use
+
+### 2. **Email Validation**
+- ✅ Format validation
+- ✅ Uniqueness check
+- ✅ Prevents dummy emails
+- ✅ Must verify before signup
+
+### 3. **Google OAuth Security**
+- ✅ Secure token verification
+- ✅ Email pre-verified
+- ✅ Profile data validated
+- ✅ No password needed
+- ✅ Industry-standard OAuth 2.0
+
+### 4. **Password Security**
+- ✅ Minimum 6 characters
+- ✅ bcrypt hashing
+- ✅ Not required for Google users
+- ✅ Not stored for Google accounts
+
+---
+
+## 🎨 Email Templates
+
+### OTP Verification Email
+
+Features:
+- 📧 Beautiful HTML design
+- 🎨 Gradient header
+- 🔢 Large, clear OTP display
+- ⏰ Expiry time shown
+- ⚠️ Security warnings
+- 📱 Mobile responsive
+
+### New OTP (Resend) Email
+
+Features:
+- 🔄 Clear "resend" indication
+- ⚠️ Note about old OTPs being invalid
+- Same beautiful design
+
+---
+
+## ⚙️ Configuration Options
+
+### OTP Settings
+
+In `server/controllers/otpController.js`:
+
+```javascript
+// OTP expiry time (default: 10 minutes)
+expires: 600 // seconds
+
+// Resend cooldown (default: 60 seconds)
+if (timeSinceLastOTP < 60) { ... }
+
+// OTP digit length (default: 6)
+crypto.randomInt(100000, 999999)
+```
+
+### Email Settings
+
+In `server/controllers/otpController.js`:
+
+```javascript
+// Email service
+service: 'gmail' // or 'sendgrid', 'mailgun'
+
+// Email template customization
+html: `...` // Modify HTML template
+```
+
+---
+
+## 🚀 Production Deployment
+
+### Backend (Railway/Render)
+
+Add environment variables:
+```env
+GOOGLE_CLIENT_ID=prod_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=prod_secret
+EMAIL_USER=production-email@gmail.com
+EMAIL_PASS=production-app-password
+```
+
+### Frontend (Vercel)
+
+Add environment variable:
+```env
+VITE_GOOGLE_CLIENT_ID=prod_client_id.apps.googleusercontent.com
+```
+
+### Update Google OAuth Console
+
+Add production URLs:
+- Authorized JavaScript origins: `https://your-app.vercel.app`
+- Authorized redirect URIs: `https://your-app.vercel.app`
+
+---
+
+## 🐛 Troubleshooting
+
+### Issue 1: Google Sign-In Button Not Showing
+
+**Problem**: No Google button appears
+
+**Solution**:
+- ✅ Check `VITE_GOOGLE_CLIENT_ID` in `client/.env`
+- ✅ Restart frontend dev server
+- ✅ Check browser console for errors
+- ✅ Verify Google Client ID is correct
+
+### Issue 2: OTP Email Not Received
+
+**Problem**: Email doesn't arrive
+
+**Solution**:
+- ✅ Check spam folder
+- ✅ Verify `EMAIL_USER` and `EMAIL_PASS` in `.env`
+- ✅ Ensure Gmail App Password is correct
+- ✅ Check server logs for email errors
+- ✅ Verify 2FA is enabled on Gmail
+
+### Issue 3: "Redirect URI Mismatch" Error
+
+**Problem**: Google OAuth redirect error
+
+**Solution**:
+- ✅ Check Google Cloud Console → Credentials
+- ✅ Ensure `http://localhost:3000` is in Authorized JavaScript origins
+- ✅ Wait 5 minutes for changes to propagate
+- ✅ Clear browser cache
+
+### Issue 4: OTP Expired Error
+
+**Problem**: Valid OTP shows as expired
+
+**Solution**:
+- ✅ Check server time is correct
+- ✅ OTP valid for 10 minutes only
+- ✅ Request new OTP
+- ✅ Check MongoDB TTL index is working
+
+### Issue 5: Google User Can't Complete Profile
+
+**Problem**: Redirect loop or error
+
+**Solution**:
+- ✅ Ensure JWT token is valid
+- ✅ Check `completeGoogleProfile` API endpoint
+- ✅ Verify phone & organization fields are sent
+- ✅ Check backend logs
+
+---
+
+## 📊 Database Schema Updates
+
+### User Model (Updated)
+
+```javascript
+{
+  name: String (required),
+  email: String (required, unique, lowercase),
+  password: String (required if !googleId),
+  phone: String (required after verification),
+  organization: String (required after verification),
+  googleId: String (unique, sparse),
+  profilePicture: String,
+  emailVerified: Boolean (default: false),
+  role: String (default: 'user'),
+  preferences: Object,
+  createdAt: Date
+}
+```
+
+### OTP Model (New)
+
+```javascript
+{
+  email: String (required, lowercase),
+  otp: String (required),
+  createdAt: Date (expires after 10 minutes),
+  verified: Boolean (default: false)
+}
+```
+
+---
+
+## ✅ Feature Checklist
+
+### Signup Features
+- [x] Email OTP verification
+- [x] 3-step signup process
+- [x] Resend OTP functionality
+- [x] OTP expiry (10 minutes)
+- [x] Rate limiting (60 seconds)
+- [x] Beautiful email templates
+- [x] Google Sign-In integration
+- [x] Profile completion for Google users
+- [x] Progress indicator
+- [x] Error handling
+
+### Security Features
+- [x] Email validation
+- [x] Prevents dummy emails
+- [x] OTP one-time use
+- [x] OTP auto-deletion
+- [x] Password hashing
+- [x] JWT authentication
+- [x] Google OAuth 2.0
+- [x] Session management
+
+### UI/UX Features
+- [x] Step-by-step wizard
+- [x] Progress bar
+- [x] Loading states
+- [x] Success/error messages
+- [x] Countdown timer for resend
+- [x] Mobile responsive
+- [x] Google button styling
+- [x] Profile picture display
+
+---
+
+## 🎉 Summary
+
+Your application now has **enterprise-grade authentication** with:
+
+✅ **Email OTP Verification** - No more fake/dummy emails  
+✅ **Google Sign-In** - One-click authentication  
+✅ **3-Step Signup** - Clean, guided process  
+✅ **Beautiful Emails** - Professional HTML templates  
+✅ **Security** - OTP expiry, rate limiting, validation  
+✅ **Profile Completion** - Seamless Google user onboarding  
+
 ### Code Style
 
 - **JavaScript**: Use ES6+ features
@@ -1194,7 +1797,7 @@ git push origin feature/amazing-feature
 
 ## 📊 Project Statistics
 
-- **Total Files**: 40+
+- **Total Files**: 45+
 - **Total Lines of Code**: 8000+
 - **Components**: 15+
 - **API Endpoints**: 8
@@ -1242,7 +1845,7 @@ SOFTWARE.
 
 ## 📞 Support
 
-For support, email support@nationalaccounts.gov.in or create an issue in the repository.
+For support, email nationalacdashboard2025@gmail.com or create an issue in the repository.
 
 ---
 
