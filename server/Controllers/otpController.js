@@ -11,7 +11,9 @@ const generateOTP = () => {
 // Create email transporter
 const createTransporter = () => {
   return nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
@@ -118,7 +120,7 @@ const sendOTP = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    res.json({ 
+    res.json({
       message: 'OTP sent successfully to your email',
       email: email.toLowerCase()
     });
@@ -141,7 +143,7 @@ const verifyOTP = async (req, res) => {
     }
 
     // Find the latest OTP for this email
-    const otpRecord = await OTP.findOne({ 
+    const otpRecord = await OTP.findOne({
       email: email.toLowerCase(),
       otp: otp.toString()
     }).sort({ createdAt: -1 });
@@ -153,7 +155,7 @@ const verifyOTP = async (req, res) => {
     // Check if OTP has expired (10 minutes)
     const now = new Date();
     const otpAge = (now - otpRecord.createdAt) / 1000; // in seconds
-    
+
     if (otpAge > 600) { // 10 minutes
       await OTP.deleteOne({ _id: otpRecord._id });
       return res.status(400).json({ message: 'OTP has expired. Please request a new one.' });
@@ -163,7 +165,7 @@ const verifyOTP = async (req, res) => {
     otpRecord.verified = true;
     await otpRecord.save();
 
-    res.json({ 
+    res.json({
       message: 'Email verified successfully',
       verified: true,
       email: email.toLowerCase()
@@ -187,15 +189,15 @@ const resendOTP = async (req, res) => {
     }
 
     // Check rate limiting - only allow resend after 1 minute
-    const recentOTP = await OTP.findOne({ 
-      email: email.toLowerCase() 
+    const recentOTP = await OTP.findOne({
+      email: email.toLowerCase()
     }).sort({ createdAt: -1 });
 
     if (recentOTP) {
       const timeSinceLastOTP = (new Date() - recentOTP.createdAt) / 1000;
       if (timeSinceLastOTP < 60) {
-        return res.status(429).json({ 
-          message: `Please wait ${Math.ceil(60 - timeSinceLastOTP)} seconds before requesting a new OTP` 
+        return res.status(429).json({
+          message: `Please wait ${Math.ceil(60 - timeSinceLastOTP)} seconds before requesting a new OTP`
         });
       }
     }
@@ -260,7 +262,7 @@ const resendOTP = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    res.json({ 
+    res.json({
       message: 'New OTP sent successfully',
       email: email.toLowerCase()
     });
