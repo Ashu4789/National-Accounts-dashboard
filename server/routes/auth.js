@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { signup, login, getMe } = require('../Controllers/AuthController');
 const { sendOTP, verifyOTP, resendOTP } = require('../Controllers/otpController');
-const { googleAuth, completeGoogleProfile } = require('../controllers/googleAuthController');
+const { googleAuth, completeGoogleProfile } = require('../Controllers/googleAuthController');
 const { protect } = require('../middleware/auth');
 
 // Regular auth routes
