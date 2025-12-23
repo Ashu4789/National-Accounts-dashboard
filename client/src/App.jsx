@@ -30,7 +30,15 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/contact" element={<ContactUs />} />
-              
+              <Route
+                path="/complete-profile"
+                element={
+                  <ProtectedRoute>
+                    <CompleteProfile />
+                  </ProtectedRoute>
+                }
+              />
+
               {/* Protected Dashboard Routes */}
               <Route
                 path="/dashboard"
