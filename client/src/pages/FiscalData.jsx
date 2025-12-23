@@ -12,8 +12,8 @@ const FiscalData = () => {
   return (
     <DashboardLayout>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Fiscal Data</h1>
-        <p className="text-gray-700 mt-2">
+        <h1 className="text-3xl font-bold text-foreground">Fiscal Data</h1>
+        <p className="text-muted-foreground mt-2">
           Government fiscal metrics and budget analysis
         </p>
       </div>
@@ -27,7 +27,7 @@ const FiscalData = () => {
           change="-0.5%"
           changeType="positive"
           icon={<PieChart className="h-8 w-8" />}
-          iconBgColor="bg-orange-100 dark:bg-orange-900"
+          iconBgColor="bg-orange-500/10"
           iconColor="text-orange-600 dark:text-orange-400"
           description="FY 2023-24"
         />
@@ -39,8 +39,8 @@ const FiscalData = () => {
           change="-1.3%"
           changeType="positive"
           icon={<TrendingDown className="h-8 w-8" />}
-          iconBgColor="bg-red-100 dark:bg-red-900"
-          iconColor="text-red-600 dark:text-red-400"
+          iconBgColor="bg-destructive/10"
+          iconColor="text-destructive"
           description="FY 2023-24"
         />
 
@@ -51,7 +51,7 @@ const FiscalData = () => {
           change="-0.6%"
           changeType="positive"
           icon={<DollarSign className="h-8 w-8" />}
-          iconBgColor="bg-yellow-100 dark:bg-yellow-900"
+          iconBgColor="bg-yellow-500/10"
           iconColor="text-yellow-600 dark:text-yellow-400"
           description="FY 2023-24"
         />
@@ -63,7 +63,7 @@ const FiscalData = () => {
           change="+0.3%"
           changeType="negative"
           icon={<DollarSign className="h-8 w-8" />}
-          iconBgColor="bg-purple-100 dark:bg-purple-900"
+          iconBgColor="bg-purple-500/10"
           iconColor="text-purple-600 dark:text-purple-400"
           description="Public debt ratio"
         />
@@ -81,28 +81,28 @@ const FiscalData = () => {
       </div>
 
       {/* Additional Info Card */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Key Fiscal Highlights FY 2023-24</h3>
+      <div className="bg-card border border-border/50 rounded-xl shadow-sm p-6">
+        <h3 className="text-lg font-bold text-foreground mb-4">Key Fiscal Highlights FY 2023-24</h3>
         <ul className="space-y-3">
           <li className="flex items-start space-x-3">
-            <div className="h-2 w-2 bg-green-500 rounded-full mt-2"></div>
-            <p className="text-gray-700 dark:text-gray-300">Fiscal deficit target of 5.9% achieved successfully</p>
+            <div className="h-2 w-2 bg-emerald-500 rounded-full mt-2"></div>
+            <p className="text-muted-foreground">Fiscal deficit target of 5.9% achieved successfully</p>
           </li>
           <li className="flex items-start space-x-3">
-            <div className="h-2 w-2 bg-green-500 rounded-full mt-2"></div>
-            <p className="text-gray-700 dark:text-gray-300">Tax revenue collections exceeded projections by 8.2%</p>
+            <div className="h-2 w-2 bg-emerald-500 rounded-full mt-2"></div>
+            <p className="text-muted-foreground">Tax revenue collections exceeded projections by 8.2%</p>
           </li>
           <li className="flex items-start space-x-3">
             <div className="h-2 w-2 bg-yellow-500 rounded-full mt-2"></div>
-            <p className="text-gray-700 dark:text-gray-300">Capital expenditure increased to support infrastructure development</p>
+            <p className="text-muted-foreground">Capital expenditure increased to support infrastructure development</p>
           </li>
           <li className="flex items-start space-x-3">
             <div className="h-2 w-2 bg-blue-500 rounded-full mt-2"></div>
-            <p className="text-gray-700 dark:text-gray-300">Revenue deficit reduced significantly from previous year</p>
+            <p className="text-muted-foreground">Revenue deficit reduced significantly from previous year</p>
           </li>
           <li className="flex items-start space-x-3">
             <div className="h-2 w-2 bg-blue-500 rounded-full mt-2"></div>
-            <p className="text-gray-700 dark:text-gray-300">Subsidy expenditure rationalized to maintain fiscal discipline</p>
+            <p className="text-muted-foreground">Subsidy expenditure rationalized to maintain fiscal discipline</p>
           </li>
         </ul>
       </div>

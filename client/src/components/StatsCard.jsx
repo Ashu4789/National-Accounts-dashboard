@@ -1,11 +1,11 @@
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
-const StatsCard = ({ 
-  title, 
-  value, 
-  change, 
-  changeType = 'positive', 
-  icon, 
+const StatsCard = ({
+  title,
+  value,
+  change,
+  changeType = 'positive',
+  icon,
   iconBgColor = 'bg-blue-100',
   iconColor = 'text-blue-600',
   suffix = '',
@@ -17,7 +17,7 @@ const StatsCard = ({
   const TrendIcon = isPositive ? TrendingUp : TrendingDown;
 
   return (
-    <div className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow duration-300">
+    <div className="bg-card backdrop-blur-md border border-border/50 rounded-xl shadow-sm p-6 hover:shadow-lg hover:border-border transition-all duration-300">
       {/* Header with Icon */}
       <div className="flex items-start justify-between mb-4">
         <div className={`${iconBgColor} p-3 rounded-lg`}>
@@ -25,7 +25,7 @@ const StatsCard = ({
             {icon}
           </div>
         </div>
-        
+
         {/* Change Indicator */}
         {change && (
           <div className={`flex items-center space-x-1 ${changeBgColor} px-3 py-1 rounded-full`}>
@@ -38,17 +38,17 @@ const StatsCard = ({
       </div>
 
       {/* Title */}
-      <h3 className="text-gray-700 text-sm dark:text-gray-300 font-medium mb-2">
+      <h3 className="text-muted-foreground text-sm font-medium mb-2">
         {title}
       </h3>
 
       {/* Value */}
       <div className="flex items-baseline space-x-2">
-        <p className="text-3xl font-bold text-gray-900">
+        <p className="text-3xl font-bold text-foreground tracking-tight">
           {value}
         </p>
         {suffix && (
-          <span className="text-lg font-medium text-gray-500">
+          <span className="text-lg font-medium text-muted-foreground">
             {suffix}
           </span>
         )}
@@ -56,7 +56,7 @@ const StatsCard = ({
 
       {/* Description */}
       {description && (
-        <p className="text-xs text-gray-500 mt-2">
+        <p className="text-xs text-muted-foreground mt-2">
           {description}
         </p>
       )}

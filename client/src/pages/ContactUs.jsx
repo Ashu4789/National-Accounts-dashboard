@@ -8,6 +8,7 @@ const ContactUs = () => {
     subject: '',
     message: ''
   });
+
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -25,11 +26,10 @@ const ContactUs = () => {
     try {
       const { sendContactMessage } = await import('../services/api');
       await sendContactMessage(formData);
-      
+
       setSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      // Reset success message after 5 seconds
+
       setTimeout(() => setSubmitted(false), 5000);
     } catch (error) {
       alert(error.response?.data?.message || 'Failed to send message. Please try again.');
@@ -44,28 +44,28 @@ const ContactUs = () => {
       title: 'Email',
       detail: 'nationalacdashboard2025@gmail.com',
       link: 'mailto:nationalacdashboard2025@gmail.com',
-      color: 'bg-blue-100 text-blue-600'
+      color: 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/40'
     },
     {
       icon: <Phone className="h-6 w-6" />,
       title: 'Phone',
       detail: '+91 93488 25087',
       link: 'tel:+919348825087',
-      color: 'bg-green-100 text-green-600'
+      color: 'bg-blue-500/15 text-blue-400 border border-blue-500/40'
     },
     {
       icon: <MapPin className="h-6 w-6" />,
       title: 'Address',
       detail: 'Ministry of Statistics, New Delhi, India',
       link: null,
-      color: 'bg-purple-100 text-purple-600'
+      color: 'bg-red-500/15 text-red-400 border border-red-500/40'
     },
     {
       icon: <Clock className="h-6 w-6" />,
       title: 'Working Hours',
       detail: 'Mon - Fri: 9:00 AM - 6:00 PM',
       link: null,
-      color: 'bg-orange-100 text-orange-600'
+      color: 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/40'
     }
   ];
 
@@ -84,164 +84,122 @@ const ContactUs = () => {
     }
   ];
 
+  
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Hero Section */}
-      <div className="bg-blue-700 text-white py-16 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">Contact Us</h1>
-          <p className="text-xl text-white/90">
-            We're here to help with your queries about national accounts data
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Hero */}
+      <div className="bg-card border-b border-border py-16">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Contact Us
+          </h1>
+          <p className="text-muted-foreground mt-3">
+            We're here to help with your queries about national economic intelligence
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Contact Info Cards */}
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        {/* Info Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {contactInfo.map((info, index) => (
+          {contactInfo.map((info, i) => (
             <div
-              key={index}
-              className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-md p-6 hover:shadow-xl transition"
+              key={i}
+              className="bg-card/60 backdrop-blur-xl border border-border/50 rounded-xl shadow-xl p-6 hover:-translate-y-1 transition hover:border-border"
             >
-              <div className={`${info.color} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>{info.icon}</div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{info.title}</h3>
+              <div className={`${info.color} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
+                {info.icon}
+              </div>
+              <h3 className="font-semibold mb-1 text-foreground">{info.title}</h3>
               {info.link ? (
-                <a
-                  href={info.link}
-                  className="text-blue-600 hover:text-blue-700 text-sm"
-                >
+                <a href={info.link} className="text-primary hover:underline text-sm">
                   {info.detail}
                 </a>
               ) : (
-                <p className="text-gray-700 dark:text-gray-300 text-sm">{info.detail}</p>
+                <p className="text-muted-foreground text-sm">{info.detail}</p>
               )}
             </div>
-          ))} 
+          ))}
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Contact Form */}
-          <div className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-lg p-8">
+          {/* Form */}
+          <div className="bg-card/60 backdrop-blur-xl border border-border/50 rounded-xl p-8 shadow-xl">
             <div className="flex items-center space-x-3 mb-6">
-              <MessageSquare className="h-8 w-8 text-blue-500" />
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Send us a Message</h2>
+              <MessageSquare className="h-8 w-8 text-primary" />
+              <h2 className="text-2xl font-bold text-foreground">Send us a Message</h2>
             </div>
 
             {submitted && (
-              <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200/30 text-green-700 px-4 py-3 rounded-lg flex items-center space-x-2">
-                <CheckCircle className="h-5 w-5 text-green-600" />
-                <span>Thank you! Your message has been sent successfully.</span>
+              <div className="mb-6 bg-emerald-500/10 border border-emerald-500/40 text-emerald-500 px-4 py-3 rounded-lg flex items-center space-x-2">
+                <CheckCircle className="h-5 w-5" />
+                <span>Your message has been sent successfully.</span>
               </div>
-            )} 
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Full Name *
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400/70 focus:border-transparent bg-white/5 dark:bg-gray-800/40 transition"
-                  placeholder="John Doe"
-                />
-              </div>
+              <input name="name" value={formData.name} onChange={handleChange} required
+                placeholder="Full Name *"
+                className="w-full px-4 py-3 bg-background border border-input rounded-lg focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
+              />
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address *
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400/70 focus:border-transparent bg-white/5 dark:bg-gray-800/40 transition"
-                  placeholder="you@example.com"
-                />
-              </div>
+              <input name="email" value={formData.email} onChange={handleChange} required
+                placeholder="Email *"
+                type="email"
+                className="w-full px-4 py-3 bg-background border border-input rounded-lg focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
+              />
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject *
-                </label>
-                <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400/70 focus:border-transparent bg-white/5 dark:bg-gray-800/40 transition"
-                  placeholder="How can we help?"
-                />
-              </div>
+              <input name="subject" value={formData.subject} onChange={handleChange} required
+                placeholder="Subject *"
+                className="w-full px-4 py-3 bg-background border border-input rounded-lg focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
+              />
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Message *
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows="5"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400/70 focus:border-transparent resize-none bg-white/5 dark:bg-gray-800/40 transition"
-                  placeholder="Please describe your inquiry..."
-                />
-              </div>
+              <textarea name="message" value={formData.message} onChange={handleChange} required rows={5}
+                placeholder="Your Message *"
+                className="w-full px-4 py-3 bg-background border border-input rounded-lg focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
+              />
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full transition-shadow shadow-md font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-full font-semibold flex items-center justify-center gap-2 disabled:opacity-50 shadow-lg shadow-primary/20"
               >
                 {loading ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                    <span>Sending...</span>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-foreground" />
+                    Sending...
                   </>
                 ) : (
                   <>
                     <Send className="h-5 w-5" />
-                    <span>Send Message</span>
+                    Send Message
                   </>
                 )}
               </button>
             </form>
           </div>
 
-          {/* FAQ Section */}
+          {/* FAQ + Map */}
           <div>
-            <div className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Frequently Asked Questions
-              </h2>
+            <div className="bg-card/60 backdrop-blur-xl border border-border/50 rounded-xl p-8 shadow-xl mb-8">
+              <h2 className="text-2xl font-bold mb-6 text-foreground">Frequently Asked Questions</h2>
+
               <div className="space-y-6">
-                {faqs.map((faq, index) => (
-                  <div key={index} className="border-b pb-6 last:border-b-0 last:pb-0">
-                    <h3 className="font-semibold text-gray-900 mb-2">
-                      {faq.question}
-                    </h3>
-                    <p className="text-gray-700 dark:text-gray-300 text-sm">{faq.answer}</p>
+                {faqs.map((faq, i) => (
+                  <div key={i} className="border-b border-border/50 pb-5">
+                    <h3 className="font-semibold mb-1 text-foreground">{faq.question}</h3>
+                    <p className="text-muted-foreground text-sm">{faq.answer}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Map Placeholder */}
-            <div className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-lg p-8">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Visit Us</h3>
-              <div className="bg-white/5 dark:bg-gray-800/30 rounded-lg h-64 flex items-center justify-center">
-                <div className="text-center text-gray-500 dark:text-gray-300">
-                  <MapPin className="h-12 w-12 mx-auto mb-2" />
-                  <p>Map Integration</p>
-                  <p className="text-sm">Ministry of Statistics</p>
+            <div className="bg-card/60 backdrop-blur-xl border border-border/50 rounded-xl p-8 shadow-xl">
+              <h3 className="text-xl font-bold mb-4 text-foreground">Visit Us</h3>
+              <div className="bg-muted/50 border border-border/50 rounded-lg h-64 flex items-center justify-center">
+                <div className="text-center text-muted-foreground">
+                  <MapPin className="h-12 w-12 mx-auto mb-2 text-primary" />
+                  <p>Ministry of Statistics</p>
                   <p className="text-sm">Sardar Patel Bhawan, New Delhi</p>
                 </div>
               </div>
@@ -249,23 +207,21 @@ const ContactUs = () => {
           </div>
         </div>
 
-        {/* Additional Support Section */}
-        <div className="mt-16 bg-blue-700 rounded-xl shadow-lg p-8 text-white text-center">
-          <h2 className="text-2xl font-bold mb-4">Need Immediate Assistance?</h2>
-          <p className="mb-6 text-blue-100/90">
-            Our support team is available during business hours to help you with any urgent queries
+        {/* Support Banner */}
+        <div className="mt-16 bg-card border border-border rounded-xl p-8 text-center shadow-xl">
+          <h2 className="text-2xl font-bold mb-2 text-foreground">Need Immediate Assistance?</h2>
+          <p className="text-muted-foreground mb-6">
+            Our team is available during business hours to support you
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="tel:+919348825087"
-              className="bg-white/90 text-blue-700 px-6 py-3 rounded-full hover:shadow-md transition font-semibold"
-            >
+
+          <div className="flex justify-center gap-4 flex-wrap">
+            <a href="tel:+919348825087"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-full font-semibold shadow-lg shadow-primary/20">
               Call Now
             </a>
-            <a
-              href="mailto:nationalacdashboard2025@gmail.com"
-              className="bg-blue-900/90 text-white px-6 py-3 rounded-full hover:shadow-md transition font-semibold"
-            >
+
+            <a href="mailto:nationalacdashboard2025@gmail.com"
+              className="bg-secondary hover:bg-secondary/80 text-secondary-foreground px-6 py-3 rounded-full font-semibold">
               Email Support
             </a>
           </div>

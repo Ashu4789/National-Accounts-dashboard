@@ -4,30 +4,30 @@ const RecentUpdates = ({ updates }) => {
   const getIcon = (type) => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="h-5 w-5 text-green-700" />;
+        return <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />;
       case 'warning':
-        return <AlertCircle className="h-5 w-5 text-yellow-700" />;
+        return <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />;
       case 'info':
-        return <FileText className="h-5 w-5 text-blue-700" />;
+        return <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />;
       case 'trend':
-        return <TrendingUp className="h-5 w-5 text-purple-700" />;
+        return <TrendingUp className="h-5 w-5 text-purple-600 dark:text-purple-400" />;
       default:
-        return <Clock className="h-5 w-5 text-gray-500" />;
+        return <Clock className="h-5 w-5 text-muted-foreground" />;
     }
   };
 
   const getBgColor = (type) => {
     switch (type) {
       case 'success':
-        return 'bg-green-100 hover:bg-green-200 dark:bg-green-900/30 dark:hover:bg-green-900/40';
+        return 'bg-emerald-500/10 hover:bg-emerald-500/20';
       case 'warning':
-        return 'bg-yellow-100 hover:bg-yellow-200 dark:bg-yellow-900/30 dark:hover:bg-yellow-900/40';
+        return 'bg-yellow-500/10 hover:bg-yellow-500/20';
       case 'info':
-        return 'bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/30 dark:hover:bg-blue-900/40';
+        return 'bg-blue-500/10 hover:bg-blue-500/20';
       case 'trend':
-        return 'bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/30 dark:hover:bg-purple-900/40';
+        return 'bg-purple-500/10 hover:bg-purple-500/20';
       default:
-        return 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800';
+        return 'bg-muted/50 hover:bg-muted';
     }
   };
 
@@ -35,7 +35,7 @@ const RecentUpdates = ({ updates }) => {
     const date = new Date(timestamp);
     const now = new Date();
     const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
-    
+
     if (diffInHours < 1) return 'Just now';
     if (diffInHours < 24) return `${diffInHours}h ago`;
     if (diffInHours < 48) return 'Yesterday';
@@ -43,10 +43,10 @@ const RecentUpdates = ({ updates }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+    <div className="bg-card border border-border/50 rounded-xl shadow-sm p-6">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Recent Updates</h3>
-        <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+        <h3 className="text-lg font-bold text-foreground">Recent Updates</h3>
+        <button className="text-sm text-primary hover:text-primary/80 font-medium transition-colors">
           View All
         </button>
       </div>
@@ -61,21 +61,21 @@ const RecentUpdates = ({ updates }) => {
               <div className="shrink-0 mt-1">
                 {getIcon(update.type)}
               </div>
-              
+
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+                <p className="text-sm font-semibold text-foreground mb-1">
                   {update.title}
                 </p>
-                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+                <p className="text-sm text-muted-foreground mb-2">
                   {update.description}
                 </p>
                 <div className="flex items-center space-x-4">
-                  <span className="text-xs text-gray-600 dark:text-gray-300 flex items-center">
+                  <span className="text-xs text-muted-foreground flex items-center">
                     <Clock className="h-3 w-3 mr-1" />
                     {formatTime(update.timestamp)}
                   </span>
                   {update.category && (
-                    <span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full text-gray-800 dark:text-gray-100">
+                    <span className="text-xs bg-background/50 border border-border px-2 py-1 rounded-full text-foreground">
                       {update.category}
                     </span>
                   )}
@@ -84,13 +84,12 @@ const RecentUpdates = ({ updates }) => {
 
               {update.value && (
                 <div className="shrink-0 text-right">
-                  <p className="text-lg font-bold text-gray-900 dark:text-white">
+                  <p className="text-lg font-bold text-foreground">
                     {update.value}
                   </p>
                   {update.change && (
-                    <p className={`text-xs font-semibold ${
-                      update.change.startsWith('+') ? 'text-green-700' : 'text-red-700'
-                    }`}>
+                    <p className={`text-xs font-semibold ${update.change.startsWith('+') ? 'text-emerald-600 dark:text-emerald-400' : 'text-destructive'
+                      }`}>
                       {update.change}
                     </p>
                   )}
@@ -99,8 +98,8 @@ const RecentUpdates = ({ updates }) => {
             </div>
           ))
         ) : (
-          <div className="text-center py-8 text-gray-500">
-            <FileText className="h-12 w-12 mx-auto mb-3 text-gray-400" />
+          <div className="text-center py-8 text-muted-foreground">
+            <FileText className="h-12 w-12 mx-auto mb-3 text-muted-foreground/50" />
             <p>No recent updates available</p>
           </div>
         )}

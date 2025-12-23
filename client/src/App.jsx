@@ -6,6 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import CompleteProfile from './pages/CompleteProfile';
 import Dashboard from './pages/Dashboard';
 import GDPAnalysis from './pages/GDPAnalysis';
 import FiscalData from './pages/FiscalData';
@@ -15,6 +16,7 @@ import Employment from './pages/Employment';
 import Reports from './pages/Reports';
 import Settings from './pages/Settings';
 import ContactUs from './pages/ContactUs';
+
 function App() {
   return (
     <Router>

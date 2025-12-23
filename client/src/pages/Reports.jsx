@@ -69,7 +69,7 @@ const Reports = () => {
     }
   ];
 
-  const filteredReports = reports.filter(report => 
+  const filteredReports = reports.filter(report =>
     selectedType === 'all' || report.type === selectedType
   );
 
@@ -77,7 +77,7 @@ const Reports = () => {
     try {
       const { downloadReport } = await import('../services/api');
       const response = await downloadReport(report.id);
-      
+
       // Create blob link to download
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
@@ -96,24 +96,24 @@ const Reports = () => {
   return (
     <DashboardLayout>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Reports</h1>
-        <p className="text-gray-700 mt-2">
+        <h1 className="text-3xl font-bold text-foreground">Reports</h1>
+        <p className="text-muted-foreground mt-2">
           Download and view detailed economic reports and analysis
         </p>
       </div>
 
       {/* Filters */}
-      <div className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-md p-6 mb-6">
+      <div className="bg-card/40 backdrop-blur-md border border-border/50 rounded-xl shadow-md p-6 mb-6">
         <div className="grid md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               <Filter className="h-4 w-4 inline mr-2" />
               Report Type
             </label>
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400/70 focus:border-transparent bg-white/5 dark:bg-gray-800/40"
+              className="w-full px-4 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-transparent bg-background/50 text-foreground"
             >
               <option value="all">All Reports</option>
               <option value="GDP">GDP</option>
@@ -125,14 +125,14 @@ const Reports = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               <Calendar className="h-4 w-4 inline mr-2" />
               Time Period
             </label>
             <select
               value={selectedPeriod}
               onChange={(e) => setSelectedPeriod(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400/70 focus:border-transparent bg-white/5 dark:bg-gray-800/40"
+              className="w-full px-4 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-transparent bg-background/50 text-foreground"
             >
               <option value="yearly">Yearly</option>
               <option value="quarterly">Quarterly</option>
@@ -141,7 +141,7 @@ const Reports = () => {
           </div>
 
           <div className="flex items-end">
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition-shadow shadow-md font-semibold">
+            <button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 rounded-full transition-shadow shadow-md font-semibold">
               Apply Filters
             </button>
           </div>
@@ -153,25 +153,25 @@ const Reports = () => {
         {filteredReports.map((report) => (
           <div
             key={report.id}
-            className="bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
+            className="bg-card/40 backdrop-blur-md border border-border/50 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow hover:border-primary/50 group"
           >
             <div className="flex items-start justify-between mb-4">
               <div className={`${report.color} p-3 rounded-lg`}>
                 {report.icon}
               </div>
-              <span className="text-xs bg-white/70 dark:bg-gray-800/60 px-2 py-1 rounded-full text-gray-700 dark:text-gray-100">
+              <span className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                 {report.type}
               </span>
             </div>
 
-            <h3 className="text-lg font-bold text-gray-900 mb-2">
+            <h3 className="text-lg font-bold text-foreground mb-2">
               {report.title}
             </h3>
-            <p className="text-sm text-gray-700 mb-4">
+            <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
               {report.description}
             </p>
 
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
+            <div className="flex items-center justify-between text-xs text-muted-foreground/80 mb-4">
               <span className="flex items-center">
                 <Calendar className="h-3 w-3 mr-1" />
                 {new Date(report.date).toLocaleDateString()}
@@ -181,7 +181,7 @@ const Reports = () => {
 
             <button
               onClick={() => handleDownload(report)}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full transition-shadow flex items-center justify-center space-x-2 shadow-sm"
+              className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground px-4 py-2 rounded-full transition-all flex items-center justify-center space-x-2 shadow-sm group-hover:bg-primary group-hover:text-primary-foreground"
             >
               <Download className="h-4 w-4" />
               <span>Download PDF</span>
@@ -191,24 +191,24 @@ const Reports = () => {
       </div>
 
       {/* Stats Summary */}
-      <div className="mt-8 bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-md p-6">
-        <h3 className="text-lg font-bold text-gray-900 mb-4">Report Statistics</h3>
+      <div className="mt-8 bg-card/40 backdrop-blur-md border border-border/50 rounded-xl shadow-md p-6">
+        <h3 className="text-lg font-bold text-foreground mb-4">Report Statistics</h3>
         <div className="grid md:grid-cols-4 gap-6">
           <div className="text-center">
-            <p className="text-3xl font-bold text-blue-600">{reports.length}</p>
-            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">Total Reports</p>
+            <p className="text-3xl font-bold text-primary">{reports.length}</p>
+            <p className="text-sm text-muted-foreground mt-1">Total Reports</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-green-600">24</p>
-            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">This Year</p>
+            <p className="text-3xl font-bold text-emerald-500">24</p>
+            <p className="text-sm text-muted-foreground mt-1">This Year</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-purple-600">6</p>
-            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">This Quarter</p>
+            <p className="text-3xl font-bold text-purple-500">6</p>
+            <p className="text-sm text-muted-foreground mt-1">This Quarter</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-orange-600">15.2 MB</p>
-            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">Total Size</p>
+            <p className="text-3xl font-bold text-orange-500">15.2 MB</p>
+            <p className="text-sm text-muted-foreground mt-1">Total Size</p>
           </div>
         </div>
       </div>

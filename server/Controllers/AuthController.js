@@ -8,7 +8,7 @@ const generateToken = (id) => {
   });
 };
 
-// @desc    Register new user
+// @desc    Register new user (after OTP verification)
 // @route   POST /api/auth/signup
 // @access  Public
 const signup = async (req, res) => {
@@ -25,19 +25,41 @@ const signup = async (req, res) => {
     }
 
     // Check if user exists
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ email: email.toLowerCase() });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
+    }
+
+    // Verify that OTP was verified for this email
+    const OTP = require('../Models/OTP');
+    const verifiedOTP = await OTP.findOne({ 
+      email: email.toLowerCase(),
+      verified: true 
+    }).sort({ createdAt: -1 });
+
+    if (!verifiedOTP) {
+      return res.status(400).json({ message: 'Please verify your email with OTP first' });
+    }
+
+    // Check if OTP verification is still valid (within 30 minutes)
+    const otpAge = (new Date() - verifiedOTP.createdAt) / 1000;
+    if (otpAge > 1800) { // 30 minutes
+      await OTP.deleteOne({ _id: verifiedOTP._id });
+      return res.status(400).json({ message: 'OTP verification expired. Please start again.' });
     }
 
     // Create user
     const user = await User.create({
       name,
-      email,
+      email: email.toLowerCase(),
       password,
       phone,
-      organization
+      organization,
+      emailVerified: true
     });
+
+    // Delete the used OTP
+    await OTP.deleteOne({ _id: verifiedOTP._id });
 
     if (user) {
       res.status(201).json({
@@ -47,12 +69,14 @@ const signup = async (req, res) => {
         phone: user.phone,
         organization: user.organization,
         role: user.role,
+        emailVerified: user.emailVerified,
         token: generateToken(user._id)
       });
     } else {
       res.status(400).json({ message: 'Invalid user data' });
     }
   } catch (error) {
+    console.error('Signup error:', error);
     res.status(500).json({ message: error.message });
   }
 };

@@ -17,19 +17,33 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Please add a password'],
+    required: function () {
+      return !this.googleId; // Password not required for Google users
+    },
     minlength: 6,
     select: false
   },
+  googleId: {
+    type: String,
+    sparse: true, // Allow multiple null values but unique non-null values
+    unique: true
+  },
+  profilePicture: {
+    type: String
+  },
+  emailVerified: {
+    type: Boolean,
+    default: false
+  },
   phone: {
     type: String,
-    required: [true, 'Please add a phone number'],
-    trim: true
+    trim: true,
+    default: ''
   },
   organization: {
     type: String,
-    required: [true, 'Please add an organization'],
-    trim: true
+    trim: true,
+    default: ''
   },
   role: {
     type: String,
@@ -56,18 +70,17 @@ const userSchema = new mongoose.Schema({
 });
 
 // Hash password before saving
-userSchema.pre('save', async function() {
-  // If password isn't modified, skip hashing and return early.
+// Hash password before saving
+userSchema.pre('save', async function () {
   if (!this.isModified('password')) {
     return;
   }
-
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
 
 // Match password
-userSchema.methods.matchPassword = async function(enteredPassword) {
+userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
