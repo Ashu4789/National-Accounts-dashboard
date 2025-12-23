@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  TrendingUp, 
-  DollarSign, 
-  FileText, 
+import {
+  LayoutDashboard,
+  TrendingUp,
+  DollarSign,
+  FileText,
   Settings,
   Menu,
   X,
@@ -29,37 +29,45 @@ const DashboardLayout = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
+    <div className="flex h-screen bg-background text-foreground overflow-hidden">
+
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar (collapsed icons by default, expands on hover) */}
+      {/* Sidebar */}
       <aside
-        className={`group fixed lg:static inset-y-0 left-0 z-50 w-20 lg:w-20 ${sidebarOpen ? 'w-64' : ''} lg:hover:w-64 bg-white/6 dark:bg-gray-900/30 backdrop-blur-md border-r border-gray-200/10 dark:border-gray-700/20 shadow-lg transform transition-all duration-300 ease-in-out overflow-hidden ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-        }`}
+        className={`group fixed lg:static inset-y-0 left-0 z-50 w-20 lg:w-20 
+        ${sidebarOpen ? 'w-64' : ''} 
+        lg:hover:w-64 
+        bg-card/40 backdrop-blur-md border-r border-border/50 shadow-xl 
+        transform transition-all duration-300 ease-in-out overflow-hidden
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
       >
         <div className="flex flex-col h-full">
+
           {/* Sidebar Header */}
-          <div className="flex items-center justify-between p-6 border-b">
+          <div className="flex items-center justify-between p-6 border-b border-border/50">
             <h2 className="flex items-center space-x-3">
-              <LayoutDashboard className="h-6 w-6 text-blue-600 flex-shrink-0" />
-              <span className="hidden lg:inline-block lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-200 text-xl font-bold text-gray-800 dark:text-white whitespace-nowrap overflow-hidden">Dashboard</span>
+              <LayoutDashboard className="h-6 w-6 text-primary flex-shrink-0" />
+              <span className="hidden lg:inline-block lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-200 text-xl font-bold text-foreground whitespace-nowrap overflow-hidden tracking-tight">
+                ArthaVision
+              </span>
             </h2>
+
             <button
               onClick={() => setSidebarOpen(false)}
-              className="lg:hidden text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white"
+              className="lg:hidden text-muted-foreground hover:text-foreground"
             >
               <X className="h-6 w-6" />
             </button>
           </div>
 
-          {/* Navigation Menu */}
+          {/* Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
             {menuItems.map((item) => {
               const isActive = location.pathname === item.path;
@@ -67,49 +75,55 @@ const DashboardLayout = ({ children }) => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`group flex items-center lg:space-x-3 px-4 py-3 rounded-lg transition-colors justify-center lg:justify-start ${
-                    isActive
-                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold pl-3 border-l-4 border-blue-600 lg:pl-4'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                  }`}
                   onClick={() => setSidebarOpen(false)}
+                  className={`group flex items-center lg:space-x-3 px-4 py-3 rounded-lg transition-all justify-center lg:justify-start
+                  ${isActive
+                      ? 'bg-primary/10 text-primary font-semibold pl-3 border-l-4 border-primary lg:pl-4 shadow-sm'
+                      : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
+                    }`}
                 >
                   <div className="flex-shrink-0">{item.icon}</div>
-                  <span className="hidden lg:inline-block lg:opacity-0 lg:group-hover:opacity-100 transform lg:translate-x-0 transition-all duration-200 whitespace-nowrap overflow-hidden">{item.name}</span>
+
+                  <span className="hidden lg:inline-block lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-200 whitespace-nowrap overflow-hidden">
+                    {item.name}
+                  </span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* Sidebar Footer (hidden when collapsed, reveals on hover) */}
-          <div className="p-4 border-t lg:opacity-0 lg:group-hover:opacity-100 lg:max-h-0 lg:group-hover:max-h-40 overflow-hidden transition-all duration-300 pointer-events-none lg:group-hover:pointer-events-auto">
-            <div className="bg-blue-50 dark:bg-blue-900/10 rounded-lg p-4 border border-blue-200/10">
-              <p className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-1">
+          {/* Sidebar Footer */}
+          <div className="p-4 border-t border-border/50 lg:opacity-0 lg:group-hover:opacity-100 lg:max-h-0 lg:group-hover:max-h-40 overflow-hidden transition-all duration-300 pointer-events-none lg:group-hover:pointer-events-auto">
+            <div className="bg-card border border-border/50 rounded-lg p-4 shadow-sm">
+              <p className="text-sm font-semibold text-primary mb-1">
                 Need Help?
               </p>
-              <p className="text-xs text-blue-700 dark:text-blue-100">
-                Check our documentation for guides and tutorials
+              <p className="text-xs text-muted-foreground">
+                Check documentation for guides and tutorials
               </p>
             </div>
           </div>
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden pt-20 lg:pt-8">
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex flex-col overflow-hidden pt-20 lg:pt-8 bg-background">
+
         {/* Mobile Header */}
-        <header className="lg:hidden bg-white/6 dark:bg-gray-900/30 backdrop-blur-sm border-b border-gray-200/8 dark:border-gray-700/16 shadow-sm px-4 py-3 flex items-center">
+        <header className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50 shadow-sm px-4 py-3 flex items-center">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white"
+            className="text-muted-foreground hover:text-foreground"
           >
             <Menu className="h-6 w-6" />
           </button>
-          <h1 className="ml-4 text-lg font-semibold text-gray-800 dark:text-white">Dashboard</h1>
+          <h1 className="ml-4 text-lg font-semibold text-foreground">
+            Dashboard
+          </h1>
         </header>
 
-        {/* Main Content */}
-        <main className="flex-1 overflow-y-auto p-6">
+        {/* Content */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 scroll-smooth">
           {children}
         </main>
       </div>

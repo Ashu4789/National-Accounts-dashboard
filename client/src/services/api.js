@@ -28,6 +28,16 @@ export const signup = (userData) => api.post('/auth/signup', userData);
 export const login = (credentials) => api.post('/auth/login', credentials);
 export const getProfile = () => api.get('/auth/me');
 
+// OTP APIs
+export const sendOTP = (email) => api.post('/auth/send-otp', { email });
+export const verifyOTP = (email, otp) => api.post('/auth/verify-otp', { email, otp });
+export const resendOTP = (email) => api.post('/auth/resend-otp', { email });
+
+// Google Auth APIs
+export const googleSignIn = (googleData) => api.post('/auth/google', googleData);
+export const completeGoogleProfile = (data) => api.put('/auth/google/complete', data);
+
+
 // User APIs
 export const updateProfile = (data) => api.put('/user/profile', data);
 export const changePassword = (data) => api.put('/user/password', data);

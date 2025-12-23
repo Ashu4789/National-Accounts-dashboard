@@ -8,8 +8,8 @@ const Employment = () => {
   return (
     <DashboardLayout>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Employment Statistics</h1>
-        <p className="text-gray-600 dark:text-gray-400 mt-2">
+        <h1 className="text-3xl font-bold text-foreground">Employment Statistics</h1>
+        <p className="text-muted-foreground mt-2">
           Labor force participation, employment trends, and unemployment analysis
         </p>
       </div>
@@ -23,8 +23,8 @@ const Employment = () => {
           change="+1.0%"
           changeType="positive"
           icon={<Users className="h-8 w-8" />}
-          iconBgColor="bg-blue-100"
-          iconColor="text-blue-600"
+          iconBgColor="bg-blue-500/20"
+          iconColor="text-blue-500"
           description="Total Labor Force 2023-24"
         />
 
@@ -35,8 +35,8 @@ const Employment = () => {
           change="+1.0%"
           changeType="positive"
           icon={<UserCheck className="h-8 w-8" />}
-          iconBgColor="bg-green-100"
-          iconColor="text-green-600"
+          iconBgColor="bg-primary/20"
+          iconColor="text-primary"
           description="Employed Workforce"
         />
 
@@ -47,8 +47,8 @@ const Employment = () => {
           change={currentStats.unemployment.change}
           changeType={currentStats.unemployment.changeType}
           icon={<TrendingDown className="h-8 w-8" />}
-          iconBgColor="bg-orange-100"
-          iconColor="text-orange-600"
+          iconBgColor="bg-destructive/20"
+          iconColor="text-destructive"
           description={currentStats.unemployment.description}
         />
 
@@ -59,8 +59,8 @@ const Employment = () => {
           change="+0.4%"
           changeType="positive"
           icon={<Briefcase className="h-8 w-8" />}
-          iconBgColor="bg-purple-100"
-          iconColor="text-purple-600"
+          iconBgColor="bg-blue-500/20"
+          iconColor="text-blue-500"
           description="LFPR 2023-24"
         />
       </div>
@@ -71,7 +71,7 @@ const Employment = () => {
           data={employmentData}
           title="Unemployment Rate Trend (%)"
           dataKey="rate"
-          color="#f59e0b"
+          color="#ef4444"
           type="line"
         />
 
@@ -79,36 +79,52 @@ const Employment = () => {
           data={employmentData}
           title="Labor Force (Crore)"
           dataKey="laborForce"
-          color="#3b82f6"
+          color="#10b981"
           type="area"
         />
       </div>
 
-      {/* Employment Details */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Employment Statistics Over Years</h3>
+      {/* Employment Table */}
+      <div className="bg-card border border-border/50 rounded-xl p-6 mb-8 shadow-sm">
+        <h3 className="text-lg font-bold text-foreground mb-6">
+          Employment Statistics Over Years
+        </h3>
+
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 dark:bg-gray-700">
+            <thead className="bg-muted/50">
               <tr>
-                <th className="px-4 py-3 text-left text-gray-700 dark:text-gray-300 font-semibold">Year</th>
-                <th className="px-4 py-3 text-right text-gray-700 dark:text-gray-300 font-semibold">Labor Force</th>
-                <th className="px-4 py-3 text-right text-gray-700 dark:text-gray-300 font-semibold">Employed</th>
-                <th className="px-4 py-3 text-right text-gray-700 dark:text-gray-300 font-semibold">Unemployed</th>
-                <th className="px-4 py-3 text-right text-gray-700 dark:text-gray-300 font-semibold">U-Rate %</th>
+                <th className="px-4 py-3 text-left text-muted-foreground">Year</th>
+                <th className="px-4 py-3 text-right text-muted-foreground">Labor Force</th>
+                <th className="px-4 py-3 text-right text-muted-foreground">Employed</th>
+                <th className="px-4 py-3 text-right text-muted-foreground">Unemployed</th>
+                <th className="px-4 py-3 text-right text-muted-foreground">U-Rate %</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+
+            <tbody className="divide-y divide-border/50">
               {employmentData.map((item, index) => (
-                <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                  <td className="px-4 py-3 text-gray-900 dark:text-gray-100 font-medium">{item.year}</td>
-                  <td className="px-4 py-3 text-right text-gray-700 dark:text-gray-300">{item.laborForce} Cr</td>
-                  <td className="px-4 py-3 text-right text-gray-700 dark:text-gray-300">{item.employed} Cr</td>
-                  <td className="px-4 py-3 text-right text-gray-700 dark:text-gray-300">{item.unemployed} Cr</td>
+                <tr key={index} className="hover:bg-muted/30 transition-colors">
+                  <td className="px-4 py-3 text-foreground font-medium">
+                    {item.year}
+                  </td>
+                  <td className="px-4 py-3 text-right text-muted-foreground">
+                    {item.laborForce} Cr
+                  </td>
+                  <td className="px-4 py-3 text-right text-muted-foreground">
+                    {item.employed} Cr
+                  </td>
+                  <td className="px-4 py-3 text-right text-muted-foreground">
+                    {item.unemployed} Cr
+                  </td>
+
                   <td className="px-4 py-3 text-right">
-                    <span className={`font-semibold ${
-                      item.rate < 7 ? 'text-green-600 dark:text-green-400' : 'text-orange-600 dark:text-orange-400'
-                    }`}>
+                    <span
+                      className={`font-semibold ${item.rate < 7
+                          ? 'text-emerald-500'
+                          : 'text-destructive'
+                        }`}
+                    >
                       {item.rate}%
                     </span>
                   </td>
@@ -119,49 +135,59 @@ const Employment = () => {
         </div>
       </div>
 
-      {/* Key Insights */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Employment Insights</h3>
+      {/* Insights */}
+      <div className="bg-card border border-border/50 rounded-xl p-6 shadow-sm">
+        <h3 className="text-lg font-bold text-foreground mb-4">
+          Employment Insights
+        </h3>
+
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Positive Trends</h4>
-            <ul className="space-y-2 text-gray-700 dark:text-gray-300 text-sm">
+            <h4 className="font-semibold text-foreground mb-3">
+              Positive Trends
+            </h4>
+
+            <ul className="space-y-2 text-muted-foreground text-sm">
               <li className="flex items-start">
-                <span className="text-green-500 mr-2">✓</span>
-                Unemployment rate decreased from 7.8% (2021-22) to 6.1% (2023-24)
+                <span className="text-primary mr-2">✓</span>
+                Unemployment decreased from 7.8% to 6.1%
               </li>
               <li className="flex items-start">
-                <span className="text-green-500 mr-2">✓</span>
-                Labor force increased to 52.4 crore in 2023-24
+                <span className="text-primary mr-2">✓</span>
+                Labor force increased to 52.4 crore
               </li>
               <li className="flex items-start">
-                <span className="text-green-500 mr-2">✓</span>
-                Employed workforce grew by 1 crore in FY 2023-24
+                <span className="text-primary mr-2">✓</span>
+                Workforce added 1 crore+
               </li>
               <li className="flex items-start">
-                <span className="text-green-500 mr-2">✓</span>
-                Recovery from COVID-19 impact visible in employment data
+                <span className="text-primary mr-2">✓</span>
+                Strong recovery post-COVID
               </li>
             </ul>
           </div>
+
           <div>
-            <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Sectoral Employment</h4>
-            <ul className="space-y-2 text-gray-700 dark:text-gray-300 text-sm">
+            <h4 className="font-semibold text-foreground mb-3">
+              Sectoral Employment
+            </h4>
+
+            <ul className="space-y-2 text-muted-foreground text-sm">
               <li className="flex items-start">
                 <span className="text-blue-500 mr-2">•</span>
-                Agriculture sector employs approximately 42% of workforce
+                42% workforce in agriculture
               </li>
               <li className="flex items-start">
                 <span className="text-blue-500 mr-2">•</span>
-                Services sector shows highest growth in job creation
+                Services leading job growth
               </li>
               <li className="flex items-start">
                 <span className="text-blue-500 mr-2">•</span>
-                Manufacturing and construction sectors recovering post-pandemic
+                Manufacturing recovering steadily
               </li>
               <li className="flex items-start">
                 <span className="text-blue-500 mr-2">•</span>
-                IT and digital sectors driving urban employment growth
+                IT & digital driving urban jobs
               </li>
             </ul>
           </div>

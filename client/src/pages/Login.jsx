@@ -1,9 +1,15 @@
 import { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 import { AuthContext } from '../context/AuthContext';
-import { Mail, Lock, AlertCircle } from 'lucide-react';
+import { Mail, Lock, AlertCircle, Sparkles, ArrowRight } from 'lucide-react';
+import { googleSignIn } from '../services/api';
 
-const Login = () => {
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+const LoginContent = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -26,83 +32,200 @@ const Login = () => {
     setError('');
 
     const result = await login(formData);
-    
+
     if (!result.success) {
       setError(result.message);
     }
-    
+
     setLoading(false);
   };
 
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const decoded = jwtDecode(credentialResponse.credential);
+
+      const response = await googleSignIn({
+        email: decoded.email,
+        name: decoded.name,
+        googleId: decoded.sub,
+        picture: decoded.picture
+      });
+
+      localStorage.setItem('token', response.data.token);
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      const needsCompletion =
+        !response.data.phone ||
+        !response.data.organization ||
+        response.data.phone === '' ||
+        response.data.organization === '';
+
+      if (needsCompletion) {
+        sessionStorage.setItem('googleUser', JSON.stringify(response.data));
+        window.location.href = '/complete-profile';
+      } else {
+        window.location.href = '/dashboard';
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Google sign-in failed. Please try again.');
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white/6 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/10 dark:border-gray-700/20 rounded-xl shadow-2xl p-8">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-          <p className="text-gray-700">Sign in to access your dashboard</p>
-        </div>
+    <div className="min-h-screen bg-background flex items-center justify-center px-4 py-12 relative overflow-hidden">
 
-        {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center space-x-2">
-            <AlertCircle className="h-5 w-5" />
-            <span>{error}</span>
+      {/* Subtle Animated Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse delay-700" />
+      </div>
+
+      {/* Login Card */}
+      <div className="relative max-w-md w-full">
+
+        <div className="relative bg-card/70 backdrop-blur-2xl border border-border/50 rounded-3xl shadow-2xl p-8 hover:border-border transition-all duration-500">
+
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center space-x-2 bg-primary rounded-full px-4 py-2 mb-4 shadow-lg shadow-primary/20">
+              <Sparkles className="h-4 w-4 text-primary-foreground animate-pulse" />
+              <span className="text-sm font-medium text-primary-foreground">
+                Welcome Back
+              </span>
+            </div>
+
+            <h2 className="text-4xl font-bold mb-2 text-primary">
+              Sign In
+            </h2>
+            <p className="text-accent-foreground font-semibold">
+              ArthaVision – India’s Economic Intelligence Hub
+            </p>
           </div>
-        )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email Address
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400/70 focus:border-transparent bg-white/5 dark:bg-gray-800/40"
-                placeholder="you@example.com"
-              />
+          {/* Error */}
+          {error && (
+            <div className="mb-6 bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-xl flex items-center space-x-2 animate-fade-in-up">
+              <AlertCircle className="h-5 w-5 flex-shrink-0" />
+              <span className="text-sm">{error}</span>
+            </div>
+          )}
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+
+            {/* Email */}
+            <div className="group">
+              <label className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors">
+                Email Address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full pl-12 pr-4 py-3 bg-background/50 border border-input rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent text-foreground placeholder-muted-foreground/50 transition-all"
+                  placeholder="you@example.com"
+                />
+              </div>
+            </div>
+
+            {/* Password */}
+            <div className="group">
+              <label className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  className="w-full pl-12 pr-4 py-3 bg-background/50 border border-input rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent text-foreground placeholder-muted-foreground/50 transition-all"
+                  placeholder="••••••••"
+                />
+              </div>
+            </div>
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-xl font-semibold transition-all hover:scale-[1.02] disabled:opacity-50 shadow-lg shadow-primary/20"
+            >
+              {loading ? 'Signing in...' : 'Sign In'}
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="relative my-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-4 bg-card text-muted-foreground">
+                Or continue with
+              </span>
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Password
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400/70 focus:border-transparent bg-white/5 dark:bg-gray-800/40"
-                placeholder="••••••••"
-              />
-            </div>
+          {/* Google */}
+          <div className="flex justify-center">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={() => setError('Google Sign-In failed')}
+              size="large"
+              width="384"
+              text="signin_with"
+              theme="filled_black"
+              shape="pill"
+            />
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full transition-shadow shadow-md font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
-
-        <div className="mt-6 text-center text-sm text-gray-700">
-          Don't have an account?{' '}
-          <Link to="/signup" className="text-blue-600 hover:text-blue-700 font-semibold">
-            Sign up
-          </Link>
+          {/* Signup */}
+          <div className="mt-8 text-center">
+            <p className="text-muted-foreground">
+              Don't have an account?{' '}
+              <Link
+                to="/signup"
+                className="text-primary hover:text-primary/80 font-semibold transition-all"
+              >
+                Sign up free
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fade-in-up 0.3s ease-out; }
+      `}</style>
     </div>
+  );
+};
+
+const Login = () => {
+  if (!GOOGLE_CLIENT_ID) {
+    console.warn('Google Client ID not configured. Google Sign-In will not be available.');
+    return <LoginContent />;
+  }
+
+  return (
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <LoginContent />
+    </GoogleOAuthProvider>
   );
 };
 

@@ -6,12 +6,12 @@ import { gdpData, sectorWiseGDP } from '../data/dashboardData';
 import { realGDPData, detailedSectors } from '../data/realIndiaData';
 
 const GDPAnalysis = () => {
-  
+
   return (
     <DashboardLayout>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">GDP Analysis</h1>
-        <p className="text-gray-700 mt-2">
+        <h1 className="text-3xl font-bold text-foreground">GDP Analysis</h1>
+        <p className="text-muted-foreground mt-2">
           Detailed analysis of Gross Domestic Product trends and sectoral contributions
         </p>
       </div>
@@ -27,8 +27,8 @@ const GDPAnalysis = () => {
             change={`+${sector.growth}%`}
             changeType="positive"
             icon={<BarChart3 className="h-8 w-8" />}
-            iconBgColor="bg-indigo-100"
-            iconColor="text-indigo-600"
+            iconBgColor="bg-indigo-500/10"
+            iconColor="text-indigo-600 dark:text-indigo-400"
             description={`Growth: ${sector.growth}%`}
           />
         ))}
