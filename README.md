@@ -36,15 +36,34 @@ A comprehensive full-stack dashboard application for monitoring, analyzing, and 
 ## ✨ Features
 
 ### 🔐 Authentication & User Management
-- ✅ Complete signup/login system with JWT authentication
-- ✅ 6-field registration (Name, Email, Phone, Organization, Password)
-- ✅ Protected routes with middleware
+- ✅ **Multiple Authentication Methods**:
+  - Email/Password with JWT authentication
+  - Google OAuth 2.0 Sign-In (One-click authentication)
+  - Email OTP Verification (6-digit code, 10-minute expiry)
+- ✅ **3-Step Signup Process**:
+  - Step 1: Email verification with OTP
+  - Step 2: OTP validation (with resend functionality)
+  - Step 3: Complete profile registration
+- ✅ **Google Sign-In Features**:
+  - Automatic profile creation from Google account
+  - Profile picture integration
+  - Email pre-verified for Google users
+  - Profile completion flow for phone & organization
+- ✅ **Security Features**:
+  - Protected routes with middleware
+  - JWT token-based authentication
+  - bcrypt password hashing
+  - OTP rate limiting (60-second cooldown)
+  - Email uniqueness validation
+  - Session persistence
 - ✅ User profile management with real-time updates
 - ✅ Secure password change with validation
-- ✅ Email uniqueness validation
-- ✅ Session persistence
 
 ### 📊 Comprehensive Economic Data Dashboard
+- ✅ **Dynamic Dashboard System**:
+  - Real-time data from MongoDB database
+  - Admin-controlled updates and statistics
+  - Live economic indicators feed
 - ✅ **Overview Dashboard**: 8 key Indian economic indicators with real-time data
 - ✅ **GDP Analysis**: Sectoral breakdown (Agriculture, Industry, Services)
 - ✅ **Fiscal Data**: Government budget, deficit tracking, debt analysis
@@ -52,7 +71,8 @@ A comprehensive full-stack dashboard application for monitoring, analyzing, and 
 - ✅ **State-wise GDP**: Top 10 states ranking and per capita income
 - ✅ **Employment Statistics**: Labor force, unemployment trends
 - ✅ **Interactive Charts**: 15+ visualizations with Recharts (Line, Area, Bar, Pie)
-- ✅ **Recent Updates Feed**: Real-time activity tracking
+- ✅ **Recent Updates Feed**: Real-time activity tracking with database integration
+- ✅ **Admin Dashboard**: Create and manage economic updates (Admin-only access)
 
 ### 📈 Real Indian Economic Data (FY 2018-19 to 2023-24)
 - ✅ GDP at Current & Constant Prices
@@ -87,8 +107,11 @@ A comprehensive full-stack dashboard application for monitoring, analyzing, and 
 
 ### 📧 Contact & Communication
 - ✅ Contact form with Nodemailer integration
-- ✅ Admin notification emails
-- ✅ User confirmation emails
+- ✅ **Email Services**:
+  - OTP verification emails with beautiful HTML templates
+  - Admin notification emails
+  - User confirmation emails
+  - Resend OTP functionality with rate limiting
 - ✅ Form validation and error handling
 - ✅ FAQ section with common queries
 
@@ -114,6 +137,8 @@ A comprehensive full-stack dashboard application for monitoring, analyzing, and 
 - **Recharts** - Chart library for data visualization
 - **Lucide React** - Modern icon library
 - **Axios** - HTTP client for API calls
+- **@react-oauth/google** - Google OAuth integration
+- **jwt-decode** - JWT token decoding
 
 ### Backend
 - **Node.js** - JavaScript runtime
@@ -122,9 +147,10 @@ A comprehensive full-stack dashboard application for monitoring, analyzing, and 
 - **Mongoose** - MongoDB ODM with schema validation
 - **JWT** - JSON Web Tokens for authentication
 - **bcryptjs** - Password hashing and encryption
-- **Nodemailer** - Email sending functionality
+- **Nodemailer** - Email sending functionality (OTP & contact emails)
 - **PDFKit** - Dynamic PDF generation
 - **CORS** - Cross-origin resource sharing
+- **Crypto** - Secure OTP generation
 
 ---
 
@@ -194,8 +220,9 @@ national-accounts-dashboard/
 │   │   │   └── ProtectedRoute.jsx           # Route authentication guard
 │   │   ├── pages/
 │   │   │   ├── Home.jsx                     # Landing page
-│   │   │   ├── Login.jsx                    # Login page
-│   │   │   ├── Signup.jsx                   # Registration (6 fields)
+│   │   │   ├── Login.jsx                    # Login page (Email + Google)
+│   │   │   ├── Signup.jsx                   # 3-step registration (OTP + Profile)
+│   │   │   ├── CompleteProfile.jsx          # Google user profile completion
 │   │   │   ├── Dashboard.jsx                # Main overview dashboard
 │   │   │   ├── GDPAnalysis.jsx              # GDP detailed analysis
 │   │   │   ├── FiscalData.jsx               # Fiscal metrics & budget
@@ -226,19 +253,26 @@ national-accounts-dashboard/
     ├── config/
     │   └── db.js                            # MongoDB connection
     ├── models/
-    │   └── User.js                          # User schema with preferences
+    │   ├── User.js                          # User schema with Google OAuth support
+    │   ├── OTP.js                           # OTP verification schema
+    │   ├── Update.js                        # Dashboard updates schema
+    │   └── EconomicData.js                  # Economic statistics schema
     ├── routes/
-    │   ├── auth.js                          # Authentication routes
+    │   ├── auth.js                          # Authentication routes (Email, Google, OTP)
     │   ├── user.js                          # User management routes
     │   ├── contact.js                       # Contact form route
-    │   └── reports.js                       # Report download route
+    │   ├── reports.js                       # Report download route
+    │   └── dashboard.js                     # Dashboard updates & stats routes
     ├── middleware/
     │   └── auth.js                          # JWT verification middleware
     ├── controllers/
     │   ├── authController.js                # Auth logic (signup, login)
+    │   ├── googleAuthController.js          # Google OAuth authentication
+    │   ├── otpController.js                 # OTP generation & verification
     │   ├── userController.js                # Profile/preferences updates
     │   ├── contactController.js             # Email sending logic
-    │   └── reportController.js              # PDF generation logic
+    │   ├── reportController.js              # PDF generation logic
+    │   └── dashboardController.js           # Dashboard updates & stats management
     ├── .env                                 # Backend environment variables
     ├── package.json
     └── server.js                            # Express server entry point
@@ -274,6 +308,7 @@ npm install
 **Packages installed:**
 - express, mongoose, bcryptjs, jsonwebtoken, dotenv, cors
 - nodemailer (email), pdfkit (PDF generation)
+- crypto (OTP generation)
 
 **Update package.json scripts:**
 ```json
@@ -297,6 +332,7 @@ npm install
 - react, react-router-dom, axios
 - recharts (charts), lucide-react (icons)
 - tailwindcss (styling)
+- @react-oauth/google (Google OAuth), jwt-decode (JWT decoding)
 
 ---
 
@@ -317,10 +353,14 @@ MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/national-account
 # JWT Configuration (use strong random string, min 32 characters)
 JWT_SECRET=your_super_secret_jwt_key_at_least_32_characters_long_change_this
 
-# Email Configuration (Gmail Example)
+# Email Configuration (Gmail Example - for OTP & Contact emails)
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASS=your-16-character-app-password
 ADMIN_EMAIL=admin@nationalaccounts.gov.in
+
+# Google OAuth Configuration
+GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
 ### Frontend Environment Variables
@@ -330,6 +370,9 @@ Create `client/.env` file:
 ```env
 # API Base URL
 VITE_API_URL=http://localhost:5000/api
+
+# Google OAuth Client ID
+VITE_GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
 ```
 
 ### MongoDB Atlas Setup (Free Tier)
@@ -499,6 +542,9 @@ Response (200 OK):
   "phone": "+91 1234567890",
   "organization": "Tech Corp",
   "role": "user",
+  "googleId": "optional_google_id",
+  "profilePicture": "optional_picture_url",
+  "emailVerified": true,
   "preferences": {
     "notifications": { ... },
     "appearance": { ... }
@@ -506,9 +552,194 @@ Response (200 OK):
 }
 ```
 
+#### 4. Send OTP for Email Verification
+```http
+POST /api/auth/send-otp
+Content-Type: application/json
+
+Request Body:
+{
+  "email": "john@example.com"
+}
+
+Response (200 OK):
+{
+  "message": "OTP sent successfully to your email",
+  "email": "john@example.com"
+}
+```
+
+#### 5. Verify OTP
+```http
+POST /api/auth/verify-otp
+Content-Type: application/json
+
+Request Body:
+{
+  "email": "john@example.com",
+  "otp": "123456"
+}
+
+Response (200 OK):
+{
+  "message": "Email verified successfully",
+  "verified": true,
+  "email": "john@example.com"
+}
+```
+
+#### 6. Resend OTP
+```http
+POST /api/auth/resend-otp
+Content-Type: application/json
+
+Request Body:
+{
+  "email": "john@example.com"
+}
+
+Response (200 OK):
+{
+  "message": "New OTP sent successfully",
+  "email": "john@example.com"
+}
+```
+
+#### 7. Google OAuth Authentication
+```http
+POST /api/auth/google
+Content-Type: application/json
+
+Request Body:
+{
+  "email": "john@gmail.com",
+  "name": "John Doe",
+  "googleId": "google_user_id",
+  "picture": "profile_picture_url"
+}
+
+Response (200 OK or 201 Created):
+{
+  "_id": "64abc123def456...",
+  "name": "John Doe",
+  "email": "john@gmail.com",
+  "phone": "",
+  "organization": "",
+  "role": "user",
+  "googleId": "google_user_id",
+  "profilePicture": "profile_picture_url",
+  "emailVerified": true,
+  "isComplete": false,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+#### 8. Complete Google User Profile
+```http
+PUT /api/auth/google/complete
+Authorization: Bearer {token}
+Content-Type: application/json
+
+Request Body:
+{
+  "phone": "+91 1234567890",
+  "organization": "Tech Corp"
+}
+
+Response (200 OK):
+{
+  "_id": "64abc123def456...",
+  "name": "John Doe",
+  "email": "john@gmail.com",
+  "phone": "+91 1234567890",
+  "organization": "Tech Corp",
+  "role": "user",
+  "googleId": "google_user_id",
+  "profilePicture": "profile_picture_url",
+  "isComplete": true
+}
+```
+
+### Dashboard Endpoints
+
+#### 9. Get Recent Updates
+```http
+GET /api/dashboard/updates
+
+Response (200 OK):
+[
+  {
+    "_id": "update_id",
+    "title": "GDP Growth Revised",
+    "description": "Q4 GDP growth revised to 8.2%",
+    "type": "success",
+    "category": "GDP",
+    "value": "8.2%",
+    "change": "+0.3%",
+    "timestamp": "2024-12-24T10:00:00.000Z"
+  }
+]
+```
+
+#### 10. Create Update (Admin Only)
+```http
+POST /api/dashboard/updates
+Authorization: Bearer {admin_token}
+Content-Type: application/json
+
+Request Body:
+{
+  "title": "GDP Growth Revised",
+  "description": "Q4 GDP growth revised to 8.2%",
+  "type": "success",
+  "category": "GDP",
+  "value": "8.2%",
+  "change": "+0.3%"
+}
+
+Response (201 Created):
+{
+  "_id": "update_id",
+  "title": "GDP Growth Revised",
+  ...
+}
+```
+
+#### 11. Get Dashboard Stats
+```http
+GET /api/dashboard/stats
+
+Response (200 OK):
+{
+  "gdp": { ... },
+  "inflation": { ... },
+  "fiscal": { ... },
+  ...
+}
+```
+
+#### 12. Update Dashboard Stats (Admin Only)
+```http
+PUT /api/dashboard/stats
+Authorization: Bearer {admin_token}
+Content-Type: application/json
+
+Request Body:
+{
+  "gdp": { "value": "295.99", "growth": "8.2" },
+  ...
+}
+
+Response (200 OK):
+{
+  "gdp": { "value": "295.99", "growth": "8.2" },
+  ...
+}
+```
+
 ### User Management Endpoints
 
-#### 4. Update Profile
+#### 13. Update Profile
 ```http
 PUT /api/user/profile
 Authorization: Bearer {token}
@@ -534,7 +765,7 @@ Response (200 OK):
 }
 ```
 
-#### 5. Change Password
+#### 14. Change Password
 ```http
 PUT /api/user/password
 Authorization: Bearer {token}
@@ -552,7 +783,7 @@ Response (200 OK):
 }
 ```
 
-#### 6. Update Preferences
+#### 15. Update Preferences
 ```http
 PUT /api/user/preferences
 Authorization: Bearer {token}
@@ -580,7 +811,7 @@ Response (200 OK):
 
 ### Contact Endpoint
 
-#### 7. Send Contact Message
+#### 16. Send Contact Message
 ```http
 POST /api/contact
 Content-Type: application/json
@@ -601,7 +832,7 @@ Response (200 OK):
 
 ### Reports Endpoint
 
-#### 8. Download PDF Report
+#### 17. Download PDF Report
 ```http
 GET /api/reports/download/{reportId}
 Authorization: Bearer {token}
@@ -1097,11 +1328,22 @@ Access to XMLHttpRequest blocked by CORS policy
 ### Manual Testing Checklist
 
 #### Authentication
-- [ ] Sign up with all fields
-- [ ] Sign up with duplicate email (should fail)
-- [ ] Sign up with short password (should fail)
-- [ ] Login with correct credentials
-- [ ] Login with wrong credentials (should fail)
+- [ ] **Email/Password Signup**:
+  - [ ] Send OTP to email
+  - [ ] Verify OTP code
+  - [ ] Complete profile with all fields
+  - [ ] Sign up with duplicate email (should fail)
+  - [ ] Sign up with invalid OTP (should fail)
+  - [ ] Resend OTP functionality
+- [ ] **Google Sign-In**:
+  - [ ] Sign in with Google (new user)
+  - [ ] Complete profile (phone & organization)
+  - [ ] Sign in with Google (existing user)
+  - [ ] Profile picture displays correctly
+- [ ] **Login**:
+  - [ ] Login with email/password
+  - [ ] Login with Google
+  - [ ] Login with wrong credentials (should fail)
 - [ ] Access protected route without login (should redirect)
 - [ ] Logout successfully
 
@@ -1147,8 +1389,12 @@ Access to XMLHttpRequest blocked by CORS policy
 - [ ] All metrics load correctly
 - [ ] Charts render properly
 - [ ] Sidebar navigation works
-- [ ] Recent updates show correct data
+- [ ] Recent updates show correct data from database
 - [ ] Mobile menu works on small screens
+- [ ] **Admin Features** (if admin user):
+  - [ ] Create new dashboard updates
+  - [ ] Update economic statistics
+  - [ ] Updates appear in real-time
 
 ---
 
@@ -1851,13 +2097,21 @@ For support, email nationalacdashboard2025@gmail.com or create an issue in the r
 
 ## 🎯 Roadmap
 
+### Completed Features ✅
+- [x] Email OTP verification on signup
+- [x] Google OAuth 2.0 integration
+- [x] Admin dashboard for managing updates
+- [x] Dynamic data from MongoDB
+- [x] Real-time updates feed
+- [x] Profile completion flow
+- [x] Beautiful email templates
+
 ### Upcoming Features
 - [ ] Real-time data integration with government APIs
 - [ ] Advanced data filtering and search
 - [ ] Export data to Excel/CSV
-- [ ] User roles (Admin, Viewer, Analyst)
-- [ ] Two-factor authentication
-- [ ] Email verification on signup
+- [ ] Enhanced user roles (Viewer, Analyst)
+- [ ] Two-factor authentication (SMS)
 - [ ] Password reset via email
 - [ ] Activity logs and audit trail
 - [ ] Custom dashboard widgets
@@ -1894,6 +2148,12 @@ npm run dev
 
 **Built with ❤️ using MERN Stack**
 
-**Version**: 1.0.0  
+**Version**: 2.0.0  
 **Last Updated**: December 2025
 **Status**: Production Ready ✅
+
+**Recent Updates**:
+- ✅ Google OAuth Integration
+- ✅ Email OTP Verification
+- ✅ Admin Dashboard Features
+- ✅ Dynamic Data Management
