@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const OTP = require('../Models/OTP');
-const User = require('../Models/User');
+const OTP = require('../models/OTP');
+const User = require('../models/User');
 
 // Generate 6-digit OTP
 const generateOTP = () => {
