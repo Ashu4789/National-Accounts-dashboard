@@ -1,5 +1,5 @@
-const Update = require('../Models/Update');
-const EconomicData = require('../Models/EconomicData');
+const Update = require('../models/Update');
+const EconomicData = require('../models/EconomicData');
 
 // @desc    Get recent updates
 // @route   GET /api/dashboard/updates

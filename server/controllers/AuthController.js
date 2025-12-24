@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../Models/User');
+const User = require('../models/User');
 
 // Generate JWT
 const generateToken = (id) => {
@@ -31,7 +31,7 @@ const signup = async (req, res) => {
     }
 
     // Verify that OTP was verified for this email
-    const OTP = require('../Models/OTP');
+    const OTP = require('../models/OTP');
     const verifiedOTP = await OTP.findOne({ 
       email: email.toLowerCase(),
       verified: true 
