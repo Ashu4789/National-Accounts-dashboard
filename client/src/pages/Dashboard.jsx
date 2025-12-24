@@ -1,13 +1,14 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import DashboardLayout from '../components/DashboardLayout';
 import StatsCard from '../components/StatsCard';
 import OverviewChart from '../components/OverviewChart';
 import RecentUpdates from '../components/RecentUpdates';
-import { TrendingUp, DollarSign, Activity, PieChart, Users, Landmark, Package } from 'lucide-react';
+import AdminUpdateForm from '../components/AdminUpdateForm';
+import { TrendingUp, DollarSign, Activity, PieChart, Users, Landmark, Package, Loader } from 'lucide-react';
 
 import {
-  currentStats,
   realGDPConstant,
   inflationData,
   fiscalData
@@ -15,59 +16,88 @@ import {
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
+  const [stats, setStats] = useState(null);
+  const [recentUpdates, setRecentUpdates] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch data on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+
+        const [statsRes, updatesRes] = await Promise.all([
+          axios.get(`${import.meta.env.VITE_API_URL}/dashboard/stats`, config),
+          axios.get(`${import.meta.env.VITE_API_URL}/dashboard/updates`, config)
+        ]);
+
+        setStats(statsRes.data);
+        setRecentUpdates(updatesRes.data);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    // Polling for updates every 60 seconds
+    const pollInterval = setInterval(async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+
+        const updatesRes = await axios.get(`${import.meta.env.VITE_API_URL}/dashboard/updates`, config);
+        const newUpdates = updatesRes.data;
+
+        setRecentUpdates(prevUpdates => {
+          // Check for new updates by comparing length or IDs
+          if (newUpdates.length > prevUpdates.length) {
+            const latestUpdate = newUpdates[0];
+            const isNew = !prevUpdates.find(u => u._id === latestUpdate._id);
+
+            if (isNew && user?.preferences?.notifications?.pushNotifications) {
+              if (Notification.permission === 'granted') {
+                new Notification(latestUpdate.title, {
+                  body: latestUpdate.description,
+                  icon: '/vite.svg' // or generic icon
+                });
+              }
+            }
+          }
+          return newUpdates;
+        });
+      } catch (error) {
+        console.error('Error polling updates:', error);
+      }
+    }, 60000);
+
+    return () => clearInterval(pollInterval);
+  }, [user]);
+
+  const handleUpdateAdded = (newUpdate) => {
+    setRecentUpdates([newUpdate, ...recentUpdates]);
+  };
 
   const gdpChartData = realGDPConstant.map(item => ({
     year: item.year,
     value: (item.value / 100000).toFixed(2)
   }));
 
-  const recentUpdates = [
-    {
-      type: 'success',
-      title: 'Q4 FY24 GDP Growth Exceeds Expectations',
-      description: "India's GDP grows at 8.2% in FY 2023-24, driven by strong services and manufacturing sectors",
-      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-      category: 'GDP',
-      value: '8.2%',
-      change: '+1.0%'
-    },
-    {
-      type: 'info',
-      title: 'Inflation Moderates in FY24',
-      description: 'CPI inflation eases to 5.4% for FY 2023-24, within RBI target range',
-      timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-      category: 'Inflation',
-      value: '5.4%',
-      change: '-1.3%'
-    },
-    {
-      type: 'trend',
-      title: 'Fiscal Deficit Narrows',
-      description: 'Government achieves deficit target of 5.9% of GDP in FY 2023-24',
-      timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-      category: 'Fiscal',
-      value: '5.9%',
-      change: '-0.5%'
-    },
-    {
-      type: 'success',
-      title: 'Forex Reserves Hit Record High',
-      description: "India's forex reserves reach $645.58B",
-      timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-      category: 'Forex',
-      value: '$645.58B',
-      change: '+11.6%'
-    },
-    {
-      type: 'warning',
-      title: 'Trade Deficit Concerns',
-      description: 'Merchandise trade deficit at $240B, lower than previous year',
-      timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-      category: 'Trade',
-      value: '$240B',
-      change: '-10.1%'
-    }
-  ];
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <div className="flex items-center justify-center h-screen">
+          <Loader className="h-10 w-10 animate-spin text-primary" />
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  // Fallback if stats fail to load (optional, or show error)
+  const currentStats = stats || {};
 
   return (
     <DashboardLayout>
@@ -81,107 +111,116 @@ const Dashboard = () => {
         </p>
       </div>
 
+      {/* Admin Update Form */}
+      {user?.role === 'admin' ? (
+        <AdminUpdateForm onUpdateAdded={handleUpdateAdded} />
+      ) : null}
+
       {/* Stats Row 1 */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <StatsCard
-          title="GDP (Current Prices)"
-          value={currentStats.gdp.value}
-          suffix={currentStats.gdp.suffix}
-          change={currentStats.gdp.change}
-          changeType={currentStats.gdp.changeType}
-          icon={<DollarSign className="h-8 w-8" />}
-          iconBgColor="bg-emerald-500/20"
-          iconColor="text-emerald-400"
-          description={currentStats.gdp.description}
-        />
+      {currentStats.gdp && (
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <StatsCard
+            title="GDP (Current Prices)"
+            value={currentStats.gdp.value}
+            suffix={currentStats.gdp.suffix}
+            change={currentStats.gdp.change}
+            changeType={currentStats.gdp.changeType}
+            icon={<DollarSign className="h-8 w-8" />}
+            iconBgColor="bg-emerald-500/20"
+            iconColor="text-emerald-400"
+            description={currentStats.gdp.description}
+          />
 
-        <StatsCard
-          title="GDP Growth Rate"
-          value={currentStats.gdpGrowth.value}
-          suffix={currentStats.gdpGrowth.suffix}
-          change={currentStats.gdpGrowth.change}
-          changeType={currentStats.gdpGrowth.changeType}
-          icon={<TrendingUp className="h-8 w-8" />}
-          iconBgColor="bg-blue-500/20"
-          iconColor="text-blue-400"
-          description={currentStats.gdpGrowth.description}
-        />
+          <StatsCard
+            title="GDP Growth Rate"
+            value={currentStats.gdpGrowth.value}
+            suffix={currentStats.gdpGrowth.suffix}
+            change={currentStats.gdpGrowth.change}
+            changeType={currentStats.gdpGrowth.changeType}
+            icon={<TrendingUp className="h-8 w-8" />}
+            iconBgColor="bg-blue-500/20"
+            iconColor="text-blue-400"
+            description={currentStats.gdpGrowth.description}
+          />
 
-        <StatsCard
-          title="Inflation (CPI)"
-          value={currentStats.inflation.value}
-          suffix={currentStats.inflation.suffix}
-          change={currentStats.inflation.change}
-          changeType={currentStats.inflation.changeType}
-          icon={<Activity className="h-8 w-8" />}
-          iconBgColor="bg-red-500/20"
-          iconColor="text-red-400"
-          description={currentStats.inflation.description}
-        />
+          <StatsCard
+            title="Inflation (CPI)"
+            value={currentStats.inflation.value}
+            suffix={currentStats.inflation.suffix}
+            change={currentStats.inflation.change}
+            changeType={currentStats.inflation.changeType}
+            icon={<Activity className="h-8 w-8" />}
+            iconBgColor="bg-red-500/20"
+            iconColor="text-red-400"
+            description={currentStats.inflation.description}
+          />
 
-        <StatsCard
-          title="Fiscal Deficit"
-          value={currentStats.fiscalDeficit.value}
-          suffix={currentStats.fiscalDeficit.suffix}
-          change={currentStats.fiscalDeficit.change}
-          changeType={currentStats.fiscalDeficit.changeType}
-          icon={<PieChart className="h-8 w-8" />}
-          iconBgColor="bg-yellow-500/20"
-          iconColor="text-yellow-400"
-          description={currentStats.fiscalDeficit.description}
-        />
-      </div>
+          <StatsCard
+            title="Fiscal Deficit"
+            value={currentStats.fiscalDeficit.value}
+            suffix={currentStats.fiscalDeficit.suffix}
+            change={currentStats.fiscalDeficit.change}
+            changeType={currentStats.fiscalDeficit.changeType}
+            icon={<PieChart className="h-8 w-8" />}
+            iconBgColor="bg-yellow-500/20"
+            iconColor="text-yellow-400"
+            description={currentStats.fiscalDeficit.description}
+          />
+        </div>
+      )}
 
       {/* Stats Row 2 */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <StatsCard
-          title="Per Capita Income"
-          value={currentStats.perCapita.value}
-          suffix={currentStats.perCapita.suffix}
-          change={currentStats.perCapita.change}
-          changeType={currentStats.perCapita.changeType}
-          icon={<Users className="h-8 w-8" />}
-          iconBgColor="bg-blue-500/20"
-          iconColor="text-blue-400"
-          description={currentStats.perCapita.description}
-        />
+      {currentStats.perCapita && (
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <StatsCard
+            title="Per Capita Income"
+            value={currentStats.perCapita.value}
+            suffix={currentStats.perCapita.suffix}
+            change={currentStats.perCapita.change}
+            changeType={currentStats.perCapita.changeType}
+            icon={<Users className="h-8 w-8" />}
+            iconBgColor="bg-blue-500/20"
+            iconColor="text-blue-400"
+            description={currentStats.perCapita.description}
+          />
 
-        <StatsCard
-          title="Unemployment Rate"
-          value={currentStats.unemployment.value}
-          suffix={currentStats.unemployment.suffix}
-          change={currentStats.unemployment.change}
-          changeType={currentStats.unemployment.changeType}
-          icon={<TrendingUp className="h-8 w-8" />}
-          iconBgColor="bg-red-500/20"
-          iconColor="text-red-400"
-          description={currentStats.unemployment.description}
-        />
+          <StatsCard
+            title="Unemployment Rate"
+            value={currentStats.unemployment.value}
+            suffix={currentStats.unemployment.suffix}
+            change={currentStats.unemployment.change}
+            changeType={currentStats.unemployment.changeType}
+            icon={<TrendingUp className="h-8 w-8" />}
+            iconBgColor="bg-red-500/20"
+            iconColor="text-red-400"
+            description={currentStats.unemployment.description}
+          />
 
-        <StatsCard
-          title="Forex Reserves"
-          value={currentStats.forexReserves.value}
-          suffix={currentStats.forexReserves.suffix}
-          change={currentStats.forexReserves.change}
-          changeType={currentStats.forexReserves.changeType}
-          icon={<Landmark className="h-8 w-8" />}
-          iconBgColor="bg-emerald-500/20"
-          iconColor="text-emerald-400"
-          description={currentStats.forexReserves.description}
-        />
+          <StatsCard
+            title="Forex Reserves"
+            value={currentStats.forexReserves.value}
+            suffix={currentStats.forexReserves.suffix}
+            change={currentStats.forexReserves.change}
+            changeType={currentStats.forexReserves.changeType}
+            icon={<Landmark className="h-8 w-8" />}
+            iconBgColor="bg-emerald-500/20"
+            iconColor="text-emerald-400"
+            description={currentStats.forexReserves.description}
+          />
 
-        <StatsCard
-          title="Exports"
-          value={currentStats.exports.value}
-          suffix={currentStats.exports.suffix}
-          change={currentStats.exports.change}
-          changeType={currentStats.exports.changeType}
-          icon={<Package className="h-8 w-8" />}
-          iconBgColor="bg-blue-500/20"
-          iconColor="text-blue-400"
-          description={currentStats.exports.description}
-        />
-      </div>
+          <StatsCard
+            title="Exports"
+            value={currentStats.exports.value}
+            suffix={currentStats.exports.suffix}
+            change={currentStats.exports.change}
+            changeType={currentStats.exports.changeType}
+            icon={<Package className="h-8 w-8" />}
+            iconBgColor="bg-blue-500/20"
+            iconColor="text-blue-400"
+            description={currentStats.exports.description}
+          />
+        </div>
+      )}
 
       {/* Charts */}
       <div className="grid lg:grid-cols-2 gap-6 mb-8">

@@ -103,6 +103,20 @@ const Settings = () => {
   };
 
   const handleNotificationToggle = async (key) => {
+    // Check permission for push notifications
+    if (key === 'pushNotifications' && !notifications[key]) {
+      if (!('Notification' in window)) {
+        showMessage('error', 'This browser does not support desktop notifications');
+        return;
+      }
+
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        showMessage('error', 'Notification permission denied');
+        return;
+      }
+    }
+
     const newNotifications = { ...notifications, [key]: !notifications[key] };
     setNotifications(newNotifications);
 

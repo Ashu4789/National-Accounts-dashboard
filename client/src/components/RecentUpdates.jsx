@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import { Clock, TrendingUp, FileText, AlertCircle, CheckCircle } from 'lucide-react';
 
 const RecentUpdates = ({ updates }) => {
+  const [showAll, setShowAll] = useState(false);
+  const displayedUpdates = showAll ? updates : updates.slice(0, 5);
   const getIcon = (type) => {
     switch (type) {
       case 'success':
@@ -32,28 +35,46 @@ const RecentUpdates = ({ updates }) => {
   };
 
   const formatTime = (timestamp) => {
+    if (!timestamp) return '';
     const date = new Date(timestamp);
     const now = new Date();
-    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
+    const diffInSeconds = Math.floor((now - date) / 1000);
 
-    if (diffInHours < 1) return 'Just now';
+    if (diffInSeconds < 60) return 'Just now';
+
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+
+    const diffInHours = Math.floor(diffInMinutes / 60);
     if (diffInHours < 24) return `${diffInHours}h ago`;
-    if (diffInHours < 48) return 'Yesterday';
-    return date.toLocaleDateString();
+
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 7) return `${diffInDays}d ago`;
+
+    return date.toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
   };
 
   return (
     <div className="bg-card border border-border/50 rounded-xl shadow-sm p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-foreground">Recent Updates</h3>
-        <button className="text-sm text-primary hover:text-primary/80 font-medium transition-colors">
-          View All
-        </button>
+        {updates.length > 5 && (
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="text-sm text-primary hover:text-primary/80 font-medium transition-colors"
+          >
+            {showAll ? 'Show Less' : 'View All'}
+          </button>
+        )}
       </div>
 
       <div className="space-y-3">
-        {updates.length > 0 ? (
-          updates.map((update, index) => (
+        {displayedUpdates.length > 0 ? (
+          displayedUpdates.map((update, index) => (
             <div
               key={index}
               className={`flex items-start space-x-4 p-4 rounded-lg transition-colors ${getBgColor(update.type)}`}

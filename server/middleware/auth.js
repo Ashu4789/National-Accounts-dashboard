@@ -29,4 +29,13 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+const admin = (req, res, next) => {
+  console.log('Admin Check - User:', req.user ? `${req.user.email} (${req.user.role})` : 'No user found');
+  if (req.user && req.user.role === 'admin') {
+    next();
+  } else {
+    res.status(401).json({ message: 'Not authorized as an admin' });
+  }
+};
+
+module.exports = { protect, admin };
