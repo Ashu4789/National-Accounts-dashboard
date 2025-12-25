@@ -6,13 +6,15 @@
 ---
 
 **Submitted by:**  
-[Student Name]  
-[Roll Number]  
-[Department/Branch]
+Ashutosh Mohanty  
+12307673  
+KO021
+11
 
 **Submitted to:**  
-[Instructor Name]  
-Department of Computer Science & Engineering
+Dr. Harpreet Kaur  
+School of Computer Science & Engineering
+Lovely Professional University
 
 **Academic Year:** 2024-25
 
