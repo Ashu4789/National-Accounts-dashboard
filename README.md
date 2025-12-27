@@ -97,13 +97,13 @@ A comprehensive full-stack dashboard application for monitoring, analyzing, and 
 - ✅ **Appearance**: Dark/Light mode toggle
 - ✅ **Theme Persistence**: Settings saved to database and localStorage
 
-### 📄 Reports & Documents
-- ✅ Dynamic PDF generation with PDFKit
-- ✅ Professional report formatting with Indian economic data
-- ✅ Filter by type (GDP, Inflation, Fiscal, Trade, Employment)
-- ✅ Filter by period (Yearly, Quarterly, Monthly)
-- ✅ One-click download functionality
-- ✅ 6+ pre-configured report templates
+### 📄 Comprehensive Report System
+- ✅ **Dynamic PDF Generation**: Professional reports with tables and multi-year analysis using PDFKit.
+- ✅ **8 Detailed Categories**: GDP, Inflation, Fiscal, Trade, Employment, State GDP, Banking, and Agriculture.
+- ✅ **Admin File Upload**: Admins can upload custom reports (PDF, Excel, CSV) up to 10MB.
+- ✅ **Advanced Filtering**: Categorize and filter reports by topic and time period.
+- ✅ **Admin Management**: Full CRUD capabilities for uploaded reports (Upload, View, Delete).
+- ✅ **Indian Number Formatting**: All generated reports use standard Indian numbering (Lakhs/Crores).
 
 ### 📧 Contact & Communication
 - ✅ Contact form with Nodemailer integration
@@ -149,6 +149,7 @@ A comprehensive full-stack dashboard application for monitoring, analyzing, and 
 - **bcryptjs** - Password hashing and encryption
 - **Nodemailer** - Email sending functionality (OTP & contact emails)
 - **PDFKit** - Dynamic PDF generation
+- **Multer** - Middleware for handling multipart/form-data (file uploads)
 - **CORS** - Cross-origin resource sharing
 - **Crypto** - Secure OTP generation
 
@@ -192,6 +193,20 @@ A comprehensive full-stack dashboard application for monitoring, analyzing, and 
 - Employed: 49.2 Crore
 - Unemployment Rate: 6.1% (FY24)
 - Labor Force Participation Rate: 46.8%
+
+#### Banking & Financial Sector
+- Gross NPA Ratio: 3.9% (Scheduled Commercial Banks)
+- Net NPA Ratio: 1.0%
+- Capital Adequacy Ratio (CRAR): 16.8%
+- Credit-Deposit (CD) Ratio: 75.8%
+- Total Bank Deposits: ₹205.2 Lakh Crore
+
+#### Agriculture Production
+- Total Foodgrain Production: 329.7 Million Tonnes
+- Rice Production: 135.5 Million Tonnes
+- Wheat Production: 112.2 Million Tonnes
+- Pulses Production: 27.5 Million Tonnes
+- Sugarcane Production: 442.3 Million Tonnes
 
 #### State-wise GDP (Top 10)
 1. Maharashtra: ₹36.24 Lakh Crore (13.3% share)
@@ -256,23 +271,29 @@ national-accounts-dashboard/
     │   ├── User.js                          # User schema with Google OAuth support
     │   ├── OTP.js                           # OTP verification schema
     │   ├── Update.js                        # Dashboard updates schema
-    │   └── EconomicData.js                  # Economic statistics schema
+    │   ├── EconomicData.js                  # Economic statistics schema
+    │   └── Report.js                        # Report metadata schema (NEW)
+    ├── data/
+    │   └── economicData.js                  # Pre-configured Indian economic data (NEW)
     ├── routes/
     │   ├── auth.js                          # Authentication routes (Email, Google, OTP)
     │   ├── user.js                          # User management routes
     │   ├── contact.js                       # Contact form route
-    │   ├── reports.js                       # Report download route
+    │   ├── reports.js                       # Report download & upload routes
     │   └── dashboard.js                     # Dashboard updates & stats routes
     ├── middleware/
-    │   └── auth.js                          # JWT verification middleware
+    │   ├── auth.js                          # JWT verification middleware
+    │   └── upload.js                        # Multer file upload configuration (NEW)
     ├── controllers/
     │   ├── authController.js                # Auth logic (signup, login)
     │   ├── googleAuthController.js          # Google OAuth authentication
     │   ├── otpController.js                 # OTP generation & verification
     │   ├── userController.js                # Profile/preferences updates
     │   ├── contactController.js             # Email sending logic
-    │   ├── reportController.js              # PDF generation logic
+    │   ├── reportController.js              # Comprehensive PDF generation (8 topics)
     │   └── dashboardController.js           # Dashboard updates & stats management
+    ├── uploads/                             # User uploaded reports (NEW)
+    │   └── reports/                         # PDF/Excel/CSV file storage
     ├── .env                                 # Backend environment variables
     ├── package.json
     └── server.js                            # Express server entry point
@@ -308,7 +329,7 @@ npm install
 **Packages installed:**
 - express, mongoose, bcryptjs, jsonwebtoken, dotenv, cors
 - nodemailer (email), pdfkit (PDF generation)
-- crypto (OTP generation)
+- multer (file uploads), crypto (OTP generation)
 
 **Update package.json scripts:**
 ```json
@@ -832,13 +853,47 @@ Response (200 OK):
 
 ### Reports Endpoint
 
-#### 17. Download PDF Report
+#### 17. Get All Reports
+```http
+GET /api/reports
+
+Response (200 OK):
+[
+  {
+    "_id": "report_id",
+    "title": "Q4 Summary",
+    "type": "uploaded",
+    "category": "General",
+    "fileUrl": "filename.pdf"
+  }
+]
+```
+
+#### 18. Download PDF Report
 ```http
 GET /api/reports/download/{reportId}
 Authorization: Bearer {token}
 
 Response: PDF file (application/pdf)
-Content-Disposition: attachment; filename="Annual_GDP_Report_2024.pdf"
+```
+
+#### 19. Upload Report (Admin Only)
+```http
+POST /api/reports/upload
+Authorization: Bearer {admin_token}
+Content-Type: multipart/form-data
+
+Request Body (FormData):
+- file: binary
+- title: string
+- description: string
+- category: string
+```
+
+#### 20. Delete Report (Admin Only)
+```http
+DELETE /api/reports/{id}
+Authorization: Bearer {admin_token}
 ```
 
 ---
@@ -930,19 +985,21 @@ Content-Disposition: attachment; filename="Annual_GDP_Report_2024.pdf"
 
 ### 7. Reports (`/dashboard/reports`)
 **Features:**
-- Filter by report type
-- Filter by time period
-- 6 downloadable PDF reports
-- Report metadata display
-- Statistics summary
+- **Dynamic PDF Generation**: 8 pre-configured categories with rich multi-year data.
+- **Admin Upload Interface**: Upload custom PDF, Excel, or CSV files with real-time feedback.
+- **Advanced Filtering**: Categorize reports by topic (GDP, Banking, etc.) and time period.
+- **Admin Management**: circular trash icon for easy deletion of uploaded resources.
+- **Statistics Dashboard**: Real-time counts of total, generated, and uploaded reports.
 
-**Available Reports:**
-- Annual GDP Report 2024
-- Q4 Inflation Analysis
-- Fiscal Budget Report FY2024
-- Trade Balance Report
-- Employment Statistics 2024
-- Sectoral Growth Analysis
+**Available Generated Reports:**
+- **GDP Report**: Growth rates and sectoral breakdown.
+- **Inflation Analysis**: CPI, food, and core inflation trends.
+- **Fiscal Deficit Report**: Deficits, debt, and revenue analysis.
+- **Trade Balance Report**: Export-import and BoP data.
+- **Employment Statistics**: Unemployment and labor force trends.
+- **State-wise GDP Report**: State rankings and Regional analysis.
+- **Banking Sector Report**: NPA ratios and capital adequacy.
+- **Agriculture Production**: Foodgrain and crop-wise statistics.
 
 ### 8. Settings (`/dashboard/settings`)
 **4 Tabs:**
@@ -1113,7 +1170,9 @@ vercel
 - [ ] HTTPS enabled on both frontend and backend
 - [ ] Test all API endpoints
 - [ ] Test authentication flow
-- [ ] Test PDF downloads
+- [ ] Test PDF downloads (Generated reports)
+- [ ] Test Report Upload (Admin) - Verify file appears in list
+- [ ] Test Report Delete (Admin) - Verify physical file is removed
 - [ ] Test contact form emails
 - [ ] Test dark mode
 - [ ] Verify all dashboard pages load
@@ -1182,7 +1241,20 @@ Not authorized, token failed
 - ✅ Ensure user is authenticated (valid token)
 - ✅ Try different browser
 
-#### 5. Dark Mode Not Persisting
+#### 5. Report Upload Failing (No file uploaded)
+
+**Symptoms:**
+- Error message "No file uploaded" even when a file is selected.
+- 500 internal server error on `/upload` endpoint.
+
+**Solutions:**
+- ✅ Check `client/src/services/api.js` - Ensure no manual `Content-Type` is set for `uploadReport` (let Axios handle the boundary).
+- ✅ Verify `uploads/reports` directory exists and has write permissions.
+- ✅ Check file size - System limit is 10MB by default.
+- ✅ Ensure `multer` is correctly configured in `middleware/upload.js`.
+- ✅ Verify `Report` model is not throwing validation errors (Check required fields).
+
+#### 6. Dark Mode Not Persisting
 
 **Symptoms:**
 - Dark mode resets on page refresh

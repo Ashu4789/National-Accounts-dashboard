@@ -3,10 +3,7 @@ import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json'
-  }
+  baseURL: API_URL
 });
 
 // Add token to requests
@@ -49,6 +46,20 @@ export const sendContactMessage = (data) => api.post('/contact', data);
 // Reports API
 export const downloadReport = (reportId) => {
   return api.get(`/reports/download/${reportId}`, {
+    responseType: 'blob'
+  });
+};
+
+export const getAllReports = () => api.get('/reports');
+
+export const uploadReport = (formData) => {
+  return api.post('/reports/upload', formData);
+};
+
+export const deleteReport = (reportId) => api.delete(`/reports/${reportId}`);
+
+export const downloadUploadedFile = (reportId) => {
+  return api.get(`/reports/file/${reportId}`, {
     responseType: 'blob'
   });
 };
